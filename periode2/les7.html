@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Les 7: Subqueries - SQL Quest</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/editor.css">
+    <link rel="stylesheet" href="../css/lesson.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="stars2"></div>
+    <div class="stars3"></div>
+    
+    <div class="container">
+        <nav class="breadcrumb">
+            <a href="../index.html">Home</a>
+            <span>/</span>
+            <a href="overview.html">Periode 2</a>
+            <span>/</span>
+            <span>Les 7</span>
+        </nav>
+
+        <header class="lesson-header">
+            <div class="lesson-title">
+                <span class="s lesson-number-badge">07</span>
+                <div>
+                    <h1>Subqueries - Queries in Queries</h1>
+                    <p class="lesson-subtitle">Gebruik subqueries voor complexe analyses</p>
+                </div>
+            </div>
+            
+            <div class="lesson-progress-bar">
+                <div class="progress-info">
+                    <span>Voortgang</span>
+                    <span id="lessonProgress">0/5 oefeningen</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                </div>
+            </div>
+        </header>
+
+        <section class="theory-section">
+            <h2>💡 Wat ga je leren?</h2>
+            <p>Je hebt geleerd hoe je data filtert, groepeert en analyseert. Nu ga je leren hoe je <strong>queries binnen queries</strong> gebruikt voor complexe analyses!</p>
+            
+            <h3>Wat zijn Subqueries?</h3>
+            <p>Een subquery is een query binnen een andere query. De subquery wordt eerst uitgevoerd, het resultaat wordt gebruikt in de hoofdquery.</p>
+            
+            <div class="code-example">
+                <div class="code-header">
+                    <span>Voorbeeld: Films duurder dan gemiddelde</span>
+                </div>
+                <pre><code>SELECT filmnaam, duur
+FROM film
+WHERE duur > (SELECT AVG(duur) FROM film);</code></pre>
+            </div>
+
+            <div class="tip-box">
+                <strong>💡 Subquery volgorde:</strong>
+                <p>1. <strong>Binnenste query</strong> wordt eerst uitgevoerd (de subquery)</p>
+                <p>2. Resultaat wordt gebruikt in <strong>buitenste query</strong> (de hoofdquery)</p>
+            </div>
+
+            <h3>Subqueries met IN</h3>
+            <p>Gebruik IN als je subquery meerdere waarden teruggeeft:</p>
+            
+            <div class="code-example">
+                <div class="code-header">
+                    <span>Voorbeeld: Films in populaire genres</span>
+                </div>
+                <pre><code>SELECT filmnaam
+FROM film
+WHERE genreid IN (
+    SELECT genreid 
+    FROM film 
+    GROUP BY genreid 
+    HAVING COUNT(*) > 5
+);</code></pre>
+            </div>
+
+            <h3>Subqueries in HAVING</h3>
+            <p>Je kunt subqueries ook gebruiken in HAVING clausules:</p>
+            
+            <div class="code-example">
+                <div class="code-header">
+                    <span>Voorbeeld: Genres boven gemiddelde</span>
+                </div>
+                <pre><code>SELECT genreid, AVG(duur) AS gem_duur
+FROM film
+GROUP BY genreid
+HAVING AVG(duur) > (SELECT AVG(duur) FROM film);</code></pre>
+            </div>
+        </section>
+
+        <section class="exercises-section">
+            <h2>🎯 Oefeningen</h2>
+
+            <!-- Exercise 1 -->
+            <div class="exercise" id="exercise-1">
+                <div class="exercise-header">
+                    <h3>Oefening 1 - Films langer dan gemiddelde</h3>
+                    <span class="difficulty medium">Gemiddeld</span>
+                </div>
+                <p class="exercise-question">Vind alle films die <strong>langer</strong> zijn dan de gemiddelde filmduur. Toon <code>filmnaam</code> en <code>duur</code>. Gebruik een subquery met AVG().</p>
+                
+                <div class="sql-editor">
+                    <div class="editor-header"><span class="editor-label">SQL Query</span></div>
+                    <textarea id="sql-input-1" placeholder="SELECT filmnaam, duur FROM film WHERE duur > (SELECT AVG(duur) FROM film)"></textarea>
+                    <div class="editor-footer">
+                        <span class="editor-hint">💡 Subquery in WHERE met AVG</span>
+                        <div class="editor-buttons">
+                            <button class="btn-clear">Wissen</button>
+                            <button class="btn-execute"><span>▶</span><span>Uitvoeren</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="results-container" id="results-1"></div>
+                
+                <details class="hint-box">
+                    <summary>💡 Hint</summary>
+                    <p>WHERE duur > (SELECT AVG(duur) FROM film). "Langer" betekent > (niet >=).</p>
+                </details>
+                
+                <details class="solution-box">
+                    <summary>✅ Oplossing</summary>
+                    <pre><code>SELECT filmnaam, duur
+FROM film
+WHERE duur > (SELECT AVG(duur) FROM film);</code></pre>
+                    <button class="btn-copy">Kopiëren</button>
+                </details>
+            </div>
+
+            <!-- Exercise 2 -->
+            <div class="exercise" id="exercise-2">
+                <div class="exercise-header">
+                    <h3>Oefening 2 - Regisseurs van populaire films</h3>
+                    <span class="difficulty medium">Gemiddeld</span>
+                </div>
+                <p class="exercise-question">Vind alle regisseurs die <strong>minimaal 1 film</strong> hebben gemaakt van <strong>meer dan 150</strong> minuten. Gebruik een subquery met IN. Toon alleen <code>regisseur</code> (uniek).</p>
+                
+                <div class="sql-editor">
+                    <div class="editor-header"><span class="editor-label">SQL Query</span></div>
+                    <textarea id="sql-input-2" placeholder="SELECT DISTINCT regisseur FROM film WHERE filmid IN (SELECT ...)"></textarea>
+                    <div class="editor-footer">
+                        <span class="editor-hint">💡 IN subquery + DISTINCT</span>
+                        <div class="editor-buttons">
+                            <button class="btn-clear">Wissen</button>
+                            <button class="btn-execute"><span>▶</span><span>Uitvoeren</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="results-container" id="results-2"></div>
+                
+                <details class="hint-box">
+                    <summary>💡 Hint</summary>
+                    <p>Subquery: SELECT filmid FROM film WHERE duur > 150. "Meer dan 150" = > 150.</p>
+                </details>
+                
+                <details class="solution-box">
+                    <summary>✅ Oplossing</summary>
+                    <pre><code>SELECT DISTINCT regisseur
+FROM film
+WHERE filmid IN (
+    SELECT filmid 
+    FROM film 
+    WHERE duur > 150
+);</code></pre>
+                    <button class="btn-copy">Kopiëren</button>
+                </details>
+            </div>
+
+            <!-- Exercise 3 -->
+            <div class="exercise" id="exercise-3">
+                <div class="exercise-header">
+                    <h3>Oefening 3 - Genres met lange gemiddelde duur</h3>
+                    <span class="difficulty hard">Moeilijk</span>
+                </div>
+                <p class="exercise-question">Vind genres waar de gemiddelde duur <strong>hoger</strong> is dan de <strong>totale gemiddelde</strong> filmduur. Gebruik subquery in HAVING. Toon <code>genreid</code> en <code>gemiddelde_duur</code>.</p>
+                
+                <div class="sql-editor">
+                    <div class="editor-header"><span class="editor-label">SQL Query</span></div>
+                    <textarea id="sql-input-3" placeholder="SELECT genreid, AVG(duur) ... GROUP BY ... HAVING AVG(duur) > (SELECT ...)"></textarea>
+                    <div class="editor-footer">
+                        <span class="editor-hint">💡 Subquery in HAVING</span>
+                        <div class="editor-buttons">
+                            <button class="btn-clear">Wissen</button>
+                            <button class="btn-execute"><span>▶</span><span>Uitvoeren</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="results-container" id="results-3"></div>
+                
+                <details class="hint-box">
+                    <summary>💡 Hint</summary>
+                    <p>GROUP BY genreid, HAVING AVG(duur) > (SELECT AVG(duur) FROM film). "Hoger" = >.</p>
+                </details>
+                
+                <details class="solution-box">
+                    <summary>✅ Oplossing</summary>
+                    <pre><code>SELECT genreid, AVG(duur) AS gemiddelde_duur
+FROM film
+GROUP BY genreid
+HAVING AVG(duur) > (SELECT AVG(duur) FROM film);</code></pre>
+                    <button class="btn-copy">Kopiëren</button>
+                </details>
+            </div>
+
+            <!-- Exercise 4 -->
+            <div class="exercise" id="exercise-4">
+                <div class="exercise-header">
+                    <h3>Oefening 4 - Top 3 langste films per land</h3>
+                    <span class="difficulty hard">Moeilijk</span>
+                </div>
+                <p class="exercise-question">Vind de <strong>top 3</strong> langste Amerikaanse films. Filter op land (WHERE), sorteer op duur (DESC), gebruik LIMIT. Toon <code>filmnaam</code>, <code>regisseur</code> en <code>duur</code>.</p>
+                
+                <div class="sql-editor">
+                    <div class="editor-header"><span class="editor-label">SQL Query</span></div>
+                    <textarea id="sql-input-4" placeholder="SELECT filmnaam, regisseur, duur FROM film WHERE ... ORDER BY ... LIMIT 3"></textarea>
+                    <div class="editor-footer">
+                        <span class="editor-hint">💡 WHERE + ORDER BY + LIMIT</span>
+                        <div class="editor-buttons">
+                            <button class="btn-clear">Wissen</button>
+                            <button class="btn-execute"><span>▶</span><span>Uitvoeren</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="results-container" id="results-4"></div>
+                
+                <details class="hint-box">
+                    <summary>💡 Hint</summary>
+                    <p>WHERE landherkomst = 'USA', ORDER BY duur DESC, LIMIT 3.</p>
+                </details>
+                
+                <details class="solution-box">
+                    <summary>✅ Oplossing</summary>
+                    <pre><code>SELECT filmnaam, regisseur, duur
+FROM film
+WHERE landherkomst = 'USA'
+ORDER BY duur DESC
+LIMIT 3;</code></pre>
+                    <button class="btn-copy">Kopiëren</button>
+                </details>
+            </div>
+
+            <!-- Exercise 5 -->
+            <div class="exercise" id="exercise-5">
+                <div class="exercise-header">
+                    <h3>Oefening 5 - Regisseurs boven gemiddeld productief</h3>
+                    <span class="difficulty hard">Moeilijk</span>
+                </div>
+                <p class="exercise-question">Vind regisseurs die <strong>meer films</strong> hebben gemaakt dan de <strong>gemiddelde regisseur</strong>. Gebruik subquery in HAVING. Toon <code>regisseur</code> en <code>aantal_films</code>.</p>
+                
+                <div class="sql-editor">
+                    <div class="editor-header"><span class="editor-label">SQL Query</span></div>
+                    <textarea id="sql-input-5" placeholder="SELECT regisseur, COUNT(*) ... GROUP BY ... HAVING COUNT(*) > (SELECT AVG(aantal) FROM ...)"></textarea>
+                    <div class="editor-footer">
+                        <span class="editor-hint">💡 Nested subquery met AVG</span>
+                        <div class="editor-buttons">
+                            <button class="btn-clear">Wissen</button>
+                            <button class="btn-execute"><span>▶</span><span>Uitvoeren</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="results-container" id="results-5"></div>
+                
+                <details class="hint-box">
+                    <summary>💡 Hint</summary>
+                    <p>HAVING COUNT(*) > (SELECT AVG(aantal_films) FROM (SELECT COUNT(*) AS aantal_films FROM film GROUP BY regisseur)). "Meer" = >.</p>
+                </details>
+                
+                <details class="solution-box">
+                    <summary>✅ Oplossing</summary>
+                    <pre><code>SELECT regisseur, COUNT(*) AS aantal_films
+FROM film
+GROUP BY regisseur
+HAVING COUNT(*) > (
+    SELECT AVG(aantal_films)
+    FROM (
+        SELECT COUNT(*) AS aantal_films
+        FROM film
+        GROUP BY regisseur
+    )
+);</code></pre>
+                    <button class="btn-copy">Kopiëren</button>
+                </details>
+            </div>
+        </section>
+
+        <section class="debugging-section">
+            <h2>🐛 Veelgemaakte fouten</h2>
+            
+            <div class="error-example">
+                <h4 style="color: #ff006e;">❌ Subquery geeft meerdere waarden bij =</h4>
+                <pre class="error-code">WHERE duur = (SELECT duur FROM film WHERE genreid = 1)</pre>
+                <p class="error-explanation">Als subquery meerdere waarden geeft, gebruik IN in plaats van =!</p>
+                <pre class="correct-code">WHERE duur IN (SELECT duur FROM film WHERE genreid = 1)</pre>
+            </div>
+
+            <div class="error-example">
+                <h4 style="color: #ff006e;">❌ Alias niet beschikbaar in subquery</h4>
+                <pre class="error-code">SELECT genreid, AVG(duur) AS gem
+FROM film
+GROUP BY genreid
+HAVING gem > (SELECT AVG(duur) FROM film)  -- gem bestaat niet!</pre>
+                <p class="error-explanation">Gebruik de volledige functie in HAVING, niet de alias!</p>
+                <pre class="correct-code">HAVING AVG(duur) > (SELECT AVG(duur) FROM film)</pre>
+            </div>
+        </section>
+    </div>
+
+    <script src="../js/progress.js"></script>
+    <script src="../js/database.js"></script>
+    <script src="../js/editor.js"></script>
+    <script src="../js/lesson.js"></script>
+    <script>
+        const lessonConfig = {
+            periode: 2,
+            lesson: 7,
+            database: '3dplus',
+            totalExercises: 5,
+            exercises: {
+                1: { 
+                    checkType: 'custom',
+                    validator: (result, query) => {
+                        const upperQuery = query.toUpperCase();
+                        if (!upperQuery.includes('SELECT')) {
+                            return { correct: false, feedback: '❌ Gebruik SELECT.' };
+                        }
+                        // Check for subquery (should have at least 2 SELECT statements)
+                        const selectCount = (upperQuery.match(/SELECT/g) || []).length;
+                        if (selectCount < 2) {
+                            return { correct: false, feedback: '❌ Gebruik een subquery met AVG() in de WHERE clause.' };
+                        }
+                        if (!upperQuery.includes('AVG')) {
+                            return { correct: false, feedback: '❌ Gebruik AVG() in de subquery.' };
+                        }
+                        // STRICT: "langer" = >, not >=
+                        if (upperQuery.includes('>=')) {
+                            return { correct: false, feedback: '❌ "Langer dan gemiddelde" betekent > (niet >=)!' };
+                        }
+                        if (!upperQuery.includes('>')) {
+                            return { correct: false, feedback: '❌ Gebruik > voor "langer dan gemiddelde".' };
+                        }
+                        if (!result.results || result.results.length === 0) {
+                            return { correct: false, feedback: '❌ Query geeft geen resultaten.' };
+                        }
+                        const columns = result.results[0].columns;
+                        if (!columns.includes('filmnaam')) {
+                            return { correct: false, feedback: '❌ Toon de kolom filmnaam.' };
+                        }
+                        if (!columns.includes('duur')) {
+                            return { correct: false, feedback: '❌ Toon de kolom duur.' };
+                        }
+                        if (columns.length !== 2) {
+                            return { correct: false, feedback: '❌ Selecteer alleen filmnaam en duur (2 kolommen).' };
+                        }
+                        return { correct: true, feedback: `✅ Correct! Subquery met "langer dan" (>) - ${result.results[0].values.length} films!` };
+                    }
+                },
+                2: { 
+                    checkType: 'custom',
+                    validator: (result, query) => {
+                        const upperQuery = query.toUpperCase();
+                        // Check for subquery
+                        const selectCount = (upperQuery.match(/SELECT/g) || []).length;
+                        if (selectCount < 2) {
+                            return { correct: false, feedback: '❌ Gebruik een subquery met IN.' };
+                        }
+                        if (!upperQuery.includes('IN')) {
+                            return { correct: false, feedback: '❌ Gebruik IN voor de subquery.' };
+                        }
+                        if (!upperQuery.includes('DISTINCT')) {
+                            return { correct: false, feedback: '❌ Gebruik DISTINCT om regisseurs uniek te tonen.' };
+                        }
+                        // STRICT: "meer dan 150" = > 150, not >= 150
+                        if (upperQuery.includes('>= 150') || upperQuery.includes('>=150')) {
+                            return { correct: false, feedback: '❌ "Meer dan 150" betekent > 150 (niet >= 150)!' };
+                        }
+                        if (!upperQuery.includes('> 150') && !upperQuery.includes('>150')) {
+                            return { correct: false, feedback: '❌ Gebruik duur > 150 voor "meer dan 150 minuten".' };
+                        }
+                        if (!result.results || result.results.length === 0) {
+                            return { correct: false, feedback: '❌ Query geeft geen resultaten.' };
+                        }
+                        const columns = result.results[0].columns;
+                        if (!columns.includes('regisseur')) {
+                            return { correct: false, feedback: '❌ Toon de kolom regisseur.' };
+                        }
+                        if (columns.length !== 1) {
+                            return { correct: false, feedback: '❌ Selecteer alleen regisseur (1 kolom).' };
+                        }
+                        return { correct: true, feedback: `✅ Correct! IN subquery + "meer dan 150" (> 150)!` };
+                    }
+                },
+                3: { 
+                    checkType: 'custom',
+                    validator: (result, query) => {
+                        const upperQuery = query.toUpperCase();
+                        if (!upperQuery.includes('GROUP BY')) {
+                            return { correct: false, feedback: '❌ Gebruik GROUP BY genreid.' };
+                        }
+                        if (!upperQuery.includes('HAVING')) {
+                            return { correct: false, feedback: '❌ Gebruik HAVING met een subquery.' };
+                        }
+                        if (!upperQuery.includes('AVG')) {
+                            return { correct: false, feedback: '❌ Gebruik AVG() voor gemiddelde.' };
+                        }
+                        // Check for subquery in HAVING
+                        const selectCount = (upperQuery.match(/SELECT/g) || []).length;
+                        if (selectCount < 2) {
+                            return { correct: false, feedback: '❌ Gebruik een subquery in HAVING.' };
+                        }
+                        // STRICT: "hoger" = >, not >=
+                        const havingPart = upperQuery.split('HAVING')[1];
+                        if (havingPart && havingPart.includes('>=')) {
+                            return { correct: false, feedback: '❌ "Hoger dan totale gemiddelde" betekent > (niet >=)!' };
+                        }
+                        if (!result.results || result.results.length === 0) {
+                            return { correct: false, feedback: '❌ Query geeft geen resultaten.' };
+                        }
+                        const columns = result.results[0].columns;
+                        if (!columns.includes('genreid')) {
+                            return { correct: false, feedback: '❌ Toon de kolom genreid.' };
+                        }
+                        if (!columns.includes('gemiddelde_duur')) {
+                            return { correct: false, feedback: '❌ Noem het gemiddelde "gemiddelde_duur" met AS.' };
+                        }
+                        if (columns.length !== 2) {
+                            return { correct: false, feedback: '❌ Selecteer alleen genreid en gemiddelde_duur (2 kolommen).' };
+                        }
+                        return { correct: true, feedback: '✅ Correct! Subquery in HAVING + "hoger" (>)!' };
+                    }
+                },
+                4: { 
+                    checkType: 'custom',
+                    validator: (result, query) => {
+                        const upperQuery = query.toUpperCase();
+                        if (!upperQuery.includes('WHERE')) {
+                            return { correct: false, feedback: '❌ Gebruik WHERE om te filteren op landherkomst.' };
+                        }
+                        if (!upperQuery.includes("'USA'")) {
+                            return { correct: false, feedback: '❌ Filter op landherkomst = \'USA\'.' };
+                        }
+                        if (!upperQuery.includes('ORDER BY')) {
+                            return { correct: false, feedback: '❌ Gebruik ORDER BY om te sorteren op duur.' };
+                        }
+                        if (!upperQuery.includes('DESC')) {
+                            return { correct: false, feedback: '❌ Sorteer van lang naar kort met DESC.' };
+                        }
+                        if (!upperQuery.includes('LIMIT')) {
+                            return { correct: false, feedback: '❌ Gebruik LIMIT 3 voor top 3.' };
+                        }
+                        // STRICT: LIMIT must be exactly 3
+                        if (!upperQuery.includes('LIMIT 3') && !upperQuery.includes('LIMIT3')) {
+                            return { correct: false, feedback: '❌ Gebruik exact LIMIT 3 voor "top 3"!' };
+                        }
+                        if (!result.results || result.results.length === 0) {
+                            return { correct: false, feedback: '❌ Query geeft geen resultaten.' };
+                        }
+                        const rows = result.results[0].values;
+                        if (rows.length !== 3) {
+                            return { correct: false, feedback: `❌ Je moet exact 3 resultaten krijgen, niet ${rows.length}.` };
+                        }
+                        const columns = result.results[0].columns;
+                        if (!columns.includes('filmnaam') || !columns.includes('regisseur') || !columns.includes('duur')) {
+                            return { correct: false, feedback: '❌ Toon filmnaam, regisseur en duur.' };
+                        }
+                        if (columns.length !== 3) {
+                            return { correct: false, feedback: '❌ Selecteer alleen filmnaam, regisseur en duur (3 kolommen).' };
+                        }
+                        return { correct: true, feedback: '✅ Correct! Top 3 Amerikaanse films (LIMIT 3)!' };
+                    }
+                },
+                5: { 
+                    checkType: 'custom',
+                    validator: (result, query) => {
+                        const upperQuery = query.toUpperCase();
+                        if (!upperQuery.includes('GROUP BY')) {
+                            return { correct: false, feedback: '❌ Gebruik GROUP BY regisseur.' };
+                        }
+                        if (!upperQuery.includes('HAVING')) {
+                            return { correct: false, feedback: '❌ Gebruik HAVING met een subquery.' };
+                        }
+                        // STRICT: Reject COUNT() without *
+                        if (upperQuery.includes('COUNT()') || upperQuery.includes('COUNT ()')) {
+                            return { correct: false, feedback: '❌ Gebruik COUNT(*) niet COUNT()!' };
+                        }
+                        if (!upperQuery.includes('COUNT(*)') && !upperQuery.includes('COUNT (*)')) {
+                            return { correct: false, feedback: '❌ Gebruik COUNT(*) om te tellen.' };
+                        }
+                        // Check for nested subquery
+                        const selectCount = (upperQuery.match(/SELECT/g) || []).length;
+                        if (selectCount < 3) {
+                            return { correct: false, feedback: '❌ Deze query vereist een geneste subquery (3 SELECT statements).' };
+                        }
+                        if (!upperQuery.includes('AVG')) {
+                            return { correct: false, feedback: '❌ Gebruik AVG() in de subquery.' };
+                        }
+                        // STRICT: "meer" = >, not >=
+                        const havingPart = upperQuery.split('HAVING')[1];
+                        if (havingPart && havingPart.includes('>=')) {
+                            return { correct: false, feedback: '❌ "Meer films dan gemiddelde" betekent > (niet >=)!' };
+                        }
+                        if (!result.results || result.results.length === 0) {
+                            return { correct: false, feedback: '❌ Query geeft geen resultaten.' };
+                        }
+                        const columns = result.results[0].columns;
+                        if (!columns.includes('regisseur')) {
+                            return { correct: false, feedback: '❌ Toon de kolom regisseur.' };
+                        }
+                        if (!columns.includes('aantal_films')) {
+                            return { correct: false, feedback: '❌ Noem de telling "aantal_films" met AS.' };
+                        }
+                        if (columns.length !== 2) {
+                            return { correct: false, feedback: '❌ Selecteer alleen regisseur en aantal_films (2 kolommen).' };
+                        }
+                        return { correct: true, feedback: '✅ Correct! Geneste subquery + "meer" (>)!' };
+                    }
+                }
+            }
+        };
+    </script>
+    <script>
+        // Initialize Database Inspector
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                window.dbInspector = new DatabaseInspector('3dplus');
+            }, 1000);
+        });
+    </script>
+        <div class="lesson-navigation">
+            <a href="les6.html" class="nav-btn nav-back">
+                <span>←</span>
+                <span>Vorige les</span>
+            </a>
+            <a href="les8.html" class="nav-btn nav-next">
+                <span>Volgende les</span>
+                <span>→</span>
+            </a>
+        </div>
+    </div>
+
+    <script src="../js/db-inspector.js"></script>
+    <script src="../js/home-button.js"></script>
+</body>
+</html>

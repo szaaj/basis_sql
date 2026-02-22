@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Les 5: INSERT - SQL Quest</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/editor.css">
+    <link rel="stylesheet" href="../css/lesson.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="stars2"></div>
+    <div class="stars3"></div>
+    
+    <div class="container">
+        <nav class="breadcrumb">
+            <a href="../index.html">Home</a>
+            <span>/</span>
+            <a href="overview.html">Periode 1</a>
+            <span>/</span>
+            <span>Les 5</span>
+        </nav>
+
+        <header class="lesson-header">
+            <div class="lesson-title">
+                <span class="lesson-number-badge">05</span>
+                <div>
+                    <h1>Data Toevoegen met INSERT</h1>
+                    <p class="lesson-subtitle">Nieuwe rijen aan een tabel toevoegen</p>
+                </div>
+            </div>
+            
+            <div class="lesson-progress-bar">
+                <div class="progress-info">
+                    <span>Voortgang</span>
+                    <span id="lessonProgress">0/6 oefeningen</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                </div>
+            </div>
+        </header>
+
+        <section class="theory-section">
+            <h2>💡 Wat ga je leren?</h2>
+            <p>Tot nu toe heb je alleen data <strong>opgehaald</strong>. Nu leer je hoe je <strong>nieuwe data toevoegt</strong> aan een tabel!</p>
+            
+            <h3>INSERT - Nieuwe rij toevoegen</h3>
+            <div class="code-example">
+                <div class="code-header">
+                    <span>Basis syntax</span>
+                </div>
+                <pre><code>INSERT INTO tabel (kolom1, kolom2, kolom3)
+VALUES ('waarde1', 'waarde2', 'waarde3');</code></pre>
+            </div>
+
+            <div class="code-example">
+                <div class="code-header">
+                    <span>Voorbeeld: Nieuwe klant toevoegen</span>
+                </div>
+                <pre><code>INSERT INTO klant (naam, plaats, telefoon)
+VALUES ('Jansen P.', 'Amsterdam', '0612345678');</code></pre>
+            </div>
+
+            <h3>✅ AUTO_INCREMENT</h3>
+            <div class="info-box" style="background: #e8f5e9; border-color: #4caf50;">
+                <p><strong>✅ Deze database gebruikt AUTO_INCREMENT!</strong></p>
+                <p>Je hoeft <strong>geen ID op te geven</strong> - de database doet dat automatisch!</p>
+                <pre style="margin-top: 0.5rem;"><code>-- ID wordt automatisch toegekend
+INSERT INTO klant (naam, plaats, telefoon)
+VALUES ('Bakker A.', 'Rotterdam', '0612345678');</code></pre>
+                <p style="margin-top: 0.5rem; font-size: 0.875rem;">💡 Elke nieuwe INSERT krijgt automatisch het volgende beschikbare ID</p>
+                <p style="margin-top: 0.5rem; color: #ff9800;"><strong>⚠️ Let op:</strong> <strong>Refresh de pagina</strong> om de database te resetten naar de beginstand!</p>
+            </div>
+
+            <h3>Meerdere rijen tegelijk</h3>
+            <div class="code-example">
+                <div class="code-header">
+                    <span>Meerdere INSERT in één keer</span>
+                </div>
+                <pre><code>INSERT INTO klant (naam, plaats)
+VALUES 
+    ('Bakker A.', 'Rotterdam'),
+    ('Visser B.', 'Utrecht'),
+    ('Smit C.', 'Den Haag');</code></pre>
+            </div>
+
+            <div class="tip-box">
+                <strong>💡 Tips:</strong>
+                <ul>
+                    <li><strong>Geen ID opgeven</strong> - AUTO_INCREMENT regelt dit!</li>
+                    <li>Tekst tussen <strong>enkele quotes</strong>: 'Amsterdam'</li>
+                    <li>Getallen <strong>zonder quotes</strong>: 1500</li>
+                    <li>Datums tussen quotes: '2024-12-25'</li>
+                    <li>Decimalen met <strong>punt</strong>: 199.50</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="exercises-section">
+            <h2>🎯 Oefeningen</h2>
+
+            <!-- Exercise 1 -->
+            <div class="exercise" id="exercise-1">
+                <div class="exercise-header">
+                    <h3>Oefening 1 - Eerste klant toevoegen</h3>
+                    <span class="difficulty easy">Makkelijk</span>
+                </div>
+                <p class="exercise-question">Voeg een nieuwe klant toe met naam <code>Jansen P.</code>, plaats <code>Amsterdam</code>. Het ID wordt automatisch toegekend!</p>
+                
+                <div class="sql-editor">
+                    <div class="editor-header"><span class="editor-label">SQL Query</span></div>
+                    <textarea id="sql-input-1" placeholder="INSERT INTO klant ..."></textarea>
+                    <div class="editor-footer">
+                        <span class="editor-hint">💡 Ctrl+Enter</span>
+                        <div class="editor-buttons">
+                            <button class="btn-clear">Wissen</button>
+                            <button class="btn-execute"><span>▶</span><span>Uitvoeren</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="results-container" id="results-1"></div>
+                
+                <details class="hint-box">
+                    <summary>💡 Hint</summary>
+                    <p>INSERT INTO klant (idklant, naam, plaats) VALUES (...);</p>
+                </details>
+                
+                <details class="solution-box">
+                    <summary>✅ Oplossing</summary>
+                    <pre><code>INSERT INTO klant (naam, plaats)
+VALUES ('Jansen P.', 'Amsterdam');</code></pre>
+                    <button class="btn-copy">Kopiëren</button>
+                </details>
+            </div>
+
+            <!-- Exercise 2 -->
+            <div class="exercise" id="exercise-2">
+                <div class="exercise-header">
+                    <h3>Oefening 2 - Klant met alle gegevens</h3>
+                    <span class="difficulty easy">Makkelijk</span>
+                </div>
+                <p class="exercise-question">Voeg een klant toe met naam <code>Bakker A.</code>, plaats <code>Rotterdam</code>, telefoon <code>0687654321</code>, email <code>bakker@email.nl</code>. Het ID wordt automatisch toegekend!</p>
+                
+                <div class="sql-editor">
+                    <div class="editor-header"><span class="editor-label">SQL Query</span></div>
+                    <textarea id="sql-input-2"></textarea>
+                    <div class="editor-footer">
+                        <span class="editor-hint">💡 Ctrl+Enter</span>
+                        <div class="editor-buttons">
+                            <button class="btn-clear">Wissen</button>
+                            <button class="btn-execute"><span>▶</span><span>Uitvoeren</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="results-container" id="results-2"></div>
+                
+                <details class="solution-box">
+                    <summary>✅ Oplossing</summary>
+                    <pre><code>INSERT INTO klant (naam, plaats, telefoon, email)
+VALUES ('Bakker A.', 'Rotterdam', '0687654321', 'bakker@email.nl');</code></pre>
+                    <button class="btn-copy">Kopiëren</button>
+                </details>
+            </div>
+
+            <!-- Exercise 3 -->
+            <div class="exercise" id="exercise-3">
+                <div class="exercise-header">
+                    <h3>Oefening 3 - Nieuwe bestemming</h3>
+                    <span class="difficulty medium">Gemiddeld</span>
+                </div>
+                <p class="exercise-question">Voeg een nieuwe bestemming toe: ID <code>'STOCK'</code> (TEXT!), plaats <code>Stockholm</code>, land <code>Zweden</code>, werelddeel <code>Europa</code>. <em>Let op: bestemming IDs zijn TEXT, geen nummers!</em></p>
+                
+                <div class="sql-editor">
+                    <div class="editor-header"><span class="editor-label">SQL Query</span></div>
+                    <textarea id="sql-input-3"></textarea>
+                    <div class="editor-footer">
+                        <span class="editor-hint">💡 Ctrl+Enter</span>
+                        <div class="editor-buttons">
+                            <button class="btn-clear">Wissen</button>
+                            <button class="btn-execute"><span>▶</span><span>Uitvoeren</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="results-container" id="results-3"></div>
+                
+                <details class="solution-box">
+                    <summary>✅ Oplossing</summary>
+                    <pre><code>INSERT INTO bestemming (idbestemming, plaats, land, werelddeel)
+VALUES ('STOCK', 'Stockholm', 'Zweden', 'Europa');</code></pre>
+                    <button class="btn-copy">Kopiëren</button>
+                </details>
+            </div>
+
+            <!-- Exercise 4 -->
+            <div class="exercise" id="exercise-4">
+                <div class="exercise-header">
+                    <h3>Oefening 4 - Nieuwe reis</h3>
+                    <span class="difficulty medium">Gemiddeld</span>
+                </div>
+                <p class="exercise-question">Voeg een reis toe naar bestemming <code>'STOCK'</code> (Stockholm), vertrekdatum <code>2024-06-15</code>, dagen <code>5</code>, prijs <code>899.50</code>. Het reis-ID wordt automatisch toegekend!</p>
+                
+                <div class="sql-editor">
+                    <div class="editor-header"><span class="editor-label">SQL Query</span></div>
+                    <textarea id="sql-input-4"></textarea>
+                    <div class="editor-footer">
+                        <span class="editor-hint">💡 Ctrl+Enter</span>
+                        <div class="editor-buttons">
+                            <button class="btn-clear">Wissen</button>
+                            <button class="btn-execute"><span>▶</span><span>Uitvoeren</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="results-container" id="results-4"></div>
+                
+                <details class="hint-box">
+                    <summary>💡 Hint</summary>
+                    <p>Let op: datums tussen quotes, getallen zonder quotes, decimalen met punt!</p>
+                </details>
+                
+                <details class="solution-box">
+                    <summary>✅ Oplossing</summary>
+                    <pre><code>INSERT INTO reis (idbestemming, vertrekdatum, aantaldagen, prijsperpersoon)
+VALUES ('STOCK', '2024-06-15', 5, 899.50);</code></pre>
+                    <button class="btn-copy">Kopiëren</button>
+                </details>
+            </div>
+
+            <!-- Exercise 5 -->
+            <div class="exercise" id="exercise-5">
+                <div class="exercise-header">
+                    <h3>Oefening 5 - Meerdere klanten tegelijk</h3>
+                    <span class="difficulty medium">Gemiddeld</span>
+                </div>
+                <p class="exercise-question">Voeg 3 klanten tegelijk toe (IDs automatisch!):<br>
+                - Visser B., Utrecht<br>
+                - Smit C., Den Haag<br>
+                - De Vries D., Groningen<br>
+                <em>Tip: Gebruik één INSERT met meerdere VALUES!</em></p>
+                
+                <div class="sql-editor">
+                    <div class="editor-header"><span class="editor-label">SQL Query</span></div>
+                    <textarea id="sql-input-5"></textarea>
+                    <div class="editor-footer">
+                        <span class="editor-hint">💡 Ctrl+Enter</span>
+                        <div class="editor-buttons">
+                            <button class="btn-clear">Wissen</button>
+                            <button class="btn-execute"><span>▶</span><span>Uitvoeren</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="results-container" id="results-5"></div>
+                
+                <details class="hint-box">
+                    <summary>💡 Hint</summary>
+                    <p>VALUES (...), (...), (...); - komma's tussen de rijen!</p>
+                </details>
+                
+                <details class="solution-box">
+                    <summary>✅ Oplossing</summary>
+                    <pre><code>INSERT INTO klant (naam, plaats)
+VALUES
+    ('Visser B.', 'Utrecht'),
+    ('Smit C.', 'Den Haag'),
+    ('De Vries D.', 'Groningen');</code></pre>
+                    <button class="btn-copy">Kopiëren</button>
+                </details>
+            </div>
+
+            <!-- Exercise 6 (Bonus) -->
+            <div class="exercise" id="exercise-6">
+                <div class="exercise-header">
+                    <h3>Oefening 6 - Complete reis ervaring (Bonus)</h3>
+                    <span class="difficulty hard">Moeilijk</span>
+                </div>
+                <p class="exercise-question">Voeg een complete reis toe met bestemming: ID <code>'LISBN'</code> (TEXT!): Lissabon, Portugal, Europa<br>
+                En reis naar <code>'LISBN'</code>, datum 2024-08-01, 10 dagen, 1299.00 euro (reis-ID automatisch!)</p>
+                
+                <div class="sql-editor">
+                    <div class="editor-header"><span class="editor-label">SQL Query</span></div>
+                    <textarea id="sql-input-6"></textarea>
+                    <div class="editor-footer">
+                        <span class="editor-hint">💡 Je moet 2 INSERT statements schrijven!</span>
+                        <div class="editor-buttons">
+                            <button class="btn-clear">Wissen</button>
+                            <button class="btn-execute"><span>▶</span><span>Uitvoeren</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="results-container" id="results-6"></div>
+                
+                <details class="hint-box">
+                    <summary>💡 Hint</summary>
+                    <p>Eerst bestemming toevoegen, dan reis. Twee INSERT statements na elkaar (beide met puntkomma).</p>
+                </details>
+                
+                <details class="solution-box">
+                    <summary>✅ Oplossing</summary>
+                    <pre><code>INSERT INTO bestemming (idbestemming, plaats, land, werelddeel)
+VALUES ('LISBN', 'Lissabon', 'Portugal', 'Europa');
+
+INSERT INTO reis (idbestemming, vertrekdatum, aantaldagen, prijsperpersoon)
+VALUES ('LISBN', '2024-08-01', 10, 1299.00);</code></pre>
+                    <button class="btn-copy">Kopiëren</button>
+                </details>
+            </div>
+        </section>
+
+        <section class="debugging-section">
+            <h2>🐛 Veelgemaakte fouten</h2>
+            
+            <div class="error-example">
+                <h4>❌ Quotes vergeten bij tekst</h4>
+                <pre class="error-code">INSERT INTO klant (naam) VALUES (Jansen);</pre>
+                <p class="error-explanation">Tekst moet tussen quotes!</p>
+                <pre class="correct-code">INSERT INTO klant (naam) VALUES ('Jansen');</pre>
+            </div>
+
+            <div class="error-example">
+                <h4>❌ Aantal kolommen ≠ aantal waarden</h4>
+                <pre class="error-code">INSERT INTO klant (naam, plaats) VALUES ('Jansen');</pre>
+                <p class="error-explanation">2 kolommen maar 1 waarde!</p>
+                <pre class="correct-code">INSERT INTO klant (naam, plaats) VALUES ('Jansen', 'Amsterdam');</pre>
+            </div>
+
+            <div class="error-example">
+                <h4>❌ ID al bestaat (duplicate key)</h4>
+                <pre class="error-code">INSERT INTO klant (idklant, naam) VALUES (1, 'Test');</pre>
+                <p class="error-explanation">ID 1 bestaat al! Kies een nieuw ID.</p>
+                <pre class="correct-code">SELECT MAX(idklant) FROM klant;  -- Kijk wat hoogste ID is
+INSERT INTO klant (idklant, naam) VALUES (100, 'Test');</pre>
+            </div>
+
+            <div class="error-example">
+                <h4>❌ Datum verkeerd formaat</h4>
+                <pre class="error-code">INSERT INTO reis (vertrekdatum) VALUES ('15-06-2024');</pre>
+                <p class="error-explanation">Gebruik YYYY-MM-DD formaat!</p>
+                <pre class="correct-code">INSERT INTO reis (vertrekdatum) VALUES ('2024-06-15');</pre>
+            </div>
+
+            <div class="error-example">
+                <h4>❌ Komma in decimaal getal</h4>
+                <pre class="error-code">INSERT INTO reis (prijs) VALUES (899,50);</pre>
+                <p class="error-explanation">Gebruik PUNT, geen komma!</p>
+                <pre class="correct-code">INSERT INTO reis (prijs) VALUES (899.50);</pre>
+            </div>
+        </section>
+
+        <div class="lesson-navigation">
+            <a href="les4.html" class="nav-btn nav-back">
+                <span>←</span><span>Les 4</span>
+            </a>
+            <a href="overview.html" class="nav-btn">
+                <span>Overzicht</span>
+            </a>
+            <a href="les6.html" class="nav-btn nav-next">
+                <span>Les 6</span><span>→</span>
+            </a>
+        </div>
+    </div>
+
+    <script src="../js/progress.js"></script>
+    <script src="../js/database.js"></script>
+    <script src="../js/editor.js"></script>
+    <script src="../js/lesson.js"></script>
+    <script>
+        const lessonConfig = {
+            periode: 1,
+            lesson: 5,
+            database: 'reizen',
+            totalExercises: 6,
+            exercises: {
+                1: { 
+                    checkType: 'custom',
+                    validator: (result, query) => {
+                        const upperQuery = query.toUpperCase();
+                        if (!upperQuery.includes('INSERT')) {
+                            return { correct: false, feedback: '❌ Gebruik INSERT om data toe te voegen.' };
+                        }
+                        // Check if user tried to specify ID (should use AUTO_INCREMENT)
+                        if (upperQuery.includes('IDKLANT')) {
+                            return { correct: false, feedback: '⚠️ Geef geen ID op - gebruik AUTO_INCREMENT! Probeer: INSERT INTO klant (naam, plaats) VALUES (...)' };
+                        }
+                        // Check if Jansen P. was added
+                        const checkQuery = dbManager.executeQuery("SELECT * FROM klant WHERE naam = 'Jansen P.'");
+                        if (checkQuery.success && checkQuery.results.length > 0 && checkQuery.results[0].values.length > 0) {
+                            return { correct: true, feedback: '✅ Klant succesvol toegevoegd met AUTO_INCREMENT!' };
+                        }
+                        return { correct: false, feedback: '❌ Klant niet gevonden. Check je INSERT query.' };
+                    }
+                },
+                2: { 
+                    checkType: 'custom',
+                    validator: (result, query) => {
+                        const upperQuery = query.toUpperCase();
+                        if (!upperQuery.includes('INSERT')) {
+                            return { correct: false, feedback: '❌ Gebruik INSERT om data toe te voegen.' };
+                        }
+                        if (upperQuery.includes('IDKLANT')) {
+                            return { correct: false, feedback: '⚠️ Geef geen ID op - gebruik AUTO_INCREMENT!' };
+                        }
+                        const checkQuery = dbManager.executeQuery("SELECT * FROM klant WHERE naam = 'Bakker A.'");
+                        if (checkQuery.success && checkQuery.results.length > 0 && checkQuery.results[0].values.length > 0) {
+                            return { correct: true, feedback: '✅ Klant met alle gegevens toegevoegd!' };
+                        }
+                        return { correct: false, feedback: '❌ Klant niet gevonden.' };
+                    }
+                },
+                3: { 
+                    checkType: 'custom',
+                    validator: (result, query) => {
+                        const upperQuery = query.toUpperCase();
+                        if (!upperQuery.includes('INSERT')) {
+                            return { correct: false, feedback: '❌ Gebruik INSERT om data toe te voegen.' };
+                        }
+                        const checkQuery = dbManager.executeQuery("SELECT * FROM bestemming WHERE idbestemming = 'STOCK'");
+                        if (checkQuery.success && checkQuery.results.length > 0 && checkQuery.results[0].values.length > 0) {
+                            return { correct: true, feedback: '✅ Bestemming Stockholm toegevoegd!' };
+                        }
+                        return { correct: false, feedback: '❌ Bestemming niet gevonden. Gebruik ID \'STOCK\' (TEXT met quotes!).' };
+                    }
+                },
+                4: { 
+                    checkType: 'custom',
+                    validator: (result, query) => {
+                        const upperQuery = query.toUpperCase();
+                        if (!upperQuery.includes('INSERT')) {
+                            return { correct: false, feedback: '❌ Gebruik INSERT om data toe te voegen.' };
+                        }
+                        if (upperQuery.includes('IDREIS')) {
+                            return { correct: false, feedback: '⚠️ Geef geen reis-ID op - gebruik AUTO_INCREMENT!' };
+                        }
+                        const checkQuery = dbManager.executeQuery("SELECT * FROM reis WHERE idbestemming = 'STOCK' AND aantaldagen = 5");
+                        if (checkQuery.success && checkQuery.results.length > 0 && checkQuery.results[0].values.length > 0) {
+                            return { correct: true, feedback: '✅ Reis naar Stockholm toegevoegd met AUTO_INCREMENT!' };
+                        }
+                        return { correct: false, feedback: '❌ Reis niet gevonden. Check bestemming \'STOCK\', dagen 5.' };
+                    }
+                },
+                5: { 
+                    checkType: 'custom',
+                    validator: (result, query) => {
+                        const upperQuery = query.toUpperCase();
+                        if (!upperQuery.includes('INSERT')) {
+                            return { correct: false, feedback: '❌ Gebruik INSERT om data toe te voegen.' };
+                        }
+                        if (upperQuery.includes('IDKLANT')) {
+                            return { correct: false, feedback: '⚠️ Geef geen IDs op - gebruik AUTO_INCREMENT!' };
+                        }
+                        // Check if all 3 were added
+                        const check1 = dbManager.executeQuery("SELECT * FROM klant WHERE naam = 'Visser B.'");
+                        const check2 = dbManager.executeQuery("SELECT * FROM klant WHERE naam = 'Smit C.'");
+                        const check3 = dbManager.executeQuery("SELECT * FROM klant WHERE naam = 'De Vries D.'");
+                        
+                        const count1 = (check1.success && check1.results.length > 0) ? check1.results[0].values.length : 0;
+                        const count2 = (check2.success && check2.results.length > 0) ? check2.results[0].values.length : 0;
+                        const count3 = (check3.success && check3.results.length > 0) ? check3.results[0].values.length : 0;
+                        
+                        if (count1 > 0 && count2 > 0 && count3 > 0) {
+                            return { correct: true, feedback: '✅ Alle 3 klanten toegevoegd met AUTO_INCREMENT!' };
+                        } else {
+                            const missing = [];
+                            if (count1 === 0) missing.push('Visser B.');
+                            if (count2 === 0) missing.push('Smit C.');
+                            if (count3 === 0) missing.push('De Vries D.');
+                            return { correct: false, feedback: `❌ Klanten ontbreken: ${missing.join(', ')}` };
+                        }
+                    }
+                },
+                6: { 
+                    checkType: 'custom',
+                    validator: (result, query) => {
+                        const upperQuery = query.toUpperCase();
+                        
+                        if (!upperQuery.includes('INSERT')) {
+                            return { correct: false, feedback: '❌ Gebruik INSERT om data toe te voegen.' };
+                        }
+                        
+                        if (upperQuery.includes('IDREIS')) {
+                            return { correct: false, feedback: '⚠️ Geef geen reis-ID op - gebruik AUTO_INCREMENT!' };
+                        }
+                        
+                        const check1 = dbManager.executeQuery("SELECT * FROM bestemming WHERE idbestemming = 'LISBN'");
+                        const check2 = dbManager.executeQuery("SELECT * FROM reis WHERE idbestemming = 'LISBN' AND aantaldagen = 10");
+                        
+                        const bestemmingOK = check1.success && check1.results.length > 0 && check1.results[0].values.length > 0;
+                        const reisOK = check2.success && check2.results.length > 0 && check2.results[0].values.length > 0;
+                        
+                        if (bestemmingOK && reisOK) {
+                            return { correct: true, feedback: '✅ Complete reis naar Lissabon aangemaakt met AUTO_INCREMENT!' };
+                        } else if (bestemmingOK) {
+                            return { correct: false, feedback: '❌ Bestemming OK, maar reis ontbreekt. Check reis naar \'LISBN\', 10 dagen.' };
+                        } else if (reisOK) {
+                            return { correct: false, feedback: '❌ Reis OK, maar bestemming ontbreekt. Check bestemming \'LISBN\'.' };
+                        }
+                        return { correct: false, feedback: '❌ Beide INSERT statements nodig! Bestemming \'LISBN\' + reis naar \'LISBN\'.' };
+                    }
+                }
+            }
+        };
+    </script>
+    <script>
+        // Initialize Database Inspector
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                window.dbInspector = new DatabaseInspector('reizen');
+            }, 1000);
+        });
+    </script>
+    <script src="../js/db-inspector.js"></script>
+    <script src="../js/home-button.js"></script>
+</body>
+</html>

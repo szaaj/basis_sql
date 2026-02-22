@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Database Test</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
+</head>
+<body>
+    <h1>Test AUTO_INCREMENT</h1>
+    <button onclick="testDatabase()">Test Database</button>
+    <pre id="output"></pre>
+
+    <script>
+        let db;
+        const output = document.getElementById('output');
+
+        async function testDatabase() {
+            try {
+                const SQL = await initSqlJs({
+                    locateFile: file => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/${file}`
+                });
+
+                // Load database
+                const response = await fetch('../data/reizen.sql');
+                const sqlText = await response.text();
+                
+                db = new SQL.Database();
+                db.run(sqlText);
+
+                output.textContent = 'Database loaded!\n\n';
+
+                // Test 1: Check current max ID
+                let result = db.exec("SELECT MAX(idklant) as max_id FROM klant");
+                output.textContent += `Max klant ID: ${result[0].values[0][0]}\n\n`;
+
+                // Test 2: Try INSERT without ID
+                db.run("INSERT INTO klant (naam, plaats) VALUES ('Test User', 'Test City')");
+                output.textContent += "INSERT without ID successful!\n\n";
+
+                // Test 3: Check new ID
+                result = db.exec("SELECT * FROM klant ORDER BY idklant DESC LIMIT 1");
+                output.textContent += `Newest klant:\nID: ${result[0].values[0][0]}\nNaam: ${result[0].values[0][1]}\nPlaats: ${result[0].values[0][4]}\n\n`;
+
+                // Test 4: Try duplicate ID (should fail)
+                try {
+                    db.run("INSERT INTO klant (idklant, naam, plaats) VALUES (1, 'Duplicate', 'Test')");
+                    output.textContent += "ERROR: Duplicate ID was allowed!\n";
+                } catch (e) {
+                    output.textContent += `✅ PRIMARY KEY constraint works: ${e.message}\n`;
+                }
+
+            } catch (error) {
+                output.textContent += `ERROR: ${error.message}\n`;
+            }
+        }
+    </script>
+</body>
+</html>

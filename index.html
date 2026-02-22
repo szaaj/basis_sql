@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL Quest - Leer SQL op een leuke manier</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="stars2"></div>
+    <div class="stars3"></div>
+    
+    <div class="container">
+        <header class="hero">
+            <div class="glitch-wrapper">
+                <h1 class="glitch" data-text="SQL QUEST">SQL QUEST</h1>
+            </div>
+            <p class="tagline">Level up je database skills 🚀</p>
+            
+            <!-- Level & XP Display -->
+            <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 1.5rem; flex-wrap: wrap;">
+                <!-- Current Level -->
+                <div class="xp-badge" style="min-width: 200px;">
+                    <span class="xp-label" id="levelIcon">🥉</span>
+                    <span class="xp-label" id="levelName">SQL Rookie</span>
+                    <span class="xp-value" style="font-size: 1rem; margin-top: 0.25rem;">Level <span id="currentLevel">1</span></span>
+                </div>
+                
+                <!-- Total XP -->
+                <div class="xp-badge" style="min-width: 150px;">
+                    <span class="xp-label">TOTAAL XP</span>
+                    <span class="xp-value"><span id="totalXP">0</span> / 1825</span>
+                </div>
+            </div>
+            
+            <!-- Progress Bar to Next Level -->
+            <div style="max-width: 500px; margin: 1.5rem auto 0;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.875rem;">
+                    <span id="levelProgressText">Voortgang naar Level 2</span>
+                    <span id="xpToNextLevel">100 XP te gaan</span>
+                </div>
+                <div style="background: rgba(255,255,255,0.1); height: 8px; border-radius: 10px; overflow: hidden;">
+                    <div id="levelProgressBar" style="height: 100%; background: linear-gradient(90deg, var(--accent-green), var(--accent-cyan)); width: 0%; transition: width 0.5s ease;"></div>
+                </div>
+            </div>
+        </header>
+
+        <main class="periode-selection">
+            <h2>Kies je periode</h2>
+            
+            <div class="cards-container">
+                <!-- Periode 1 Card -->
+                <div class="periode-card" onclick="window.location.href='periode1/overview.html'">
+                    <div class="card-glow"></div>
+                    <div class="card-content">
+                        <div class="card-header">
+                            <span class="periode-number">01</span>
+                            <span class="badge badge-active">REIZEN DATABASE</span>
+                        </div>
+                        <h3>PERIODE 1</h3>
+                        <p class="card-description">Leer de basics: SELECT, WHERE, INSERT, UPDATE, DELETE</p>
+                        
+                        <div style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%); border: 2px solid #667eea; border-radius: 8px; padding: 0.75rem; margin: 1rem 0; text-align: center; cursor: pointer;" onclick="event.stopPropagation(); window.location.href='periode1/ai-coach.html';">
+                            <div style="font-size: 0.875rem; color: #667eea; font-weight: 600; margin-bottom: 0.25rem;">🤖 NIEUW</div>
+                            <div style="color: white; text-decoration: none; font-weight: 600; font-size: 0.95rem;">AI SQL Coach →</div>
+                            <div style="font-size: 0.75rem; color: rgba(255,255,255,0.7); margin-top: 0.25rem;">Leer SQL met AI hulp</div>
+                        </div>
+                        
+                        <div class="stats">
+                            <div class="stat">
+                                <span class="stat-label">Lessen</span>
+                                <span class="stat-value">7</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-label">Voltooid</span>
+                                <span class="stat-value" id="p1-completed">0/7</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-label">XP</span>
+                                <span class="stat-value" id="p1-xp">0</span>
+                            </div>
+                        </div>
+                        
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="p1-progress" style="width: 0%"></div>
+                        </div>
+                        
+                        <button class="card-button">
+                            <span>START PERIODE 1</span>
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M7.5 5L12.5 10L7.5 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Periode 2 Card -->
+                <div class="periode-card" onclick="window.location.href='periode2/overview.html'">
+                    <div class="card-glow"></div>
+                    <div class="card-content">
+                        <div class="card-header">
+                            <span class="periode-number">02</span>
+                            <span class="badge badge-advanced">BIOSCOOP DATABASE</span>
+                        </div>
+                        <h3>PERIODE 2</h3>
+                        <p class="card-description">Verdieping: Aggregaties, JOINs, GROUP BY, HAVING</p>
+                        
+                        <div style="background: linear-gradient(135deg, rgba(118, 75, 162, 0.15) 0%, rgba(102, 126, 234, 0.15) 100%); border: 2px solid #764ba2; border-radius: 8px; padding: 0.75rem; margin: 1rem 0; text-align: center; cursor: pointer;" onclick="event.stopPropagation(); window.location.href='periode2/ai-coach.html';">
+                            <div style="font-size: 0.875rem; color: #764ba2; font-weight: 600; margin-bottom: 0.25rem;">🤖 NIEUW</div>
+                            <div style="color: white; text-decoration: none; font-weight: 600; font-size: 0.95rem;">AI SQL Coach →</div>
+                            <div style="font-size: 0.75rem; color: rgba(255,255,255,0.7); margin-top: 0.25rem;">Gevorderde AI hulp</div>
+                        </div>
+                        
+                        <div class="stats">
+                            <div class="stat">
+                                <span class="stat-label">Lessen</span>
+                                <span class="stat-value">8</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-label">Voltooid</span>
+                                <span class="stat-value" id="p2-completed">0/8</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-label">XP</span>
+                                <span class="stat-value" id="p2-xp">0</span>
+                            </div>
+                        </div>
+                        
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="p2-progress" style="width: 0%"></div>
+                        </div>
+                        
+                        <button class="card-button">
+                            <span>START PERIODE 2</span>
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M7.5 5L12.5 10L7.5 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quick-links">
+                <a href="periode1/ai-coach.html" class="quick-link" style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%); border-color: #667eea;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 22.5l-.394-1.933a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>🤖 AI Coach P1</span>
+                </a>
+                <a href="periode2/ai-coach.html" class="quick-link" style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%); border-color: #764ba2;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 22.5l-.394-1.933a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>🤖 AI Coach P2</span>
+                </a>
+                <a href="sandbox.html" class="quick-link">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M14 2V8H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M16 13H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M16 17H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M10 9H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>SQL Sandbox</span>
+                </a>
+                <a href="debug-quest.html" class="quick-link">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M12 8V12M12 16H12.01M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>Debug Quest</span>
+                </a>
+                <a href="cheatsheet.html" class="quick-link">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>Cheat Sheet</span>
+                </a>
+            </div>
+        </main>
+
+        <footer>
+            <p>SQL Quest © 2025 | Made for MBO Software Ontwikkelaar</p>
+            <button onclick="resetAllProgress()" style="margin-top: 1rem; padding: 0.5rem 1rem; background: rgba(255,0,110,0.1); border: 2px solid var(--accent-pink); border-radius: 0.5rem; color: var(--accent-pink); font-weight: 600; cursor: pointer;">
+                🔄 Reset Alle Voortgang
+            </button>
+        </footer>
+    </div>
+
+    <script src="js/progress.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

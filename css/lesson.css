@@ -1,0 +1,597 @@
+/* Lesson Page Styling */
+
+.lesson-header {
+    background: var(--bg-card);
+    border: 2px solid var(--border-color);
+    border-radius: 1.5rem;
+    padding: 2rem;
+    margin-bottom: 3rem;
+}
+
+.lesson-title {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.lesson-number-badge {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 3rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.lesson-title h1 {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+}
+
+.lesson-subtitle {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+}
+
+.lesson-progress-bar {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 1rem;
+    border-radius: 0.75rem;
+}
+
+.progress-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+/* Theory Section */
+.theory-section {
+    background: var(--bg-card);
+    border: 2px solid var(--border-color);
+    border-radius: 1.5rem;
+    padding: 2rem;
+    margin-bottom: 3rem;
+}
+
+.theory-section h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+}
+
+.theory-section h3 {
+    font-size: 1.4rem;
+    margin: 2rem 0 1rem;
+    color: var(--accent-cyan);
+}
+
+.theory-section p {
+    line-height: 1.8;
+    margin-bottom: 1rem;
+}
+
+.theory-section code {
+    background: rgba(0, 240, 255, 0.1);
+    padding: 0.2rem 0.5rem;
+    border-radius: 0.25rem;
+    font-family: 'Courier New', monospace;
+    color: var(--accent-cyan);
+    font-size: 0.9em;
+}
+
+.theory-section ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 1rem 0;
+}
+
+.theory-section li {
+    padding: 0.5rem 0 0.5rem 2rem;
+    position: relative;
+}
+
+.theory-section li::before {
+    content: '→';
+    position: absolute;
+    left: 0.5rem;
+    color: var(--accent-cyan);
+}
+
+/* Info Boxes */
+.info-box,
+.tip-box {
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    margin: 1.5rem 0;
+}
+
+.info-box {
+    background: linear-gradient(135deg, rgba(0, 240, 255, 0.05), rgba(139, 92, 246, 0.05));
+    border: 2px solid rgba(0, 240, 255, 0.3);
+}
+
+.tip-box {
+    background: linear-gradient(135deg, rgba(0, 255, 136, 0.05), rgba(0, 240, 255, 0.05));
+    border: 2px solid rgba(0, 255, 136, 0.3);
+}
+
+.info-box h3 {
+    margin-top: 0 !important;
+    margin-bottom: 1rem;
+}
+
+/* Code Examples */
+.code-example {
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--border-color);
+    border-radius: 0.75rem;
+    margin: 1.5rem 0;
+    overflow: hidden;
+}
+
+.code-header {
+    padding: 0.75rem 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.code-example pre {
+    margin: 0;
+    padding: 1rem;
+}
+
+.code-example code {
+    font-family: 'Courier New', monospace;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text-primary);
+    background: none !important;
+    padding: 0 !important;
+}
+
+.code-explanation {
+    padding: 1rem;
+    margin: 0;
+    border-top: 1px solid var(--border-color);
+    background: rgba(255, 255, 255, 0.02);
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+/* Exercises Section */
+.exercises-section {
+    margin-bottom: 3rem;
+}
+
+.exercises-section > h2 {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+}
+
+.exercise {
+    background: var(--bg-card);
+    border: 2px solid var(--border-color);
+    border-radius: 1.5rem;
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.exercise-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.exercise-header h3 {
+    font-size: 1.4rem;
+    margin: 0;
+}
+
+.difficulty {
+    padding: 0.4rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.difficulty.easy {
+    background: linear-gradient(135deg, #00ff88, #00f0ff);
+    color: var(--bg-primary);
+}
+
+.difficulty.medium {
+    background: linear-gradient(135deg, #ff006e, #8b5cf6);
+    color: var(--text-primary);
+}
+
+.difficulty.hard {
+    background: linear-gradient(135deg, #ff0000, #ff006e);
+    color: var(--text-primary);
+}
+
+.exercise-question {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.exercise-question code {
+    background: rgba(0, 240, 255, 0.1);
+    padding: 0.2rem 0.5rem;
+    border-radius: 0.25rem;
+    font-family: 'Courier New', monospace;
+    color: var(--accent-cyan);
+}
+
+/* Hint and Solution Boxes */
+.hint-box,
+.solution-box {
+    margin-top: 1.5rem;
+    border: 2px solid var(--border-color);
+    border-radius: 0.75rem;
+    overflow: hidden;
+}
+
+.hint-box {
+    border-color: var(--accent-purple);
+}
+
+.solution-box {
+    border-color: var(--accent-green);
+}
+
+.hint-box summary,
+.solution-box summary {
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    cursor: pointer;
+    font-weight: 600;
+    user-select: none;
+    transition: background 0.2s ease;
+}
+
+.hint-box summary:hover,
+.solution-box summary:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.hint-box p,
+.solution-box pre {
+    padding: 1rem;
+    margin: 0;
+}
+
+.solution-box code {
+    font-family: 'Courier New', monospace;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.btn-copy {
+    margin: 0 1rem 1rem 1rem;
+    padding: 0.5rem 1rem;
+    background: rgba(0, 255, 136, 0.1);
+    border: 1px solid var(--accent-green);
+    border-radius: 0.5rem;
+    color: var(--accent-green);
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-copy:hover {
+    background: rgba(0, 255, 136, 0.2);
+}
+
+/* Debugging Section */
+.debugging-section {
+    background: var(--bg-card);
+    border: 2px solid var(--border-color);
+    border-radius: 1.5rem;
+    padding: 2rem;
+    margin-bottom: 3rem;
+}
+
+.debugging-section h2 {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+}
+
+.error-example {
+    padding: 1.5rem;
+    background: rgba(255, 0, 110, 0.05);
+    border: 1px solid rgba(255, 0, 110, 0.3);
+    border-radius: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.error-example h4 {
+    margin-bottom: 0.75rem;
+    color: var(--accent-pink);
+}
+
+.error-code {
+    background: rgba(0, 0, 0, 0.4);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    font-family: 'Courier New', monospace;
+    color: var(--accent-pink);
+    margin: 0.5rem 0;
+}
+
+.correct-code {
+    background: rgba(0, 255, 136, 0.1);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    font-family: 'Courier New', monospace;
+    color: var(--accent-green);
+    margin: 0.5rem 0;
+}
+
+.error-explanation {
+    margin: 0.75rem 0;
+    color: var(--text-secondary);
+}
+
+/* Lesson Navigation */
+.lesson-navigation {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.nav-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.5rem;
+    background: var(--bg-card);
+    border: 2px solid var(--border-color);
+    border-radius: 0.75rem;
+    color: var(--text-primary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.nav-btn:hover {
+    border-color: var(--accent-cyan);
+    transform: translateY(-2px);
+}
+
+.nav-back {
+    margin-right: auto;
+}
+
+.nav-next {
+    margin-left: auto;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .lesson-title {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .lesson-number-badge {
+        font-size: 2rem;
+    }
+    
+    .lesson-title h1 {
+        font-size: 1.5rem;
+    }
+    
+    .theory-section,
+    .exercise,
+    .debugging-section {
+        padding: 1.5rem;
+    }
+    
+    .exercise-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+    
+    .lesson-navigation {
+        flex-direction: column;
+    }
+    
+    .nav-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* Database Inspector Button & Panel */
+.db-inspector-btn {
+    position: fixed;
+    top: 100px;
+    right: 2rem;
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0,240,255,0.4);
+    z-index: 999;
+    transition: all 0.3s ease;
+}
+
+.db-inspector-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(0,240,255,0.6);
+}
+
+.db-inspector-panel {
+    position: fixed;
+    top: 100px;
+    right: 2rem;
+    width: 350px;
+    max-height: 70vh;
+    background: var(--bg-card);
+    border: 2px solid var(--border-color);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    z-index: 998;
+    overflow-y: auto;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    display: none;
+}
+
+.db-inspector-panel.open {
+    display: block;
+    animation: slideInRight 0.3s ease;
+}
+
+.db-inspector-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.db-inspector-header h3 {
+    margin: 0;
+    font-size: 1rem;
+    color: var(--text-primary);
+}
+
+.db-inspector-close {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 1.5rem;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.25rem;
+    transition: all 0.2s;
+}
+
+.db-inspector-close:hover {
+    background: rgba(255,255,255,0.1);
+    color: var(--text-primary);
+}
+
+.db-table-card {
+    background: rgba(0,240,255,0.05);
+    border: 1px solid rgba(0,240,255,0.2);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.db-table-name {
+    font-weight: 700;
+    color: var(--accent-cyan);
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.db-column {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    padding: 0.25rem 0;
+    padding-left: 1.5rem;
+}
+
+.db-column-name {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.db-sample-data {
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.db-sample-toggle {
+    background: none;
+    border: none;
+    color: var(--accent-cyan);
+    cursor: pointer;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    text-decoration: underline;
+}
+
+.db-sample-table {
+    margin-top: 0.5rem;
+    font-size: 0.7rem;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.db-sample-table th {
+    text-align: left;
+    padding: 0.25rem;
+    background: rgba(0,0,0,0.3);
+    font-weight: 600;
+}
+
+.db-sample-table td {
+    padding: 0.25rem;
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .db-inspector-btn {
+        top: 80px;
+        right: 1rem;
+        width: 45px;
+        height: 45px;
+        font-size: 1.25rem;
+    }
+    
+    .db-inspector-panel {
+        top: 80px;
+        right: 1rem;
+        left: 1rem;
+        width: auto;
+        max-height: 60vh;
+    }
+}

@@ -1,0 +1,354 @@
+/* SQL Editor Styling */
+
+.sql-editor {
+    background: var(--bg-card);
+    border: 2px solid var(--border-color);
+    border-radius: 1rem;
+    overflow: hidden;
+    margin: 1.5rem 0;
+}
+
+.editor-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.editor-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.editor-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.sql-editor textarea {
+    width: 100%;
+    min-height: 120px;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.3);
+    border: none;
+    color: var(--text-primary);
+    font-family: 'Courier New', monospace;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    resize: vertical;
+    outline: none;
+}
+
+.sql-editor textarea::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.5;
+}
+
+.editor-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-top: 1px solid var(--border-color);
+}
+
+.editor-hint {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.editor-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.btn-execute {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+    border: none;
+    border-radius: 0.5rem;
+    color: var(--bg-primary);
+    font-weight: 600;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-execute:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 240, 255, 0.4);
+}
+
+.btn-execute:active {
+    transform: translateY(0);
+}
+
+.btn-clear {
+    padding: 0.75rem 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-clear:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: var(--text-primary);
+}
+
+/* Results Display */
+.results-container {
+    margin-top: 1rem;
+    min-height: 100px;
+}
+
+.loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+    color: var(--text-secondary);
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(255, 255, 255, 0.1);
+    border-top-color: var(--accent-cyan);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.results-success,
+.results-empty,
+.results-error {
+    background: var(--bg-card);
+    border: 2px solid var(--border-color);
+    border-radius: 1rem;
+    padding: 1.5rem;
+}
+
+.results-success {
+    border-color: var(--accent-green);
+}
+
+.results-error {
+    border-color: var(--accent-pink);
+    display: flex;
+    gap: 1rem;
+}
+
+.results-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.results-count {
+    font-weight: 600;
+    color: var(--accent-green);
+}
+
+.results-table-container {
+    overflow-x: auto;
+    border-radius: 0.5rem;
+}
+
+.results-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+}
+
+.results-table thead {
+    background: rgba(0, 240, 255, 0.1);
+}
+
+.results-table th {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    font-weight: 600;
+    color: var(--accent-cyan);
+    border-bottom: 2px solid var(--accent-cyan);
+    white-space: nowrap;
+}
+
+.results-table td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.results-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.results-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.null-value {
+    color: var(--text-secondary);
+    font-style: italic;
+    opacity: 0.6;
+}
+
+.results-empty {
+    text-align: center;
+    padding: 2rem;
+}
+
+.results-empty p:first-child {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.hint-text {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+/* Error Display */
+.error-icon {
+    font-size: 2rem;
+    flex-shrink: 0;
+}
+
+.error-content h4 {
+    margin-bottom: 0.5rem;
+    color: var(--accent-pink);
+}
+
+.error-content p {
+    margin-bottom: 1rem;
+    color: var(--text-secondary);
+    font-family: 'Courier New', monospace;
+    font-size: 0.875rem;
+}
+
+.error-hints {
+    background: rgba(255, 0, 110, 0.1);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-top: 1rem;
+}
+
+.error-hints p {
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.error-hints ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.error-hints li {
+    padding: 0.25rem 0;
+    padding-left: 1.5rem;
+    position: relative;
+}
+
+.error-hints li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--accent-pink);
+}
+
+/* Feedback Messages */
+.feedback-correct,
+.feedback-incorrect {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: 0.75rem;
+    margin-bottom: 1rem;
+    animation: slideIn 0.3s ease;
+}
+
+.feedback-correct {
+    background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 240, 255, 0.1));
+    border: 2px solid var(--accent-green);
+}
+
+.feedback-incorrect {
+    background: linear-gradient(135deg, rgba(255, 0, 110, 0.1), rgba(139, 92, 246, 0.1));
+    border: 2px solid var(--accent-pink);
+}
+
+.feedback-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.feedback-message {
+    flex: 1;
+    font-weight: 500;
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .sql-editor textarea {
+        font-size: 0.85rem;
+        min-height: 100px;
+    }
+    
+    .results-table {
+        font-size: 0.75rem;
+    }
+    
+    .results-table th,
+    .results-table td {
+        padding: 0.5rem;
+    }
+    
+    .editor-footer {
+        flex-direction: column;
+        gap: 0.75rem;
+        align-items: stretch;
+    }
+    
+    .editor-buttons {
+        width: 100%;
+    }
+    
+    .btn-execute,
+    .btn-clear {
+        flex: 1;
+        justify-content: center;
+    }
+}

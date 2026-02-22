@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL Cheat Sheet - SQL Quest</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/lesson.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="stars2"></div>
+    <div class="stars3"></div>
+    
+    <div class="container">
+        <nav class="breadcrumb">
+            <a href="index.html">Home</a>
+            <span>/</span>
+            <span>Cheat Sheet</span>
+        </nav>
+
+        <header class="lesson-header">
+            <div class="lesson-title">
+                <span class="lesson-number-badge" style="background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));">📋</span>
+                <div>
+                    <h1>SQL Cheat Sheet</h1>
+                    <p class="lesson-subtitle">Alle SQL commando's op één plek</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- Search functionality -->
+        <div style="background: var(--bg-card); border: 2px solid var(--border-color); border-radius: 1rem; padding: 1.5rem; margin-bottom: 2rem;">
+            <input type="text" id="search" placeholder="🔍 Zoek een commando... (bijv. 'SELECT', 'WHERE', 'JOIN')" 
+                   style="width: 100%; padding: 1rem; background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); border-radius: 0.5rem; color: var(--text-primary); font-size: 1rem;"
+                   oninput="filterCommands()">
+        </div>
+
+        <!-- Quick Navigation -->
+        <div style="background: var(--bg-card); border: 2px solid var(--border-color); border-radius: 1rem; padding: 1.5rem; margin-bottom: 2rem;">
+            <h3 style="margin-bottom: 1rem;">Snelle Navigatie</h3>
+            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                <a href="#select" class="topic-tag">SELECT</a>
+                <a href="#where" class="topic-tag">WHERE</a>
+                <a href="#operators" class="topic-tag">Operators</a>
+                <a href="#logic" class="topic-tag">AND/OR/NOT</a>
+                <a href="#order" class="topic-tag">ORDER BY</a>
+                <a href="#limit" class="topic-tag">LIMIT</a>
+                <a href="#insert" class="topic-tag">INSERT</a>
+                <a href="#update" class="topic-tag">UPDATE</a>
+                <a href="#delete" class="topic-tag">DELETE</a>
+                <a href="#functions" class="topic-tag">Functies</a>
+                <a href="#joins" class="topic-tag">JOINs</a>
+                <a href="#group" class="topic-tag">GROUP BY</a>
+            </div>
+        </div>
+
+        <!-- SELECT -->
+        <section class="theory-section command-section" id="select" data-keywords="select ophalen data kolommen">
+            <h2>📊 SELECT - Data Ophalen</h2>
+            
+            <div class="code-example">
+                <div class="code-header"><span>Alle kolommen</span></div>
+                <pre><code>SELECT * FROM tabel;</code></pre>
+            </div>
+            
+            <div class="code-example">
+                <div class="code-header"><span>Specifieke kolommen</span></div>
+                <pre><code>SELECT kolom1, kolom2, kolom3 FROM tabel;</code></pre>
+            </div>
+            
+            <div class="code-example">
+                <div class="code-header"><span>DISTINCT - Unieke waarden</span></div>
+                <pre><code>SELECT DISTINCT plaats FROM klant;</code></pre>
+            </div>
+            
+            <div class="code-example">
+                <div class="code-header"><span>AS - Alias (hernoemen)</span></div>
+                <pre><code>SELECT naam AS klantnaam, plaats AS woonplaats FROM klant;</code></pre>
+            </div>
+        </section>
+
+        <!-- WHERE -->
+        <section class="theory-section command-section" id="where" data-keywords="where filter voorwaarde">
+            <h2>🔍 WHERE - Filteren</h2>
+            
+            <div class="code-example">
+                <div class="code-header"><span>Basis filter</span></div>
+                <pre><code>SELECT * FROM klant WHERE plaats = 'Amsterdam';</code></pre>
+            </div>
+        </section>
+
+        <!-- Operators -->
+        <section class="theory-section command-section" id="operators" data-keywords="operators vergelijken groter kleiner gelijk">
+            <h2>⚖️ Vergelijkingsoperatoren</h2>
+            
+            <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; margin: 1rem 0;">
+                    <thead style="background: rgba(0,240,255,0.1);">
+                        <tr>
+                            <th style="padding: 0.75rem; text-align: left; border-bottom: 2px solid var(--accent-cyan);">Operator</th>
+                            <th style="padding: 0.75rem; text-align: left; border-bottom: 2px solid var(--accent-cyan);">Betekenis</th>
+                            <th style="padding: 0.75rem; text-align: left; border-bottom: 2px solid var(--accent-cyan);">Voorbeeld</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom: 1px solid var(--border-color);">
+                            <td style="padding: 0.75rem; font-family: 'Courier New', monospace; color: var(--accent-cyan);">=</td>
+                            <td style="padding: 0.75rem;">Gelijk aan</td>
+                            <td style="padding: 0.75rem; font-family: 'Courier New', monospace; font-size: 0.875rem;">WHERE prijs = 500</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--border-color);">
+                            <td style="padding: 0.75rem; font-family: 'Courier New', monospace; color: var(--accent-cyan);">&lt;&gt; of !=</td>
+                            <td style="padding: 0.75rem;">Niet gelijk aan</td>
+                            <td style="padding: 0.75rem; font-family: 'Courier New', monospace; font-size: 0.875rem;">WHERE plaats &lt;&gt; 'Utrecht'</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--border-color);">
+                            <td style="padding: 0.75rem; font-family: 'Courier New', monospace; color: var(--accent-cyan);">&gt;</td>
+                            <td style="padding: 0.75rem;">Groter dan</td>
+                            <td style="padding: 0.75rem; font-family: 'Courier New', monospace; font-size: 0.875rem;">WHERE prijs &gt; 1000</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--border-color);">
+                            <td style="padding: 0.75rem; font-family: 'Courier New', monospace; color: var(--accent-cyan);">&lt;</td>
+                            <td style="padding: 0.75rem;">Kleiner dan</td>
+                            <td style="padding: 0.75rem; font-family: 'Courier New', monospace; font-size: 0.875rem;">WHERE prijs &lt; 500</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--border-color);">
+                            <td style="padding: 0.75rem; font-family: 'Courier New', monospace; color: var(--accent-cyan);">&gt;=</td>
+                            <td style="padding: 0.75rem;">Groter of gelijk</td>
+                            <td style="padding: 0.75rem; font-family: 'Courier New', monospace; font-size: 0.875rem;">WHERE dagen &gt;= 7</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.75rem; font-family: 'Courier New', monospace; color: var(--accent-cyan);">&lt;=</td>
+                            <td style="padding: 0.75rem;">Kleiner of gelijk</td>
+                            <td style="padding: 0.75rem; font-family: 'Courier New', monospace; font-size: 0.875rem;">WHERE prijs &lt;= 2000</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="code-example">
+                <div class="code-header"><span>BETWEEN - Tussen twee waarden</span></div>
+                <pre><code>SELECT * FROM reis WHERE prijsperpersoon BETWEEN 500 AND 1500;</code></pre>
+            </div>
+            
+            <div class="code-example">
+                <div class="code-header"><span>IN - Een van meerdere waarden</span></div>
+                <pre><code>SELECT * FROM klant WHERE plaats IN ('Amsterdam', 'Rotterdam', 'Utrecht');</code></pre>
+            </div>
+            
+            <div class="code-example">
+                <div class="code-header"><span>LIKE - Patroon matching</span></div>
+                <pre><code>SELECT * FROM klant WHERE naam LIKE 'Jan%';  -- % = wildcard</code></pre>
+            </div>
+            
+            <div class="code-example">
+                <div class="code-header"><span>IS NULL / IS NOT NULL</span></div>
+                <pre><code>SELECT * FROM klant WHERE email IS NULL;
+SELECT * FROM klant WHERE email IS NOT NULL;</code></pre>
+            </div>
+        </section>
+
+        <!-- Logic -->
+        <section class="theory-section command-section" id="logic" data-keywords="and or not combineren">
+            <h2>🔗 AND, OR, NOT - Combineren</h2>
+            
+            <div class="code-example">
+                <div class="code-header"><span>AND - Beide waar</span></div>
+                <pre><code>SELECT * FROM reis 
+WHERE aantaldagen = 7 AND prijsperpersoon < 1000;</code></pre>
+            </div>
+            
+            <div class="code-example">
+                <div class="code-header"><span>OR - Een van beide waar</span></div>
+                <pre><code>SELECT * FROM klant 
+WHERE plaats = 'Amsterdam' OR plaats = 'Rotterdam';</code></pre>
+            </div>
+            
+            <div class="code-example">
+                <div class="code-header"><span>NOT - Omkeren</span></div>
+                <pre><code>SELECT * FROM bestemming WHERE NOT land = 'Nederland';</code></pre>
+            </div>
+            
+            <div class="code-example">
+                <div class="code-header"><span>Haakjes voor complexe filters</span></div>
+                <pre><code>SELECT * FROM reis 
+WHERE (werelddeel = 'Europa' OR werelddeel = 'Azië') 
+AND prijsperpersoon < 1000;</code></pre>
+            </div>
+        </section>
+
+        <!-- ORDER BY -->
+        <section class="theory-section command-section" id="order" data-keywords="order by sorteren asc desc">
+            <h2>🔄 ORDER BY - Sorteren</h2>
+            
+            <div class="code-example">
+                <div class="code-header"><span>Oplopend (A-Z, 0-9) - ASC</span></div>
+                <pre><code>SELECT * FROM klant ORDER BY naam ASC;</code></pre>
+            </div>
+            
+            <div class="code-example">
+                <div class="code-header"><span>Aflopend (Z-A, 9-0) - DESC</span></div>
+                <pre><code>SELECT * FROM reis ORDER BY prijsperpersoon DESC;</code></pre>
+            </div>
+            
+            <div class="code-example">
+                <div class="code-header"><span>Meerdere kolommen</span></div>
+                <pre><code>SELECT * FROM klant ORDER BY plaats ASC, naam ASC;</code></pre>
+            </div>
+        </section>
+
+        <!-- LIMIT -->
+        <section class="theory-section command-section" id="limit" data-keywords="limit top aantal beperken">
+            <h2>🎯 LIMIT - Aantal Beperken</h2>
+            
+            <div class="code-example">
+                <div class="code-header"><span>Top 10</span></div>
+                <pre><code>SELECT * FROM reis ORDER BY prijsperpersoon ASC LIMIT 10;</code></pre>
+            </div>
+        </section>
+
+        <!-- INSERT -->
+        <section class="theory-section command-section" id="insert" data-keywords="insert toevoegen nieuw create">
+            <h2>➕ INSERT - Data Toevoegen</h2>
+            
+            <div class="code-example">
+                <div class="code-header"><span>Enkele rij</span></div>
+                <pre><code>INSERT INTO klant (idklant, naam, plaats)
+VALUES (100, 'Jansen P.', 'Amsterdam');</code></pre>
+            </div>
+            
+            <div class="code-example">
+                <div class="code-header"><span>Meerdere rijen</span></div>
+                <pre><code>INSERT INTO klant (idklant, naam, plaats)
+VALUES 
+    (101, 'Bakker A.', 'Rotterdam'),
+    (102, 'Visser B.', 'Utrecht'),
+    (103, 'Smit C.', 'Den Haag');</code></pre>
+            </div>
+        </section>
+
+        <!-- UPDATE -->
+        <section class="theory-section command-section" id="update" data-keywords="update wijzigen aanpassen modify">
+            <h2>✏️ UPDATE - Data Wijzigen</h2>
+            
+            <div style="background: rgba(255,0,110,0.1); border: 2px solid #ff006e; padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0;">
+                <p style="margin: 0; color: #ff006e; font-weight: 600;">⚠️ ALTIJD een WHERE gebruiken! Anders wijzig je ALLE rijen!</p>
+            </div>
+            
+            <div class="code-example">
+                <div class="code-header"><span>Enkele kolom</span></div>
+                <pre><code>UPDATE klant 
+SET telefoon = '0612345678' 
+WHERE idklant = 5;</code></pre>
+            </div>
+            
+            <div class="code-example">
+                <div class="code-header"><span>Meerdere kolommen</span></div>
+                <pre><code>UPDATE klant 
+SET naam = 'Jansen-Bakker', email = 'jb@email.nl' 
+WHERE idklant = 5;</code></pre>
+            </div>
+            
+            <div class="code-example">
+                <div class="code-header"><span>Met berekening</span></div>
+                <pre><code>UPDATE reis 
+SET prijsperpersoon = prijsperpersoon * 1.10 
+WHERE idreis = 5;</code></pre>
+            </div>
+        </section>
+
+        <!-- DELETE -->
+        <section class="theory-section command-section" id="delete" data-keywords="delete verwijderen remove">
+            <h2>🗑️ DELETE - Data Verwijderen</h2>
+            
+            <div style="background: rgba(255,0,110,0.1); border: 2px solid #ff006e; padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0;">
+                <p style="margin: 0; color: #ff006e; font-weight: 600;">⚠️⚠️⚠️ ALTIJD een WHERE gebruiken! Anders verwijder je ALLE rijen!</p>
+            </div>
+            
+            <div class="code-example">
+                <div class="code-header"><span>Specifieke rij</span></div>
+                <pre><code>DELETE FROM klant WHERE idklant = 5;</code></pre>
+            </div>
+            
+            <div class="code-example">
+                <div class="code-header"><span>Met voorwaarde</span></div>
+                <pre><code>DELETE FROM reis WHERE prijsperpersoon > 5000;</code></pre>
+            </div>
+        </section>
+
+        <!-- Functions -->
+        <section class="theory-section command-section" id="functions" data-keywords="count sum avg min max functies aggregatie">
+            <h2>🧮 Aggregatiefuncties</h2>
+            
+            <div style="overflow-x: auto; margin: 1rem 0;">
+                <table style="width: 100%; border-collapse: collapse;">
+                    <thead style="background: rgba(0,240,255,0.1);">
+                        <tr>
+                            <th style="padding: 0.75rem; text-align: left; border-bottom: 2px solid var(--accent-cyan);">Functie</th>
+                            <th style="padding: 0.75rem; text-align: left; border-bottom: 2px solid var(--accent-cyan);">Wat doet het?</th>
+                            <th style="padding: 0.75rem; text-align: left; border-bottom: 2px solid var(--accent-cyan);">Voorbeeld</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom: 1px solid var(--border-color);">
+                            <td style="padding: 0.75rem; font-family: 'Courier New', monospace; color: var(--accent-cyan);">COUNT()</td>
+                            <td style="padding: 0.75rem;">Telt aantal rijen</td>
+                            <td style="padding: 0.75rem; font-family: 'Courier New', monospace; font-size: 0.875rem;">SELECT COUNT(*) FROM klant</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--border-color);">
+                            <td style="padding: 0.75rem; font-family: 'Courier New', monospace; color: var(--accent-cyan);">SUM()</td>
+                            <td style="padding: 0.75rem;">Totaal optellen</td>
+                            <td style="padding: 0.75rem; font-family: 'Courier New', monospace; font-size: 0.875rem;">SELECT SUM(prijs) FROM reis</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--border-color);">
+                            <td style="padding: 0.75rem; font-family: 'Courier New', monospace; color: var(--accent-cyan);">AVG()</td>
+                            <td style="padding: 0.75rem;">Gemiddelde</td>
+                            <td style="padding: 0.75rem; font-family: 'Courier New', monospace; font-size: 0.875rem;">SELECT AVG(prijs) FROM reis</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--border-color);">
+                            <td style="padding: 0.75rem; font-family: 'Courier New', monospace; color: var(--accent-cyan);">MIN()</td>
+                            <td style="padding: 0.75rem;">Kleinste waarde</td>
+                            <td style="padding: 0.75rem; font-family: 'Courier New', monospace; font-size: 0.875rem;">SELECT MIN(prijs) FROM reis</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.75rem; font-family: 'Courier New', monospace; color: var(--accent-cyan);">MAX()</td>
+                            <td style="padding: 0.75rem;">Grootste waarde</td>
+                            <td style="padding: 0.75rem; font-family: 'Courier New', monospace; font-size: 0.875rem;">SELECT MAX(prijs) FROM reis</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- JOINs (Periode 2) -->
+        <section class="theory-section command-section" id="joins" data-keywords="join inner relaties tabellen samenvoegen">
+            <h2>🔗 JOINs - Tabellen Combineren (Periode 2)</h2>
+            
+            <div class="code-example">
+                <div class="code-header"><span>INNER JOIN - Overeenkomende rijen</span></div>
+                <pre><code>SELECT r.*, b.plaats, b.land
+FROM reis r
+INNER JOIN bestemming b ON r.idbestemming = b.idbestemming;</code></pre>
+            </div>
+        </section>
+
+        <!-- GROUP BY (Periode 2) -->
+        <section class="theory-section command-section" id="group" data-keywords="group by having groeperen">
+            <h2>📦 GROUP BY - Groeperen (Periode 2)</h2>
+            
+            <div class="code-example">
+                <div class="code-header"><span>Groeperen met COUNT</span></div>
+                <pre><code>SELECT plaats, COUNT(*) as aantal
+FROM klant
+GROUP BY plaats;</code></pre>
+            </div>
+            
+            <div class="code-example">
+                <div class="code-header"><span>HAVING - Filter op groepen</span></div>
+                <pre><code>SELECT plaats, COUNT(*) as aantal
+FROM klant
+GROUP BY plaats
+HAVING COUNT(*) > 5;</code></pre>
+            </div>
+        </section>
+
+        <!-- Keyword Order -->
+        <section class="theory-section">
+            <h2>📐 Volgorde van Keywords</h2>
+            
+            <div style="background: rgba(0,240,255,0.1); border: 2px solid var(--accent-cyan); padding: 2rem; border-radius: 1rem;">
+                <ol style="font-family: 'Courier New', monospace; font-size: 1.1rem; line-height: 2; margin: 0; padding-left: 2rem;">
+                    <li><strong>SELECT</strong> - Welke kolommen</li>
+                    <li><strong>FROM</strong> - Uit welke tabel</li>
+                    <li><strong>JOIN</strong> - Tabellen combineren (optioneel)</li>
+                    <li><strong>WHERE</strong> - Rijen filteren</li>
+                    <li><strong>GROUP BY</strong> - Groeperen (optioneel)</li>
+                    <li><strong>HAVING</strong> - Groepen filteren (optioneel)</li>
+                    <li><strong>ORDER BY</strong> - Sorteren</li>
+                    <li><strong>LIMIT</strong> - Aantal beperken</li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- Common Mistakes -->
+        <section class="theory-section">
+            <h2>🐛 Veelgemaakte Fouten</h2>
+            
+            <div class="error-example">
+                <h4>❌ Quotes vergeten bij tekst</h4>
+                <pre class="error-code">WHERE plaats = Amsterdam</pre>
+                <pre class="correct-code">WHERE plaats = 'Amsterdam'</pre>
+            </div>
+            
+            <div class="error-example">
+                <h4>❌ WHERE na ORDER BY</h4>
+                <pre class="error-code">SELECT * FROM reis ORDER BY prijs WHERE dagen = 7</pre>
+                <pre class="correct-code">SELECT * FROM reis WHERE dagen = 7 ORDER BY prijs</pre>
+            </div>
+            
+            <div class="error-example">
+                <h4>❌ UPDATE/DELETE zonder WHERE</h4>
+                <pre class="error-code">UPDATE klant SET plaats = 'Amsterdam'</pre>
+                <pre class="correct-code">UPDATE klant SET plaats = 'Amsterdam' WHERE idklant = 5</pre>
+            </div>
+        </section>
+
+        <div class="lesson-navigation">
+            <a href="index.html" class="nav-btn">
+                <span>←</span>
+                <span>Terug naar Home</span>
+            </a>
+            <a href="sandbox.html" class="nav-btn nav-next">
+                <span>SQL Sandbox</span>
+                <span>→</span>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        function filterCommands() {
+            const search = document.getElementById('search').value.toLowerCase();
+            const sections = document.querySelectorAll('.command-section');
+            
+            sections.forEach(section => {
+                const text = section.textContent.toLowerCase();
+                const keywords = section.dataset.keywords || '';
+                
+                if (search === '' || text.includes(search) || keywords.includes(search)) {
+                    section.style.display = 'block';
+                } else {
+                    section.style.display = 'none';
+                }
+            });
+        }
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+    
+    <style>
+        .topic-tag {
+            padding: 0.5rem 1rem;
+            background: rgba(0,240,255,0.1);
+            border: 1px solid rgba(0,240,255,0.3);
+            border-radius: 1rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--accent-cyan);
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+        
+        .topic-tag:hover {
+            background: rgba(0,240,255,0.2);
+            border-color: var(--accent-cyan);
+            transform: translateY(-2px);
+        }
+        
+        .error-example {
+            padding: 1.5rem;
+            background: rgba(255, 0, 110, 0.05);
+            border: 1px solid rgba(255, 0, 110, 0.3);
+            border-radius: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .error-example h4 {
+            margin-bottom: 0.75rem;
+            color: var(--accent-pink);
+        }
+        
+        .error-code {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            font-family: 'Courier New', monospace;
+            color: var(--accent-pink);
+            margin: 0.5rem 0;
+        }
+        
+        .correct-code {
+            background: rgba(0, 255, 136, 0.1);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            font-family: 'Courier New', monospace;
+            color: var(--accent-green);
+            margin: 0.5rem 0;
+        }
+    </style>
+    <script src="js/home-button.js"></script>
+</body>
+</html>

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Periode 2 Overzicht - SQL Quest</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/overview.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="stars2"></div>
+    <div class="stars3"></div>
+    
+    <div class="container">
+        <nav class="breadcrumb">
+            <a href="../index.html">Home</a>
+            <span>/</span>
+            <span>Periode 2</span>
+        </nav>
+
+        <header class="periode-header">
+            <div class="periode-badge">
+                <span class="periode-number">02</span>
+                <div class="periode-info">
+                    <h1>PERIODE 2</h1>
+                    <p>3DPlus Bioscoop - Geavanceerd SQL</p>
+                </div>
+            </div>
+            
+            <div class="periode-stats">
+                <div class="stat-card">
+                    <div class="stat-icon">🎯</div>
+                    <div class="stat-content">
+                        <span class="stat-label">Voltooide Lessen</span>
+                        <span class="stat-value" id="completedLessons">0/8</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">⚡</div>
+                    <div class="stat-content">
+                        <span class="stat-label">Periode XP</span>
+                        <span class="stat-value" id="periodeXP">0</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📊</div>
+                    <div class="stat-content">
+                        <span class="stat-label">Voortgang</span>
+                        <span class="stat-value" id="percentage">0%</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Intro Section -->
+        <section style="background: var(--bg-card); border: 2px solid var(--border-color); border-radius: 1.5rem; padding: 2rem; margin-bottom: 2rem;">
+            <h2 style="margin-bottom: 1.5rem;">🎬 Over Periode 2</h2>
+            <p style="margin-bottom: 2rem;">In Periode 1 heb je de basis geleerd: SELECT, WHERE, INSERT, UPDATE en DELETE. Nu wordt het tijd voor <strong>geavanceerde technieken</strong> om data te analyseren en combineren!</p>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                <div style="background: rgba(0,240,255,0.05); border: 1px solid rgba(0,240,255,0.2); padding: 1.5rem; border-radius: 1rem;">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">📊</div>
+                    <h3 style="margin-bottom: 0.5rem;">Aggregatie & Groeperen</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.875rem;">Leer data analyseren met COUNT, SUM, AVG en GROUP BY</p>
+                </div>
+                
+                <div style="background: rgba(0,255,136,0.05); border: 1px solid rgba(0,255,136,0.2); padding: 1.5rem; border-radius: 1rem;">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">🔗</div>
+                    <h3 style="margin-bottom: 0.5rem;">JOINs</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.875rem;">Combineer meerdere tabellen met INNER en LEFT JOIN</p>
+                </div>
+                
+                <div style="background: rgba(138,43,226,0.05); border: 1px solid rgba(138,43,226,0.2); padding: 1.5rem; border-radius: 1rem;">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">🎯</div>
+                    <h3 style="margin-bottom: 0.5rem;">Complexe Queries</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.875rem;">Subqueries en geavanceerde filters</p>
+                </div>
+            </div>
+
+            <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); padding: 1.5rem; border-radius: 1rem;">
+                <h3 style="margin-bottom: 1rem;">🗄️ 3DPlus Bioscoop Database</h3>
+                <p style="margin-bottom: 1rem; color: var(--text-secondary);">Je werkt met een realistische bioscoop database:</p>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem;">
+                    <div style="padding: 0.75rem; background: rgba(0,240,255,0.05); border-radius: 0.5rem;">
+                        <strong style="color: var(--accent-cyan);">film</strong>
+                        <p style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.25rem;">Films, regisseurs, duur</p>
+                    </div>
+                    <div style="padding: 0.75rem; background: rgba(0,240,255,0.05); border-radius: 0.5rem;">
+                        <strong style="color: var(--accent-cyan);">genre</strong>
+                        <p style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.25rem;">Filmgenres</p>
+                    </div>
+                    <div style="padding: 0.75rem; background: rgba(0,240,255,0.05); border-radius: 0.5rem;">
+                        <strong style="color: var(--accent-cyan);">klant</strong>
+                        <p style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.25rem;">Bioscoopbezoekers</p>
+                    </div>
+                    <div style="padding: 0.75rem; background: rgba(0,240,255,0.05); border-radius: 0.5rem;">
+                        <strong style="color: var(--accent-cyan);">reservering</strong>
+                        <p style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.25rem;">Kaartverkoop</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <main class="lessons-grid">
+            <!-- Les 1 -->
+            <div class="lesson-card" data-lesson="1" onclick="window.location.href='les1.html'">
+                <div class="lesson-number">01</div>
+                <div class="lesson-status" id="status-1">
+                    <svg class="status-icon incomplete" width="24" height="24" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/>
+                    </svg>
+                </div>
+                <h3>Aggregatiefuncties</h3>
+                <p>COUNT, SUM, AVG, MIN, MAX</p>
+                <div class="lesson-meta">
+                    <span>⏱️ 40 min</span>
+                    <span>📝 7 oefeningen</span>
+                    <span style="color: var(--accent-green);">🎁 +50 XP bonus</span>
+                </div>
+                <div class="lesson-topics">
+                    <span class="topic">COUNT</span>
+                    <span class="topic">AVG</span>
+                    <span class="topic">SUM</span>
+                </div>
+            </div>
+
+            <!-- Les 2 -->
+            <div class="lesson-card" data-lesson="2" onclick="window.location.href='les2.html'">
+                <div class="lesson-number">02</div>
+                <div class="lesson-status" id="status-2">
+                    <svg class="status-icon incomplete" width="24" height="24" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/>
+                    </svg>
+                </div>
+                <h3>GROUP BY</h3>
+                <p>Data groeperen en analyseren</p>
+                <div class="lesson-meta">
+                    <span>⏱️ 50 min</span>
+                    <span>📝 8 oefeningen</span>
+                    <span style="color: var(--accent-green);">🎁 +50 XP bonus</span>
+                </div>
+                <div class="lesson-topics">
+                    <span class="topic">GROUP BY</span>
+                    <span class="topic">ORDER BY</span>
+                    <span class="topic">Multiple</span>
+                </div>
+            </div>
+
+            <!-- Les 3 -->
+            <div class="lesson-card" data-lesson="3" onclick="window.location.href='les3.html'">
+                <div class="lesson-number">03</div>
+                <div class="lesson-status" id="status-3">
+                    <svg class="status-icon incomplete" width="24" height="24" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/>
+                    </svg>
+                </div>
+                <h3>HAVING</h3>
+                <p>Filteren op groepen</p>
+                <div class="lesson-meta">
+                    <span>⏱️ 40 min</span>
+                    <span>📝 6 oefeningen</span>
+                    <span style="color: var(--accent-green);">🎁 +50 XP bonus</span>
+                </div>
+                <div class="lesson-topics">
+                    <span class="topic">HAVING</span>
+                    <span class="topic">WHERE vs HAVING</span>
+                </div>
+            </div>
+
+            <!-- Les 4 - Coming Soon -->
+            <div class="lesson-card" data-lesson="4" onclick="window.location.href='les4.html'">
+                <div class="lesson-number">04</div>
+                <div class="lesson-status">
+                    <svg class="status-icon incomplete" width="24" height="24" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/>
+                    </svg>
+                </div>
+                <h3>GROUP BY & Aggregatie</h3>
+                <p>Data groeperen en analyseren</p>
+                <div class="lesson-meta">
+                    <span>⏱️ ~40 min</span>
+                    <span>📝 5 oefeningen</span>
+                    <span style="color: var(--accent-green);">🎁 +50 XP bonus</span>
+                </div>
+                <div class="lesson-topics">
+                    <span class="topic">COUNT</span>
+                    <span class="topic">AVG</span>
+                    <span class="topic">SUM</span>
+                </div>
+            </div>
+
+            <!-- Les 5 - JOINs -->
+            <div class="lesson-card" data-lesson="5" onclick="window.location.href='les5.html'">
+                <div class="lesson-number">05</div>
+                <div class="lesson-status">
+                    <svg class="status-icon incomplete" width="24" height="24" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/>
+                    </svg>
+                </div>
+                <h3>JOINs</h3>
+                <p>Tabellen combineren met INNER en LEFT JOIN</p>
+                <div class="lesson-meta">
+                    <span>⏱️ ~40 min</span>
+                    <span>📝 5 oefeningen</span>
+                    <span style="color: var(--accent-green);">🎁 +50 XP bonus</span>
+                </div>
+                <div class="lesson-topics">
+                    <span class="topic">INNER JOIN</span>
+                    <span class="topic">LEFT JOIN</span>
+                    <span class="topic">RIGHT JOIN</span>
+                </div>
+            </div>
+
+            <!-- Les 6 - HAVING -->
+            <div class="lesson-card" data-lesson="6" onclick="window.location.href='les6.html'">
+                <div class="lesson-number">06</div>
+                <div class="lesson-status">
+                    <svg class="status-icon incomplete" width="24" height="24" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/>
+                    </svg>
+                </div>
+                <h3>HAVING</h3>
+                <p>Filteren op groepen</p>
+                <div class="lesson-meta">
+                    <span>⏱️ ~40 min</span>
+                    <span>📝 5 oefeningen</span>
+                    <span style="color: var(--accent-green);">🎁 +50 XP bonus</span>
+                </div>
+                <div class="lesson-topics">
+                    <span class="topic">HAVING</span>
+                    <span class="topic">WHERE vs HAVING</span>
+                </div>
+            </div>
+
+            <!-- Les 7 - Subqueries -->
+            <div class="lesson-card" data-lesson="7" onclick="window.location.href='les7.html'">
+                <div class="lesson-number">07</div>
+                <div class="lesson-status">
+                    <svg class="status-icon incomplete" width="24" height="24" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/>
+                    </svg>
+                </div>
+                <h3>Subqueries</h3>
+                <p>Queries binnen queries</p>
+                <div class="lesson-meta">
+                    <span>⏱️ ~45 min</span>
+                    <span>📝 5 oefeningen</span>
+                    <span style="color: var(--accent-green);">🎁 +50 XP bonus</span>
+                </div>
+                <div class="lesson-topics">
+                    <span class="topic">Subqueries</span>
+                    <span class="topic">IN</span>
+                </div>
+            </div>
+
+            <!-- Les 8 - Herhaling -->
+            <div class="lesson-card" data-lesson="8" onclick="window.location.href='les8.html'">
+                <div class="lesson-number">08</div>
+                <div class="lesson-status">
+                    <svg class="status-icon incomplete" width="24" height="24" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/>
+                    </svg>
+                </div>
+                <h3>Herhaling</h3>
+                <p>Complexe queries combineren</p>
+                <div class="lesson-meta">
+                    <span>⏱️ ~45 min</span>
+                    <span>📝 5 oefeningen</span>
+                    <span style="color: var(--accent-green);">🎁 +50 XP bonus</span>
+                </div>
+            </div>
+            </div>
+        </main>
+
+        <div class="lesson-navigation">
+            <a href="../index.html" class="nav-btn">
+                <span>←</span>
+                <span>Home</span>
+            </a>
+        </div>
+    </div>
+
+    <script src="../js/progress.js"></script>
+    <script src="../js/overview.js"></script>
+    <script src="../js/home-button.js"></script>
+    <script>
+        // Force update on page load - inline to ensure it runs
+        window.addEventListener('load', function() {
+            console.log('[INLINE] Forcing overview update...');
+            
+            // Wait a bit for progressTracker to be ready
+            setTimeout(function() {
+                const progress = window.progressTracker.getProgress();
+                const periode = 2;
+                const periodeData = progress[`periode${periode}`];
+                
+                console.log('[INLINE] Periode 2 data:', periodeData);
+                
+                if (periodeData) {
+                    // Calculate stats
+                    const lessons = Object.values(periodeData.lessons);
+                    const completedCount = lessons.filter(l => l.completed).length;
+                    const xp = periodeData.xp || 0;
+                    const percentage = Math.round((completedCount / 8) * 100);
+                    
+                    console.log('[INLINE] Setting stats:', {completed: completedCount, xp: xp, percentage: percentage});
+                    
+                    // Force update
+                    const completedEl = document.getElementById('completedLessons');
+                    const xpEl = document.getElementById('periodeXP');
+                    const percentageEl = document.getElementById('percentage');
+                    
+                    if (completedEl) completedEl.textContent = `${completedCount}/8`;
+                    if (xpEl) xpEl.textContent = xp;
+                    if (percentageEl) percentageEl.textContent = `${percentage}%`;
+                    
+                    console.log('[INLINE] ✅ Stats updated!');
+                }
+            }, 100);
+        });
+    </script>
+</body>
+</html>

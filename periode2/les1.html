@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Les 1: Aggregatiefuncties - SQL Quest</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/editor.css">
+    <link rel="stylesheet" href="../css/lesson.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="stars2"></div>
+    <div class="stars3"></div>
+    
+    <div class="container">
+        <nav class="breadcrumb">
+            <a href="../index.html">Home</a>
+            <span>/</span>
+            <a href="overview.html">Periode 2</a>
+            <span>/</span>
+            <span>Les 1</span>
+        </nav>
+
+        <header class="lesson-header">
+            <div class="lesson-title">
+                <span class="lesson-number-badge">01</span>
+                <div>
+                    <h1>Aggregatiefuncties</h1>
+                    <p class="lesson-subtitle">COUNT, SUM, AVG, MIN, MAX</p>
+                </div>
+            </div>
+            
+            <div class="lesson-progress-bar">
+                <div class="progress-info">
+                    <span>Voortgang</span>
+                    <span id="lessonProgress">0/7 oefeningen</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                </div>
+            </div>
+        </header>
+
+        <section class="theory-section">
+            <h2>💡 Wat ga je leren?</h2>
+            <p>In Periode 1 heb je geleerd hoe je data ophaalt en filtert. Nu gaan we data <strong>analyseren</strong> met aggregatiefuncties!</p>
+            
+            <h3>Wat zijn Aggregatiefuncties?</h3>
+            <p>Functies die <strong>meerdere rijen</strong> samen vatten tot <strong>één resultaat</strong>. Bijvoorbeeld: "Hoeveel films hebben we?" of "Wat is de gemiddelde duur?"</p>
+
+            <h3>COUNT() - Tellen</h3>
+            <div class="code-example">
+                <div class="code-header"><span>Aantal films tellen</span></div>
+                <pre><code>SELECT COUNT(*) FROM film;</code></pre>
+                <p class="code-explanation">Telt ALLE rijen in de tabel</p>
+            </div>
+
+            <div class="code-example">
+                <div class="code-header"><span>Unieke genres tellen</span></div>
+                <pre><code>SELECT COUNT(DISTINCT genreid) FROM film;</code></pre>
+                <p class="code-explanation">Telt alleen unieke waarden (geen duplicaten)</p>
+            </div>
+
+            <h3>SUM() - Optellen</h3>
+            <div class="code-example">
+                <div class="code-header"><span>Totale filmduur</span></div>
+                <pre><code>SELECT SUM(duur) FROM film;</code></pre>
+                <p class="code-explanation">Telt alle duuren bij elkaar op</p>
+            </div>
+
+            <h3>AVG() - Gemiddelde</h3>
+            <div class="code-example">
+                <div class="code-header"><span>Gemiddelde filmduur</span></div>
+                <pre><code>SELECT AVG(duur) FROM film;</code></pre>
+                <p class="code-explanation">Berekent het gemiddelde van alle duuren</p>
+            </div>
+
+            <h3>MIN() & MAX() - Kleinste en Grootste</h3>
+            <div class="code-example">
+                <div class="code-header"><span>Kortste en langste film</span></div>
+                <pre><code>SELECT MIN(duur), MAX(duur) FROM film;</code></pre>
+                <p class="code-explanation">Vindt de kleinste en grootste waarde</p>
+            </div>
+
+            <div class="tip-box">
+                <strong>💡 Tips:</strong>
+                <ul>
+                    <li>Aggregatiefuncties geven <strong>1 rij</strong> terug (tenzij je GROUP BY gebruikt)</li>
+                    <li>Je kunt ze <strong>combineren</strong>: SELECT COUNT(*), AVG(duur) FROM film</li>
+                    <li>Gebruik <strong>AS</strong> voor duidelijke kolomnamen</li>
+                    <li>NULL waarden worden genegeerd (behalve bij COUNT(*))</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="exercises-section">
+            <h2>🎯 Oefeningen</h2>
+
+            <!-- Exercise 1 -->
+            <div class="exercise" id="exercise-1">
+                <div class="exercise-header">
+                    <h3>Oefening 1 - Hoeveel films?</h3>
+                    <span class="difficulty easy">Makkelijk</span>
+                </div>
+                <p class="exercise-question">Tel hoeveel films er in de database zitten.</p>
+                
+                <div class="sql-editor">
+                    <div class="editor-header"><span class="editor-label">SQL Query</span></div>
+                    <textarea id="sql-input-1" placeholder="SELECT COUNT(*)..."></textarea>
+                    <div class="editor-footer">
+                        <span class="editor-hint">💡 Ctrl+Enter</span>
+                        <div class="editor-buttons">
+                            <button class="btn-clear">Wissen</button>
+                            <button class="btn-execute"><span>▶</span><span>Uitvoeren</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="results-container" id="results-1"></div>
+                
+                <details class="hint-box">
+                    <summary>💡 Hint</summary>
+                    <p>Gebruik COUNT(*) om alle rijen te tellen</p>
+                </details>
+                
+                <details class="solution-box">
+                    <summary>✅ Oplossing</summary>
+                    <pre><code>SELECT COUNT(*) FROM film;</code></pre>
+                    <button class="btn-copy">Kopiëren</button>
+                </details>
+            </div>
+
+            <!-- Exercise 2 -->
+            <div class="exercise" id="exercise-2">
+                <div class="exercise-header">
+                    <h3>Oefening 2 - Totale filmduur</h3>
+                    <span class="difficulty easy">Makkelijk</span>
+                </div>
+                <p class="exercise-question">Bereken de <strong>totale duur</strong> van alle films bij elkaar (in minuten).</p>
+                
+                <div class="sql-editor">
+                    <div class="editor-header"><span class="editor-label">SQL Query</span></div>
+                    <textarea id="sql-input-2" placeholder="SELECT SUM(...) FROM film;"></textarea>
+                    <div class="editor-footer">
+                        <span class="editor-hint">💡 Ctrl+Enter</span>
+                        <div class="editor-buttons">
+                            <button class="btn-clear">Wissen</button>
+                            <button class="btn-execute"><span>▶</span><span>Uitvoeren</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="results-container" id="results-2"></div>
+                
+                <details class="hint-box">
+                    <summary>💡 Hint</summary>
+                    <p>SUM(kolom) telt alle waarden bij elkaar op</p>
+                </details>
+                
+                <details class="solution-box">
+                    <summary>✅ Oplossing</summary>
+                    <pre><code>SELECT SUM(duur) FROM film;</code></pre>
+                    <button class="btn-copy">Kopiëren</button>
+                </details>
+            </div>
+
+            <!-- Exercise 3 -->
+            <div class="exercise" id="exercise-3">
+                <div class="exercise-header">
+                    <h3>Oefening 3 - Gemiddelde filmduur</h3>
+                    <span class="difficulty easy">Makkelijk</span>
+                </div>
+                <p class="exercise-question">Wat is de <strong>gemiddelde duur</strong> van een film?</p>
+                
+                <div class="sql-editor">
+                    <div class="editor-header"><span class="editor-label">SQL Query</span></div>
+                    <textarea id="sql-input-3" placeholder="SELECT AVG(...) FROM film;"></textarea>
+                    <div class="editor-footer">
+                        <span class="editor-hint">💡 Ctrl+Enter</span>
+                        <div class="editor-buttons">
+                            <button class="btn-clear">Wissen</button>
+                            <button class="btn-execute"><span>▶</span><span>Uitvoeren</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="results-container" id="results-3"></div>
+                
+                <details class="solution-box">
+                    <summary>✅ Oplossing</summary>
+                    <pre><code>SELECT AVG(duur) FROM film;</code></pre>
+                    <button class="btn-copy">Kopiëren</button>
+                </details>
+            </div>
+
+            <!-- Exercise 4 -->
+            <div class="exercise" id="exercise-4">
+                <div class="exercise-header">
+                    <h3>Oefening 4 - Kortste en langste</h3>
+                    <span class="difficulty medium">Gemiddeld</span>
+                </div>
+                <p class="exercise-question">Haal de <strong>kortste</strong> én de <strong>langste</strong> filmduur op in één query.</p>
+                
+                <div class="sql-editor">
+                    <div class="editor-header"><span class="editor-label">SQL Query</span></div>
+                    <textarea id="sql-input-4" placeholder="SELECT MIN(...), MAX(...) FROM film;"></textarea>
+                    <div class="editor-footer">
+                        <span class="editor-hint">💡 Ctrl+Enter</span>
+                        <div class="editor-buttons">
+                            <button class="btn-clear">Wissen</button>
+                            <button class="btn-execute"><span>▶</span><span>Uitvoeren</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="results-container" id="results-4"></div>
+                
+                <details class="hint-box">
+                    <summary>💡 Hint</summary>
+                    <p>Je kunt meerdere functies gebruiken: SELECT MIN(duur), MAX(duur)...</p>
+                </details>
+                
+                <details class="solution-box">
+                    <summary>✅ Oplossing</summary>
+                    <pre><code>SELECT MIN(duur), MAX(duur) FROM film;</code></pre>
+                    <button class="btn-copy">Kopiëren</button>
+                </details>
+            </div>
+
+            <!-- Exercise 5 -->
+            <div class="exercise" id="exercise-5">
+                <div class="exercise-header">
+                    <h3>Oefening 5 - Duidelijke kolomnamen (AS)</h3>
+                    <span class="difficulty medium">Gemiddeld</span>
+                </div>
+                <p class="exercise-question">Tel het aantal films en geef de kolom de naam <code>totaal_films</code> (gebruik AS).</p>
+                
+                <div class="sql-editor">
+                    <div class="editor-header"><span class="editor-label">SQL Query</span></div>
+                    <textarea id="sql-input-5" placeholder="SELECT COUNT(*) AS totaal_films FROM film;"></textarea>
+                    <div class="editor-footer">
+                        <span class="editor-hint">💡 Gebruik AS voor alias</span>
+                        <div class="editor-buttons">
+                            <button class="btn-clear">Wissen</button>
+                            <button class="btn-execute"><span>▶</span><span>Uitvoeren</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="results-container" id="results-5"></div>
+                
+                <details class="hint-box">
+                    <summary>💡 Hint</summary>
+                    <p>SELECT COUNT(*) AS totaal_films FROM...</p>
+                </details>
+                
+                <details class="solution-box">
+                    <summary>✅ Oplossing</summary>
+                    <pre><code>SELECT COUNT(*) AS totaal_films FROM film;</code></pre>
+                    <button class="btn-copy">Kopiëren</button>
+                </details>
+            </div>
+
+            <!-- Exercise 6 -->
+            <div class="exercise" id="exercise-6">
+                <div class="exercise-header">
+                    <h3>Oefening 6 - Meerdere statistieken</h3>
+                    <span class="difficulty medium">Gemiddeld</span>
+                </div>
+                <p class="exercise-question">Haal in één query op: aantal films, gemiddelde duur, kortste duur, en langste duur. Geef elke kolom een duidelijke naam.</p>
+                
+                <div class="sql-editor">
+                    <div class="editor-header"><span class="editor-label">SQL Query</span></div>
+                    <textarea id="sql-input-6" placeholder="SELECT COUNT(*) AS ..., AVG(...) AS ..., MIN(...) AS ..., MAX(...) AS ... FROM film;"></textarea>
+                    <div class="editor-footer">
+                        <span class="editor-hint">💡 Combineer functies met komma's</span>
+                        <div class="editor-buttons">
+                            <button class="btn-clear">Wissen</button>
+                            <button class="btn-execute"><span>▶</span><span>Uitvoeren</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="results-container" id="results-6"></div>
+                
+                <details class="solution-box">
+                    <summary>✅ Oplossing</summary>
+                    <pre><code>SELECT 
+    COUNT(*) AS aantal,
+    AVG(duur) AS gemiddelde,
+    MIN(duur) AS kortste,
+    MAX(duur) AS langste
+FROM film;</code></pre>
+                    <button class="btn-copy">Kopiëren</button>
+                </details>
+            </div>
+
+            <!-- Exercise 7 -->
+            <div class="exercise" id="exercise-7">
+                <div class="exercise-header">
+                    <h3>Oefening 7 - COUNT met WHERE</h3>
+                    <span class="difficulty hard">Moeilijk</span>
+                </div>
+                <p class="exercise-question">Tel hoeveel films er zijn die <strong>langer dan 120 minuten</strong> duren.</p>
+                
+                <div class="sql-editor">
+                    <div class="editor-header"><span class="editor-label">SQL Query</span></div>
+                    <textarea id="sql-input-7" placeholder="SELECT COUNT(*) FROM ... WHERE ..."></textarea>
+                    <div class="editor-footer">
+                        <span class="editor-hint">💡 Combineer COUNT met WHERE</span>
+                        <div class="editor-buttons">
+                            <button class="btn-clear">Wissen</button>
+                            <button class="btn-execute"><span>▶</span><span>Uitvoeren</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="results-container" id="results-7"></div>
+                
+                <details class="hint-box">
+                    <summary>💡 Hint</summary>
+                    <p>SELECT COUNT(*) FROM film WHERE duur > 120</p>
+                </details>
+                
+                <details class="solution-box">
+                    <summary>✅ Oplossing</summary>
+                    <pre><code>SELECT COUNT(*) AS lange_films 
+FROM film 
+WHERE duur > 120;</code></pre>
+                    <button class="btn-copy">Kopiëren</button>
+                </details>
+            </div>
+        </section>
+
+        <section class="debugging-section">
+            <h2>🐛 Veelgemaakte fouten</h2>
+            
+            <div class="error-example">
+                <h4>❌ COUNT zonder haakjes</h4>
+                <pre class="error-code">SELECT COUNT FROM film;</pre>
+                <p class="error-explanation">COUNT is een functie, gebruik COUNT(*) of COUNT(kolom)</p>
+                <pre class="correct-code">SELECT COUNT(*) FROM film;</pre>
+            </div>
+
+            <div class="error-example">
+                <h4>❌ Aggregatie met normale kolommen</h4>
+                <pre class="error-code">SELECT filmnaam, COUNT(*) FROM film;</pre>
+                <p class="error-explanation">Je kunt niet een specifieke film EN een totaal tellen tegelijk!</p>
+                <pre class="correct-code">SELECT COUNT(*) FROM film;</pre>
+            </div>
+
+            <div class="error-example">
+                <h4>❌ WHERE na GROUP BY (komt in Les 2)</h4>
+                <pre class="error-code">SELECT COUNT(*) FROM film GROUP BY genreid WHERE COUNT(*) > 5;</pre>
+                <p class="error-explanation">Voor filteren op aggregatie gebruik je HAVING, niet WHERE</p>
+                <pre class="correct-code">SELECT COUNT(*) FROM film GROUP BY genreid HAVING COUNT(*) > 5;</pre>
+            </div>
+        </section>
+
+        <div class="lesson-navigation">
+            <a href="overview.html" class="nav-btn nav-back">
+                <span>←</span><span>Overzicht</span>
+            </a>
+            <a href="les2.html" class="nav-btn nav-next">
+                <span>Les 2</span><span>→</span>
+            </a>
+        </div>
+    </div>
+
+    <script src="../js/progress.js"></script>
+    <script src="../js/database.js"></script>
+    <script src="../js/editor.js"></script>
+    <script src="../js/lesson.js"></script>
+    <script>
+        // Initialize Database Inspector
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                window.dbInspector = new DatabaseInspector('3dplus');
+            }, 1000);
+        });
+    </script>
+    <script src="../js/db-inspector.js"></script>
+    <script src="../js/home-button.js"></script>
+    <script>
+        const lessonConfig = {
+            periode: 2,
+            lesson: 1,
+            database: '3dplus',
+            totalExercises: 7,
+            exercises: {
+                1: { 
+                    checkType: 'custom',
+                    validator: (result, query) => {
+                        if (!result.results || result.results.length === 0) {
+                            return { correct: false, feedback: '❌ Query geeft geen resultaten.' };
+                        }
+                        if (!query.toUpperCase().includes('COUNT')) {
+                            return { correct: false, feedback: '❌ Gebruik COUNT(*) om te tellen.' };
+                        }
+                        return { correct: true, feedback: '✅ Correct! Je hebt het aantal films geteld.' };
+                    }
+                },
+                2: { 
+                    checkType: 'custom',
+                    validator: (result, query) => {
+                        if (!result.results || result.results.length === 0) {
+                            return { correct: false, feedback: '❌ Query geeft geen resultaten.' };
+                        }
+                        if (!query.toUpperCase().includes('SUM')) {
+                            return { correct: false, feedback: '❌ Gebruik SUM(duur) om de totale duur te berekenen.' };
+                        }
+                        return { correct: true, feedback: '✅ Correct! Totale duur berekend met SUM.' };
+                    }
+                },
+                3: { 
+                    checkType: 'custom',
+                    validator: (result, query) => {
+                        if (!result.results || result.results.length === 0) {
+                            return { correct: false, feedback: '❌ Query geeft geen resultaten.' };
+                        }
+                        if (!query.toUpperCase().includes('AVG')) {
+                            return { correct: false, feedback: '❌ Gebruik AVG(duur) om het gemiddelde te berekenen.' };
+                        }
+                        return { correct: true, feedback: '✅ Correct! Gemiddelde berekend met AVG.' };
+                    }
+                },
+                4: { 
+                    checkType: 'custom',
+                    validator: (result, query) => {
+                        const upperQuery = query.toUpperCase();
+                        if (!result.results || result.results.length === 0) {
+                            return { correct: false, feedback: '❌ Query geeft geen resultaten.' };
+                        }
+                        if (result.results[0].columns.length !== 2) {
+                            return { correct: false, feedback: '❌ Je moet 2 kolommen selecteren: MIN en MAX.' };
+                        }
+                        if (!upperQuery.includes('MIN') || !upperQuery.includes('MAX')) {
+                            return { correct: false, feedback: '❌ Gebruik zowel MIN() als MAX().' };
+                        }
+                        return { correct: true, feedback: '✅ Correct! MIN en MAX gebruikt.' };
+                    }
+                },
+                5: { 
+                    checkType: 'custom',
+                    validator: (result, query) => {
+                        const upperQuery = query.toUpperCase();
+                        if (!result.results || result.results.length === 0) {
+                            return { correct: false, feedback: '❌ Query geeft geen resultaten.' };
+                        }
+                        if (!upperQuery.includes('COUNT')) {
+                            return { correct: false, feedback: '❌ Gebruik COUNT(*) om te tellen.' };
+                        }
+                        const columns = result.results[0].columns;
+                        if (columns.includes('totaal_films') || columns.includes('TOTAAL_FILMS')) {
+                            return { correct: true, feedback: '✅ Correct! Goede alias gebruikt.' };
+                        }
+                        return { correct: false, feedback: '❌ Gebruik AS totaal_films voor de kolomnaam.' };
+                    }
+                },
+                6: { 
+                    checkType: 'custom',
+                    validator: (result, query) => {
+                        const upperQuery = query.toUpperCase();
+                        if (!result.results || result.results.length === 0) {
+                            return { correct: false, feedback: '❌ Query geeft geen resultaten.' };
+                        }
+                        if (result.results[0].columns.length !== 4) {
+                            return { correct: false, feedback: '❌ Je moet 4 statistieken ophalen (COUNT, AVG, MIN, MAX).' };
+                        }
+                        const hasAll = upperQuery.includes('COUNT') && 
+                                      upperQuery.includes('AVG') && 
+                                      upperQuery.includes('MIN') && 
+                                      upperQuery.includes('MAX');
+                        if (!hasAll) {
+                            return { correct: false, feedback: '❌ Gebruik COUNT, AVG, MIN en MAX.' };
+                        }
+                        return { correct: true, feedback: '✅ Correct! Alle statistieken berekend.' };
+                    }
+                },
+                7: { 
+                    checkType: 'custom',
+                    validator: (result, query) => {
+                        const upperQuery = query.toUpperCase();
+                        if (!result.results || result.results.length === 0) {
+                            return { correct: false, feedback: '❌ Query geeft geen resultaten.' };
+                        }
+                        if (!upperQuery.includes('COUNT')) {
+                            return { correct: false, feedback: '❌ Gebruik COUNT(*) om te tellen.' };
+                        }
+                        if (!upperQuery.includes('WHERE')) {
+                            return { correct: false, feedback: '❌ Gebruik WHERE om te filteren op duur > 120.' };
+                        }
+                        return { correct: true, feedback: '✅ Correct! COUNT met WHERE gebruikt.' };
+                    }
+                }
+            }
+        };
+    </script>
+</body>
+</html>

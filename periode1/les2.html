@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Les 2: Filteren met WHERE - SQL Quest</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/editor.css">
+    <link rel="stylesheet" href="../css/lesson.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="stars2"></div>
+    <div class="stars3"></div>
+    
+    <div class="container">
+        <nav class="breadcrumb">
+            <a href="../index.html">Home</a>
+            <span>/</span>
+            <a href="overview.html">Periode 1</a>
+            <span>/</span>
+            <span>Les 2</span>
+        </nav>
+
+        <header class="lesson-header">
+            <div class="lesson-title">
+                <span class="lesson-number-badge">02</span>
+                <div>
+                    <h1>Filteren met WHERE</h1>
+                    <p class="lesson-subtitle">Specifieke rijen selecteren met voorwaarden</p>
+                </div>
+            </div>
+            
+            <div class="lesson-progress-bar">
+                <div class="progress-info">
+                    <span>Voortgang</span>
+                    <span id="lessonProgress">0/7 oefeningen</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Theory Section -->
+        <section class="theory-section">
+            <h2>💡 Wat ga je leren?</h2>
+            <p>In les 1 heb je geleerd hoe je alle data uit een tabel kunt ophalen. Nu leer je hoe je <strong>specifieke rijen</strong> selecteert met de <code>WHERE</code> clausule.</p>
+            
+            <h3>WHERE - Rijen filteren</h3>
+            <p>Met <code>WHERE</code> voeg je voorwaarden toe aan je query. Alleen rijen die aan de voorwaarde voldoen worden getoond.</p>
+            
+            <div class="code-example">
+                <div class="code-header">
+                    <span>Voorbeeld: Klanten uit Amsterdam</span>
+                </div>
+                <pre><code>SELECT * FROM klant WHERE plaats = 'Amsterdam';</code></pre>
+                <p class="code-explanation">Dit haalt alleen klanten op die in Amsterdam wonen.</p>
+            </div>
+
+            <h3>Vergelijkingsoperatoren</h3>
+            <p>Je kunt verschillende operatoren gebruiken om te vergelijken:</p>
+            
+            <div class="info-box">
+                <table style="width: 100%; border-collapse: collapse;">
+                    <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+                        <td style="padding: 0.5rem; font-family: 'Courier New', monospace; color: var(--accent-cyan);"><strong>=</strong></td>
+                        <td style="padding: 0.5rem;">Is gelijk aan</td>
+                        <td style="padding: 0.5rem; font-size: 0.875rem;">WHERE prijs = 500</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+                        <td style="padding: 0.5rem; font-family: 'Courier New', monospace; color: var(--accent-cyan);"><strong>&lt;&gt;</strong> of <strong>!=</strong></td>
+                        <td style="padding: 0.5rem;">Niet gelijk aan</td>
+                        <td style="padding: 0.5rem; font-size: 0.875rem;">WHERE plaats &lt;&gt; 'Utrecht'</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+                        <td style="padding: 0.5rem; font-family: 'Courier New', monospace; color: var(--accent-cyan);"><strong>&gt;</strong></td>
+                        <td style="padding: 0.5rem;">Groter dan</td>
+                        <td style="padding: 0.5rem; font-size: 0.875rem;">WHERE dagen &gt; 7</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+                        <td style="padding: 0.5rem; font-family: 'Courier New', monospace; color: var(--accent-cyan);"><strong>&lt;</strong></td>
+                        <td style="padding: 0.5rem;">Kleiner dan</td>
+                        <td style="padding: 0.5rem; font-size: 0.875rem;">WHERE prijs &lt; 1000</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+                        <td style="padding: 0.5rem; font-family: 'Courier New', monospace; color: var(--accent-cyan);"><strong>&gt;=</strong></td>
+                        <td style="padding: 0.5rem;">Groter of gelijk</td>
+                        <td style="padding: 0.5rem; font-size: 0.875rem;">WHERE dagen &gt;= 14</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+                        <td style="padding: 0.5rem; font-family: 'Courier New', monospace; color: var(--accent-cyan);"><strong>&lt;=</strong></td>
+                        <td style="padding: 0.5rem;">Kleiner of gelijk</td>
+                        <td style="padding: 0.5rem; font-size: 0.875rem;">WHERE prijs &lt;= 2000</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.5rem; font-family: 'Courier New', monospace; color: var(--accent-cyan);"><strong>LIKE</strong></td>
+                        <td style="padding: 0.5rem;">Patroon zoeken</td>
+                        <td style="padding: 0.5rem; font-size: 0.875rem;">WHERE naam LIKE 'Jan%'</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h3>LIKE - Zoeken op patronen</h3>
+            <p>Met <code>LIKE</code> kun je zoeken op <strong>gedeeltelijke overeenkomsten</strong>. Gebruik <code>%</code> als wildcard (= willekeurige tekens).</p>
+            
+            <div class="code-example">
+                <div class="code-header">
+                    <span>Begint met "Jan"</span>
+                </div>
+                <pre><code>SELECT * FROM klant WHERE naam LIKE 'Jan%';</code></pre>
+                <p class="code-explanation">Vindt: "Jansen", "Jansma", "Jan de Vries"</p>
+            </div>
+
+            <div class="code-example">
+                <div class="code-header">
+                    <span>Eindigt op "dam"</span>
+                </div>
+                <pre><code>SELECT * FROM klant WHERE plaats LIKE '%dam';</code></pre>
+                <p class="code-explanation">Vindt: "Amsterdam", "Rotterdam"</p>
+            </div>
+
+            <div class="code-example">
+                <div class="code-header">
+                    <span>Bevat "dam" ergens</span>
+                </div>
+                <pre><code>SELECT * FROM klant WHERE plaats LIKE '%dam%';</code></pre>
+                <p class="code-explanation">Vindt: "Amsterdam", "Rotterdam", "Volendam", "Zaandam"</p>
+            </div>
+
+            <div class="tip-box">
+                <strong>💡 Belangrijke regels:</strong>
+                <ul>
+                    <li>Tekst moet <strong>altijd</strong> tussen enkele quotes: <code>'Amsterdam'</code></li>
+                    <li>Getallen <strong>zonder</strong> quotes: <code>14</code></li>
+                    <li>Let op hoofdletters: <code>'rotterdam'</code> ≠ <code>'Rotterdam'</code></li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Exercises -->
+        <section class="exercises-section">
+            <h2>🎯 Oefeningen</h2>
+
+            <!-- Exercise 1 -->
+            <div class="exercise" id="exercise-1">
+                <div class="exercise-header">
+                    <h3>Oefening 1 - Klanten uit Rotterdam</h3>
+                    <span class="difficulty easy">Makkelijk</span>
+                </div>
+                <p class="exercise-question">Haal alle klanten op die in <code>Rotterdam</code> wonen.</p>
+                
+                <div class="sql-editor">
+                    <div class="editor-header"><span class="editor-label">SQL Query</span></div>
+                    <textarea id="sql-input-1" placeholder="SELECT ... FROM ... WHERE ..."></textarea>
+                    <div class="editor-footer">
+                        <span class="editor-hint">💡 Ctrl+Enter om uit te voeren</span>
+                        <div class="editor-buttons">
+                            <button class="btn-clear">Wissen</button>
+                            <button class="btn-execute"><span>▶</span><span>Uitvoeren</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="results-container" id="results-1"></div>
+                
+                <details class="hint-box">
+                    <summary>💡 Hint</summary>
+                    <p>Gebruik WHERE met de kolom <code>plaats</code> en vergeet de quotes niet bij tekst!</p>
+                </details>
+                
+                <details class="solution-box">
+                    <summary>✅ Oplossing</summary>
+                    <pre><code>SELECT * FROM klant WHERE plaats = 'Rotterdam';</code></pre>
+                    <button class="btn-copy">Kopiëren</button>
+                </details>
+            </div>
+
+            <!-- Exercise 2 -->
+            <div class="exercise" id="exercise-2">
+                <div class="exercise-header">
+                    <h3>Oefening 2 - Lange reizen</h3>
+                    <span class="difficulty easy">Makkelijk</span>
+                </div>
+                <p class="exercise-question">Haal alle reizen op die <strong>langer dan 14 dagen</strong> duren.</p>
+                
+                <div class="sql-editor">
+                    <div class="editor-header"><span class="editor-label">SQL Query</span></div>
+                    <textarea id="sql-input-2"></textarea>
+                    <div class="editor-footer">
+                        <span class="editor-hint">💡 Ctrl+Enter</span>
+                        <div class="editor-buttons">
+                            <button class="btn-clear">Wissen</button>
+                            <button class="btn-execute"><span>▶</span><span>Uitvoeren</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="results-container" id="results-2"></div>
+                
+                <details class="hint-box">
+                    <summary>💡 Hint</summary>
+                    <p>"Langer dan" betekent gebruik maken van <code>&gt;</code></p>
+                </details>
+                
+                <details class="solution-box">
+                    <summary>✅ Oplossing</summary>
+                    <pre><code>SELECT * FROM reis WHERE aantaldagen > 14;</code></pre>
+                    <button class="btn-copy">Kopiëren</button>
+                </details>
+            </div>
+
+            <!-- Exercise 3 -->
+            <div class="exercise" id="exercise-3">
+                <div class="exercise-header">
+                    <h3>Oefening 3 - Goedkope reizen</h3>
+                    <span class="difficulty easy">Makkelijk</span>
+                </div>
+                <p class="exercise-question">Haal reizen op die <strong>maximaal 1000 euro</strong> per persoon kosten.</p>
+                
+                <div class="sql-editor">
+                    <div class="editor-header"><span class="editor-label">SQL Query</span></div>
+                    <textarea id="sql-input-3"></textarea>
+                    <div class="editor-footer">
+                        <span class="editor-hint">💡 Ctrl+Enter</span>
+                        <div class="editor-buttons">
+                            <button class="btn-clear">Wissen</button>
+                            <button class="btn-execute"><span>▶</span><span>Uitvoeren</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="results-container" id="results-3"></div>
+                
+                <details class="hint-box">
+                    <summary>💡 Hint</summary>
+                    <p>"Maximaal" betekent kleiner of gelijk: <code>&lt;=</code></p>
+                </details>
+                
+                <details class="solution-box">
+                    <summary>✅ Oplossing</summary>
+                    <pre><code>SELECT * FROM reis WHERE prijsperpersoon <= 1000;</code></pre>
+                    <button class="btn-copy">Kopiëren</button>
+                </details>
+            </div>
+
+            <!-- Exercise 4 -->
+            <div class="exercise" id="exercise-4">
+                <div class="exercise-header">
+                    <h3>Oefening 4 - West-Europa bestemmingen</h3>
+                    <span class="difficulty medium">Gemiddeld</span>
+                </div>
+                <p class="exercise-question">Haal bestemmingen op in het werelddeel <code>West-Europa</code>.</p>
+                
+                <div class="sql-editor">
+                    <div class="editor-header"><span class="editor-label">SQL Query</span></div>
+                    <textarea id="sql-input-4"></textarea>
+                    <div class="editor-footer">
+                        <span class="editor-hint">💡 Ctrl+Enter</span>
+                        <div class="editor-buttons">
+                            <button class="btn-clear">Wissen</button>
+                            <button class="btn-execute"><span>▶</span><span>Uitvoeren</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="results-container" id="results-4"></div>
+                
+                <details class="solution-box">
+                    <summary>✅ Oplossing</summary>
+                    <pre><code>SELECT * FROM bestemming WHERE werelddeel = 'West-Europa';</code></pre>
+                    <button class="btn-copy">Kopiëren</button>
+                </details>
+            </div>
+
+            <!-- Exercise 5 -->
+            <div class="exercise" id="exercise-5">
+                <div class="exercise-header">
+                    <h3>Oefening 5 - Specifieke bestemming</h3>
+                    <span class="difficulty medium">Gemiddeld</span>
+                </div>
+                <p class="exercise-question">Haal reizen op voor bestemming met <code>idbestemming = 'ALANY'</code>.</p>
+                
+                <div class="sql-editor">
+                    <div class="editor-header"><span class="editor-label">SQL Query</span></div>
+                    <textarea id="sql-input-5"></textarea>
+                    <div class="editor-footer">
+                        <span class="editor-hint">💡 Ctrl+Enter</span>
+                        <div class="editor-buttons">
+                            <button class="btn-clear">Wissen</button>
+                            <button class="btn-execute"><span>▶</span><span>Uitvoeren</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="results-container" id="results-5"></div>
+                
+                <details class="solution-box">
+                    <summary>✅ Oplossing</summary>
+                    <pre><code>SELECT * FROM reis WHERE idbestemming = 'ALANY';</code></pre>
+                    <button class="btn-copy">Kopiëren</button>
+                </details>
+            </div>
+
+            <!-- Exercise 6 -->
+            <div class="exercise" id="exercise-6">
+                <div class="exercise-header">
+                    <h3>Oefening 6 - Niet Nederland</h3>
+                    <span class="difficulty medium">Gemiddeld</span>
+                </div>
+                <p class="exercise-question">Haal bestemmingen op die <strong>niet</strong> in Nederland liggen.</p>
+                
+                <div class="sql-editor">
+                    <div class="editor-header"><span class="editor-label">SQL Query</span></div>
+                    <textarea id="sql-input-6"></textarea>
+                    <div class="editor-footer">
+                        <span class="editor-hint">💡 Ctrl+Enter</span>
+                        <div class="editor-buttons">
+                            <button class="btn-clear">Wissen</button>
+                            <button class="btn-execute"><span>▶</span><span>Uitvoeren</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="results-container" id="results-6"></div>
+                
+                <details class="hint-box">
+                    <summary>💡 Hint</summary>
+                    <p>Voor "niet gelijk" gebruik <code>&lt;&gt;</code> of <code>!=</code></p>
+                </details>
+                
+                <details class="solution-box">
+                    <summary>✅ Oplossing</summary>
+                    <pre><code>SELECT * FROM bestemming WHERE land <> 'Nederland';</code></pre>
+                    <button class="btn-copy">Kopiëren</button>
+                </details>
+            </div>
+
+            <!-- Exercise 7 -->
+            <div class="exercise" id="exercise-7">
+                <div class="exercise-header">
+                    <h3>Oefening 7 - 2-weekse reizen info</h3>
+                    <span class="difficulty medium">Gemiddeld</span>
+                </div>
+                <p class="exercise-question">Haal reizen van <strong>precies 14 dagen</strong> op en toon alleen <code>vertrekdatum</code>, <code>aantaldagen</code> en <code>prijsperpersoon</code>.</p>
+                
+                <div class="sql-editor">
+                    <div class="editor-header"><span class="editor-label">SQL Query</span></div>
+                    <textarea id="sql-input-7"></textarea>
+                    <div class="editor-footer">
+                        <span class="editor-hint">💡 Ctrl+Enter</span>
+                        <div class="editor-buttons">
+                            <button class="btn-clear">Wissen</button>
+                            <button class="btn-execute"><span>▶</span><span>Uitvoeren</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="results-container" id="results-7"></div>
+                
+                <details class="hint-box">
+                    <summary>💡 Hint</summary>
+                    <p>Combineer specifieke kolommen in SELECT met WHERE filter.</p>
+                </details>
+                
+                <details class="solution-box">
+                    <summary>✅ Oplossing</summary>
+                    <pre><code>SELECT vertrekdatum, aantaldagen, prijsperpersoon 
+FROM reis 
+WHERE aantaldagen = 14;</code></pre>
+                    <button class="btn-copy">Kopiëren</button>
+                </details>
+            </div>
+
+            <!-- Exercise 8 - NEW: LIKE -->
+            <div class="exercise" id="exercise-8">
+                <div class="exercise-header">
+                    <h3>Oefening 8 - Zoeken met LIKE</h3>
+                    <span class="difficulty medium">Gemiddeld</span>
+                </div>
+                <p class="exercise-question">Haal alle klanten op waarvan de <strong>naam begint met "de"</strong> (gebruik LIKE).</p>
+                
+                <div class="sql-editor">
+                    <div class="editor-header"><span class="editor-label">SQL Query</span></div>
+                    <textarea id="sql-input-8" placeholder="SELECT ... WHERE naam LIKE ..."></textarea>
+                    <div class="editor-footer">
+                        <span class="editor-hint">💡 Gebruik % als wildcard</span>
+                        <div class="editor-buttons">
+                            <button class="btn-clear">Wissen</button>
+                            <button class="btn-execute"><span>▶</span><span>Uitvoeren</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="results-container" id="results-8"></div>
+                
+                <details class="hint-box">
+                    <summary>💡 Hint</summary>
+                    <p>WHERE naam LIKE 'de%' - % betekent "daarna mogen nog meer tekens komen"</p>
+                </details>
+                
+                <details class="solution-box">
+                    <summary>✅ Oplossing</summary>
+                    <pre><code>SELECT * FROM klant 
+WHERE naam LIKE 'de%';</code></pre>
+                    <button class="btn-copy">Kopiëren</button>
+                </details>
+            </div>
+        </section>
+
+        <!-- Debugging -->
+        <section class="debugging-section">
+            <h2>🐛 Veelgemaakte fouten</h2>
+            
+            <div class="error-example">
+                <h4>❌ Quotes vergeten</h4>
+                <pre class="error-code">WHERE plaats = Rotterdam</pre>
+                <p class="error-explanation">Tekst MOET tussen quotes!</p>
+                <pre class="correct-code">WHERE plaats = 'Rotterdam'</pre>
+            </div>
+
+            <div class="error-example">
+                <h4>❌ Hoofdletters niet correct</h4>
+                <pre class="error-code">WHERE plaats = 'rotterdam'</pre>
+                <p class="error-explanation">Als data 'Rotterdam' is, vindt dit niets.</p>
+                <pre class="correct-code">WHERE plaats = 'Rotterdam'</pre>
+            </div>
+
+            <div class="error-example">
+                <h4>❌ NULL vergelijken</h4>
+                <pre class="error-code">WHERE email = NULL</pre>
+                <p class="error-explanation">Voor NULL gebruik speciale syntax:</p>
+                <pre class="correct-code">WHERE email IS NULL</pre>
+            </div>
+        </section>
+
+        <!-- Navigation -->
+        <div class="lesson-navigation">
+            <a href="les1.html" class="nav-btn nav-back">
+                <span>←</span><span>Les 1</span>
+            </a>
+            <a href="overview.html" class="nav-btn">
+                <span>Overzicht</span>
+            </a>
+            <a href="les3.html" class="nav-btn nav-next">
+                <span>Les 3</span><span>→</span>
+            </a>
+        </div>
+    </div>
+
+    <script src="../js/progress.js"></script>
+    <script src="../js/database.js"></script>
+    <script src="../js/editor.js"></script>
+    <script src="../js/lesson.js"></script>
+    <script>
+        const lessonConfig = {
+            periode: 1,
+            lesson: 2,
+            database: 'reizen',
+            totalExercises: 8,
+            exercises: {
+                1: { 
+                    checkType: 'custom',
+                    validator: (result, query) => {
+                        if (!result.results || result.results.length === 0) {
+                            return { correct: false, feedback: '❌ Query geeft geen resultaten terug.' };
+                        }
+                        const rows = result.results[0].values;
+                        const columns = result.results[0].columns;
+                        
+                        // Check if plaats column exists and all values are Rotterdam
+                        const plaatsIndex = columns.indexOf('plaats');
+                        if (plaatsIndex === -1) {
+                            return { correct: false, feedback: '❌ Kolom "plaats" niet gevonden in resultaat.' };
+                        }
+                        
+                        const allRotterdam = rows.every(row => row[plaatsIndex] === 'Rotterdam');
+                        if (!allRotterdam) {
+                            return { correct: false, feedback: '❌ Niet alle resultaten zijn uit Rotterdam.' };
+                        }
+                        
+                        return { correct: true, feedback: `✅ Correct! ${rows.length} klanten uit Rotterdam gevonden.` };
+                    }
+                },
+                2: { 
+                    checkType: 'custom',
+                    validator: (result, query) => {
+                        const upperQuery = query.toUpperCase();
+                        if (!result.results || result.results.length === 0) {
+                            return { correct: false, feedback: '❌ Query geeft geen resultaten terug.' };
+                        }
+                        
+                        // Check for correct operator - "langer dan" means > not >=
+                        if (upperQuery.includes('AANTALDAGEN >=') || (upperQuery.includes('AANTALDAGEN') && upperQuery.includes('>='))) {
+                            return { correct: false, feedback: '❌ "Langer dan 14" betekent > 14, niet >= 14.' };
+                        }
+                        
+                        const rows = result.results[0].values;
+                        const columns = result.results[0].columns;
+                        
+                        const dagenIndex = columns.indexOf('aantaldagen');
+                        if (dagenIndex === -1) {
+                            return { correct: false, feedback: '❌ Kolom "aantaldagen" niet gevonden.' };
+                        }
+                        
+                        const allLongerThan14 = rows.every(row => row[dagenIndex] > 14);
+                        if (!allLongerThan14) {
+                            return { correct: false, feedback: '❌ Niet alle reizen zijn langer dan 14 dagen.' };
+                        }
+                        
+                        return { correct: true, feedback: `✅ Correct! ${rows.length} reizen langer dan 14 dagen.` };
+                    }
+                },
+                3: { 
+                    checkType: 'custom',
+                    validator: (result, query) => {
+                        const upperQuery = query.toUpperCase();
+                        if (!result.results || result.results.length === 0) {
+                            return { correct: false, feedback: '❌ Query geeft geen resultaten terug.' };
+                        }
+                        
+                        // Check for correct operator - "maximaal" means <= not <
+                        if (upperQuery.includes('PRIJSPERPERSOON <') && !upperQuery.includes('<=')) {
+                            return { correct: false, feedback: '❌ "Maximaal 1000" betekent ≤ 1000, gebruik <= in plaats van <.' };
+                        }
+                        
+                        const rows = result.results[0].values;
+                        const columns = result.results[0].columns;
+                        
+                        const prijsIndex = columns.indexOf('prijsperpersoon');
+                        if (prijsIndex === -1) {
+                            return { correct: false, feedback: '❌ Kolom "prijsperpersoon" niet gevonden.' };
+                        }
+                        
+                        const allUnder1000 = rows.every(row => row[prijsIndex] <= 1000);
+                        if (!allUnder1000) {
+                            return { correct: false, feedback: '❌ Niet alle reizen zijn maximaal 1000 euro.' };
+                        }
+                        
+                        return { correct: true, feedback: `✅ Correct! ${rows.length} reizen ≤ 1000 euro.` };
+                    }
+                },
+                4: { 
+                    checkType: 'custom',
+                    validator: (result, query) => {
+                        if (!result.results || result.results.length === 0) {
+                            return { correct: false, feedback: '❌ Query geeft geen resultaten terug.' };
+                        }
+                        const rows = result.results[0].values;
+                        const columns = result.results[0].columns;
+                        
+                        const werelddeelIndex = columns.indexOf('werelddeel');
+                        if (werelddeelIndex === -1) {
+                            return { correct: false, feedback: '❌ Kolom "werelddeel" niet gevonden.' };
+                        }
+                        
+                        const allEurope = rows.every(row => row[werelddeelIndex] === 'West-Europa');
+                        if (!allEurope) {
+                            return { correct: false, feedback: '❌ Niet alle bestemmingen zijn in Europa.' };
+                        }
+                        
+                        return { correct: true, feedback: `✅ Correct! ${rows.length} West-Europese bestemmingen.` };
+                    }
+                },
+                5: { 
+                    checkType: 'custom',
+                    validator: (result, query) => {
+                        const upperQuery = query.toUpperCase();
+                        if (!result.results || result.results.length === 0) {
+                            return { correct: false, feedback: '❌ Query geeft geen resultaten terug.' };
+                        }
+                        
+                        // Check for string comparison with quotes
+                        if (!upperQuery.includes("'ALANY'") && !upperQuery.includes('"ALANY"')) {
+                            return { correct: false, feedback: "❌ idbestemming is een TEXT veld, gebruik 'ALANY' met quotes." };
+                        }
+                        
+                        const rows = result.results[0].values;
+                        const columns = result.results[0].columns;
+                        
+                        const idIndex = columns.indexOf('idbestemming');
+                        if (idIndex === -1) {
+                            return { correct: false, feedback: '❌ Kolom "idbestemming" niet gevonden.' };
+                        }
+                        
+                        const allAlany = rows.every(row => row[idIndex] === 'ALANY');
+                        if (!allAlany) {
+                            return { correct: false, feedback: "❌ Niet alle resultaten hebben idbestemming = 'ALANY'." };
+                        }
+                        
+                        return { correct: true, feedback: `✅ Correct! ${rows.length} reis(en) voor bestemming ALANY.` };
+                    }
+                },
+                6: { 
+                    checkType: 'custom',
+                    validator: (result, query) => {
+                        if (!result.results || result.results.length === 0) {
+                            return { correct: false, feedback: '❌ Query geeft geen resultaten terug.' };
+                        }
+                        const rows = result.results[0].values;
+                        const columns = result.results[0].columns;
+                        
+                        const landIndex = columns.indexOf('land');
+                        if (landIndex === -1) {
+                            return { correct: false, feedback: '❌ Kolom "land" niet gevonden.' };
+                        }
+                        
+                        const noNetherlands = rows.every(row => row[landIndex] !== 'Nederland');
+                        if (!noNetherlands) {
+                            return { correct: false, feedback: '❌ Er zitten nog Nederlandse bestemmingen in het resultaat.' };
+                        }
+                        
+                        return { correct: true, feedback: `✅ Correct! ${rows.length} bestemmingen buiten Nederland.` };
+                    }
+                },
+                7: { 
+                    checkType: 'custom',
+                    validator: (result, query) => {
+                        if (!result.results || result.results.length === 0) {
+                            return { correct: false, feedback: '❌ Query geeft geen resultaten terug.' };
+                        }
+                        const rows = result.results[0].values;
+                        const columns = result.results[0].columns;
+                        
+                        // Check correct columns
+                        if (columns.length !== 3) {
+                            return { correct: false, feedback: `❌ Je moet exact 3 kolommen selecteren, niet ${columns.length}.` };
+                        }
+                        
+                        if (!columns.includes('vertrekdatum') || !columns.includes('aantaldagen') || !columns.includes('prijsperpersoon')) {
+                            return { correct: false, feedback: '❌ Je moet de kolommen vertrekdatum, aantaldagen en prijsperpersoon selecteren.' };
+                        }
+                        
+                        const dagenIndex = columns.indexOf('aantaldagen');
+                        const all14days = rows.every(row => row[dagenIndex] == 14);
+                        if (!all14days) {
+                            return { correct: false, feedback: '❌ Niet alle reizen duren precies 14 dagen.' };
+                        }
+                        
+                        return { correct: true, feedback: `✅ Correct! ${rows.length} 2-weekse reizen met juiste kolommen.` };
+                    }
+                },
+                8: {
+                    checkType: 'custom',
+                    validator: (result, query) => {
+                        const upperQuery = query.toUpperCase();
+                        if (!result.results || result.results.length === 0) {
+                            return { correct: false, feedback: '❌ Query geeft geen resultaten terug.' };
+                        }
+                        
+                        // Check for LIKE
+                        if (!upperQuery.includes('LIKE')) {
+                            return { correct: false, feedback: '❌ Gebruik LIKE voor patroonmatching.' };
+                        }
+                        
+                        // Check for correct pattern - "begint met" means 'de%' not '%de%'
+                        if (upperQuery.includes("'%DE%'") || upperQuery.includes('"%DE%"')) {
+                            return { correct: false, feedback: "❌ 'Begint met de' betekent LIKE 'de%', niet '%de%'." };
+                        }
+                        
+                        if (!upperQuery.includes("'DE%'") && !upperQuery.includes('"DE%"')) {
+                            return { correct: false, feedback: "❌ Voor 'begint met de' gebruik LIKE 'de%'." };
+                        }
+                        
+                        return { correct: true, feedback: `✅ Correct! Namen die beginnen met 'de' gevonden.` };
+                    }
+                }
+            }
+        };
+    </script>
+    <script>
+        // Initialize Database Inspector
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                window.dbInspector = new DatabaseInspector('reizen');
+            }, 1000);
+        });
+    </script>
+    <script src="../js/db-inspector.js"></script>
+    <script src="../js/home-button.js"></script>
+</body>
+</html>

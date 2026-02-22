@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Les 4: GROUP BY & Aggregatie - SQL Quest</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/editor.css">
+    <link rel="stylesheet" href="../css/lesson.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="stars2"></div>
+    <div class="stars3"></div>
+    
+    <div class="container">
+        <nav class="breadcrumb">
+            <a href="../index.html">Home</a>
+            <span>/</span>
+            <a href="overview.html">Periode 2</a>
+            <span>/</span>
+            <span>Les 4</span>
+        </nav>
+
+        <header class="lesson-header">
+            <div class="lesson-title">
+                <span class="lesson-number-badge">04</span>
+                <div>
+                    <h1>GROUP BY & Aggregatie</h1>
+                    <p class="lesson-subtitle">Data groeperen en analyseren met aggregatiefuncties</p>
+                </div>
+            </div>
+            
+            <div class="lesson-progress-bar">
+                <div class="progress-info">
+                    <span>Voortgang</span>
+                    <span id="lessonProgress">0/5 oefeningen</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                </div>
+            </div>
+        </header>
+
+        <section class="theory-section">
+            <h2>💡 Wat ga je leren?</h2>
+            <p>Je hebt geleerd hoe je data uit meerdere tabellen combineert met JOINs. Nu ga je leren hoe je data <strong>groepeert</strong> en <strong>analyseert</strong> met aggregatiefuncties!</p>
+            
+            <h3>Aggregatiefuncties</h3>
+            <p>Aggregatiefuncties voeren berekeningen uit over meerdere rijen:</p>
+            
+            <div class="code-example">
+                <div class="code-header">
+                    <span>Veelgebruikte aggregatiefuncties</span>
+                </div>
+                <pre><code>COUNT(*)        -- Tel aantal rijen
+COUNT(kolom)    -- Tel niet-NULL waarden  
+SUM(kolom)      -- Som van alle waarden
+AVG(kolom)      -- Gemiddelde
+MIN(kolom)      -- Kleinste waarde
+MAX(kolom)      -- Grootste waarde</code></pre>
+            </div>
+
+            <div class="code-example">
+                <div class="code-header">
+                    <span>Voorbeeld: Tel alle films</span>
+                </div>
+                <pre><code>SELECT COUNT(*) AS totaal_films
+FROM film;</code></pre>
+            </div>
+
+            <h3>GROUP BY - Data Groeperen</h3>
+            <p>GROUP BY groepeert rijen met dezelfde waarden. Je kunt dan aggregaties per groep uitvoeren:</p>
+            
+            <div class="code-example">
+                <div class="code-header">
+                    <span>Voorbeeld: Aantal films per regisseur</span>
+                </div>
+                <pre><code>SELECT regisseur, COUNT(*) AS aantal
+FROM film
+GROUP BY regisseur;</code></pre>
+            </div>
+
+            <div class="tip-box">
+                <strong>💡 Belangrijke Regel:</strong>
+                <p>Als je GROUP BY gebruikt, mag je alleen SELECT-en:</p>
+                <ul>
+                    <li>✅ Kolommen die in GROUP BY staan</li>
+                    <li>✅ Aggregatiefuncties (COUNT, SUM, AVG, etc.)</li>
+                    <li>❌ NIET: andere kolommen</li>
+                </ul>
+            </div>
+
+            <h3>Query Volgorde</h3>
+            <div class="code-example">
+                <div class="code-header">
+                    <span>Complete volgorde</span>
+                </div>
+                <pre><code>SELECT kolommen, AGG(kolom) AS alias
+FROM tabel
+WHERE filter_vooraf
+GROUP BY kolommen
+ORDER BY sorteer
+LIMIT aantal;</code></pre>
+            </div>
+        </section>
+
+        <section class="exercises-section">
+            <h2>🎯 Oefeningen</h2>
+
+            <!-- Exercise 1 -->
+            <div class="exercise" id="exercise-1">
+                <div class="exercise-header">
+                    <h3>Oefening 1 - Aantal films tellen</h3>
+                    <span class="difficulty easy">Makkelijk</span>
+                </div>
+                <p class="exercise-question">Tel hoeveel films er in totaal in de database zitten. Geef het resultaat de naam <code>totaal_films</code>.</p>
+                
+                <div class="sql-editor">
+                    <div class="editor-header"><span class="editor-label">SQL Query</span></div>
+                    <textarea id="sql-input-1" placeholder="SELECT COUNT(*) AS totaal_films FROM ..."></textarea>
+                    <div class="editor-footer">
+                        <span class="editor-hint">💡 COUNT(*) telt alle rijen</span>
+                        <div class="editor-buttons">
+                            <button class="btn-clear">Wissen</button>
+                            <button class="btn-execute"><span>▶</span><span>Uitvoeren</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="results-container" id="results-1"></div>
+                
+                <details class="hint-box">
+                    <summary>💡 Hint</summary>
+                    <p>Gebruik COUNT(*) om alle rijen te tellen, en AS voor de alias.</p>
+                </details>
+                
+                <details class="solution-box">
+                    <summary>✅ Oplossing</summary>
+                    <pre><code>SELECT COUNT(*) AS totaal_films
+FROM film;</code></pre>
+                    <button class="btn-copy">Kopiëren</button>
+                </details>
+            </div>
+
+            <!-- Exercise 2 -->
+            <div class="exercise" id="exercise-2">
+                <div class="exercise-header">
+                    <h3>Oefening 2 - Films per regisseur</h3>
+                    <span class="difficulty medium">Gemiddeld</span>
+                </div>
+                <p class="exercise-question">Tel hoeveel films elke regisseur heeft gemaakt. Toon <code>regisseur</code> en <code>aantal_films</code>.</p>
+                
+                <div class="sql-editor">
+                    <div class="editor-header"><span class="editor-label">SQL Query</span></div>
+                    <textarea id="sql-input-2" placeholder="SELECT regisseur, COUNT(*) AS aantal_films FROM film GROUP BY ..."></textarea>
+                    <div class="editor-footer">
+                        <span class="editor-hint">💡 GROUP BY regisseur</span>
+                        <div class="editor-buttons">
+                            <button class="btn-clear">Wissen</button>
+                            <button class="btn-execute"><span>▶</span><span>Uitvoeren</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="results-container" id="results-2"></div>
+                
+                <details class="hint-box">
+                    <summary>💡 Hint</summary>
+                    <p>GROUP BY regisseur om per regisseur te groeperen, COUNT(*) om te tellen.</p>
+                </details>
+                
+                <details class="solution-box">
+                    <summary>✅ Oplossing</summary>
+                    <pre><code>SELECT regisseur, COUNT(*) AS aantal_films
+FROM film
+GROUP BY regisseur;</code></pre>
+                    <button class="btn-copy">Kopiëren</button>
+                </details>
+            </div>
+
+            <!-- Exercise 3 -->
+            <div class="exercise" id="exercise-3">
+                <div class="exercise-header">
+                    <h3>Oefening 3 - Gemiddelde filmduur per genre</h3>
+                    <span class="difficulty medium">Gemiddeld</span>
+                </div>
+                <p class="exercise-question">Bereken de gemiddelde filmduur per genre. Toon <code>genreid</code> en <code>gemiddelde_duur</code>.</p>
+                
+                <div class="sql-editor">
+                    <div class="editor-header"><span class="editor-label">SQL Query</span></div>
+                    <textarea id="sql-input-3" placeholder="SELECT genreid, AVG(duur) AS gemiddelde_duur FROM film GROUP BY ..."></textarea>
+                    <div class="editor-footer">
+                        <span class="editor-hint">💡 AVG voor gemiddelde</span>
+                        <div class="editor-buttons">
+                            <button class="btn-clear">Wissen</button>
+                            <button class="btn-execute"><span>▶</span><span>Uitvoeren</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="results-container" id="results-3"></div>
+                
+                <details class="hint-box">
+                    <summary>💡 Hint</summary>
+                    <p>AVG(duur) voor gemiddelde, GROUP BY genreid.</p>
+                </details>
+                
+                <details class="solution-box">
+                    <summary>✅ Oplossing</summary>
+                    <pre><code>SELECT genreid, AVG(duur) AS gemiddelde_duur
+FROM film
+GROUP BY genreid;</code></pre>
+                    <button class="btn-copy">Kopiëren</button>
+                </details>
+            </div>
+
+            <!-- Exercise 4 -->
+            <div class="exercise" id="exercise-4">
+                <div class="exercise-header">
+                    <h3>Oefening 4 - Top 3 productieve regisseurs</h3>
+                    <span class="difficulty hard">Moeilijk</span>
+                </div>
+                <p class="exercise-question">Vind de 3 regisseurs met de <strong>meeste films</strong>. Toon <code>regisseur</code> en <code>aantal_films</code>. Sorteer van veel naar weinig.</p>
+                
+                <div class="sql-editor">
+                    <div class="editor-header"><span class="editor-label">SQL Query</span></div>
+                    <textarea id="sql-input-4" placeholder="SELECT regisseur, COUNT(*) ... GROUP BY ... ORDER BY ... DESC LIMIT 3"></textarea>
+                    <div class="editor-footer">
+                        <span class="editor-hint">💡 ORDER BY + DESC + LIMIT</span>
+                        <div class="editor-buttons">
+                            <button class="btn-clear">Wissen</button>
+                            <button class="btn-execute"><span>▶</span><span>Uitvoeren</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="results-container" id="results-4"></div>
+                
+                <details class="hint-box">
+                    <summary>💡 Hint</summary>
+                    <p>ORDER BY aantal_films DESC voor meeste eerst, LIMIT 3 voor top 3.</p>
+                </details>
+                
+                <details class="solution-box">
+                    <summary>✅ Oplossing</summary>
+                    <pre><code>SELECT regisseur, COUNT(*) AS aantal_films
+FROM film
+GROUP BY regisseur
+ORDER BY aantal_films DESC
+LIMIT 3;</code></pre>
+                    <button class="btn-copy">Kopiëren</button>
+                </details>
+            </div>
+
+            <!-- Exercise 5 -->
+            <div class="exercise" id="exercise-5">
+                <div class="exercise-header">
+                    <h3>Oefening 5 - Totale speeltijd per land</h3>
+                    <span class="difficulty hard">Moeilijk</span>
+                </div>
+                <p class="exercise-question">Bereken de totale speeltijd (SUM van duur) per productieland. Toon <code>landherkomst</code> en <code>totale_speeltijd</code>, gesorteerd van hoog naar laag.</p>
+                
+                <div class="sql-editor">
+                    <div class="editor-header"><span class="editor-label">SQL Query</span></div>
+                    <textarea id="sql-input-5" placeholder="SELECT landherkomst, SUM(duur) AS ... GROUP BY ... ORDER BY ... DESC"></textarea>
+                    <div class="editor-footer">
+                        <span class="editor-hint">💡 SUM voor totaal</span>
+                        <div class="editor-buttons">
+                            <button class="btn-clear">Wissen</button>
+                            <button class="btn-execute"><span>▶</span><span>Uitvoeren</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="results-container" id="results-5"></div>
+                
+                <details class="hint-box">
+                    <summary>💡 Hint</summary>
+                    <p>SUM(duur) voor totaal, GROUP BY landherkomst, ORDER BY totale_speeltijd DESC.</p>
+                </details>
+                
+                <details class="solution-box">
+                    <summary>✅ Oplossing</summary>
+                    <pre><code>SELECT landherkomst, SUM(duur) AS totale_speeltijd
+FROM film
+GROUP BY landherkomst
+ORDER BY totale_speeltijd DESC;</code></pre>
+                    <button class="btn-copy">Kopiëren</button>
+                </details>
+            </div>
+        </section>
+
+        <section class="debugging-section">
+            <h2>🐛 Veelgemaakte fouten</h2>
+            
+            <div class="error-example">
+                <h4 style="color: #ff006e;">❌ Kolom niet in GROUP BY</h4>
+                <pre class="error-code">SELECT regisseur, filmnaam, COUNT(*)
+FROM film
+GROUP BY regisseur;  -- filmnaam ontbreekt!</pre>
+                <p class="error-explanation">Als je filmnaam wilt tonen, moet je ook op filmnaam groeperen!</p>
+                <pre class="correct-code">SELECT regisseur, COUNT(*)
+FROM film
+GROUP BY regisseur;</pre>
+            </div>
+
+            <div class="error-example">
+                <h4 style="color: #ff006e;">❌ WHERE na GROUP BY</h4>
+                <pre class="error-code">SELECT genreid, COUNT(*)
+FROM film
+GROUP BY genreid
+WHERE COUNT(*) > 5;  -- FOUT!</pre>
+                <p class="error-explanation">WHERE komt VOOR GROUP BY. Voor filteren op aggregatie gebruik HAVING (Les 5)!</p>
+                <pre class="correct-code">SELECT genreid, COUNT(*)
+FROM film
+WHERE landherkomst = 'USA'  -- WHERE eerst
+GROUP BY genreid;</pre>
+            </div>
+        </section>
+    </div>
+
+    <script src="../js/progress.js"></script>
+    <script src="../js/database.js"></script>
+    <script src="../js/editor.js"></script>
+    <script src="../js/lesson.js"></script>
+    <script src="../js/lesson.js"></script>
+    <script>
+        const lessonConfig = {
+            periode: 2,
+            lesson: 4,
+            database: '3dplus',
+            totalExercises: 5,
+            exercises: {
+                1: { 
+                    checkType: 'custom',
+                    validator: (result, query) => {
+                        const upperQuery = query.toUpperCase();
+                        if (!upperQuery.includes('COUNT')) {
+                            return { correct: false, feedback: '❌ Gebruik COUNT(*) om te tellen.' };
+                        }
+                        if (!result.results || result.results.length === 0) {
+                            return { correct: false, feedback: '❌ Query geeft geen resultaten.' };
+                        }
+                        const columns = result.results[0].columns;
+                        if (!columns.includes('totaal_films')) {
+                            return { correct: false, feedback: '❌ Geef het resultaat de naam "totaal_films" met AS.' };
+                        }
+                        const count = result.results[0].values[0][0];
+                        if (count !== 55) {
+                            return { correct: false, feedback: `❌ Verwacht 55 films, maar kreeg ${count}. Tel alle films uit de film tabel.` };
+                        }
+                        return { correct: true, feedback: '✅ Correct! Er zijn 55 films in de database.' };
+                    }
+                },
+                2: { 
+                    checkType: 'custom',
+                    validator: (result, query) => {
+                        const upperQuery = query.toUpperCase();
+                        if (!upperQuery.includes('GROUP BY')) {
+                            return { correct: false, feedback: '❌ Gebruik GROUP BY om per regisseur te groeperen.' };
+                        }
+                        if (!upperQuery.includes('COUNT')) {
+                            return { correct: false, feedback: '❌ Gebruik COUNT(*) om te tellen.' };
+                        }
+                        if (!result.results || result.results.length === 0) {
+                            return { correct: false, feedback: '❌ Query geeft geen resultaten.' };
+                        }
+                        const columns = result.results[0].columns;
+                        if (!columns.includes('regisseur')) {
+                            return { correct: false, feedback: '❌ Toon de kolom regisseur.' };
+                        }
+                        if (!columns.includes('aantal_films')) {
+                            return { correct: false, feedback: '❌ Noem de telling "aantal_films" met AS.' };
+                        }
+                        if (columns.length !== 2) {
+                            return { correct: false, feedback: '❌ Selecteer alleen regisseur en aantal_films (2 kolommen).' };
+                        }
+                        return { correct: true, feedback: `✅ Correct! ${result.results[0].values.length} regisseurs gegroepeerd!` };
+                    }
+                },
+                3: { 
+                    checkType: 'custom',
+                    validator: (result, query) => {
+                        const upperQuery = query.toUpperCase();
+                        if (!upperQuery.includes('AVG')) {
+                            return { correct: false, feedback: '❌ Gebruik AVG() voor het gemiddelde.' };
+                        }
+                        if (!upperQuery.includes('GROUP BY')) {
+                            return { correct: false, feedback: '❌ Gebruik GROUP BY genreid.' };
+                        }
+                        if (!result.results || result.results.length === 0) {
+                            return { correct: false, feedback: '❌ Query geeft geen resultaten.' };
+                        }
+                        const columns = result.results[0].columns;
+                        if (!columns.includes('genreid')) {
+                            return { correct: false, feedback: '❌ Toon de kolom genreid.' };
+                        }
+                        if (!columns.includes('gemiddelde_duur')) {
+                            return { correct: false, feedback: '❌ Noem het gemiddelde "gemiddelde_duur" met AS.' };
+                        }
+                        if (columns.length !== 2) {
+                            return { correct: false, feedback: '❌ Selecteer alleen genreid en gemiddelde_duur (2 kolommen).' };
+                        }
+                        return { correct: true, feedback: '✅ Correct! Gemiddelde per genre berekend!' };
+                    }
+                },
+                4: { 
+                    checkType: 'custom',
+                    validator: (result, query) => {
+                        const upperQuery = query.toUpperCase();
+                        if (!upperQuery.includes('GROUP BY')) {
+                            return { correct: false, feedback: '❌ Gebruik GROUP BY om per regisseur te groeperen.' };
+                        }
+                        if (!upperQuery.includes('ORDER BY')) {
+                            return { correct: false, feedback: '❌ Gebruik ORDER BY om te sorteren.' };
+                        }
+                        if (!upperQuery.includes('DESC')) {
+                            return { correct: false, feedback: '❌ Sorteer van veel naar weinig met DESC.' };
+                        }
+                        if (!upperQuery.includes('LIMIT')) {
+                            return { correct: false, feedback: '❌ Gebruik LIMIT 3 voor top 3.' };
+                        }
+                        // STRICT: LIMIT must be exactly 3
+                        if (!upperQuery.includes('LIMIT 3') && !upperQuery.includes('LIMIT3')) {
+                            return { correct: false, feedback: '❌ Gebruik exact LIMIT 3 (niet meer, niet minder) voor top 3!' };
+                        }
+                        if (!result.results || result.results.length === 0) {
+                            return { correct: false, feedback: '❌ Query geeft geen resultaten.' };
+                        }
+                        const rows = result.results[0].values;
+                        if (rows.length !== 3) {
+                            return { correct: false, feedback: `❌ Je moet exact 3 resultaten krijgen, niet ${rows.length}.` };
+                        }
+                        const columns = result.results[0].columns;
+                        if (columns.length !== 2) {
+                            return { correct: false, feedback: '❌ Selecteer alleen regisseur en aantal_films (2 kolommen).' };
+                        }
+                        return { correct: true, feedback: '✅ Correct! Top 3 productieve regisseurs met LIMIT 3!' };
+                    }
+                },
+                5: { 
+                    checkType: 'custom',
+                    validator: (result, query) => {
+                        const upperQuery = query.toUpperCase();
+                        if (!upperQuery.includes('SUM')) {
+                            return { correct: false, feedback: '❌ Gebruik SUM() voor de totale speeltijd.' };
+                        }
+                        if (!upperQuery.includes('GROUP BY')) {
+                            return { correct: false, feedback: '❌ Gebruik GROUP BY landherkomst.' };
+                        }
+                        if (!upperQuery.includes('ORDER BY')) {
+                            return { correct: false, feedback: '❌ Gebruik ORDER BY om te sorteren.' };
+                        }
+                        if (!upperQuery.includes('DESC')) {
+                            return { correct: false, feedback: '❌ Sorteer van hoog naar laag met DESC.' };
+                        }
+                        if (!result.results || result.results.length === 0) {
+                            return { correct: false, feedback: '❌ Query geeft geen resultaten.' };
+                        }
+                        const columns = result.results[0].columns;
+                        if (!columns.includes('landherkomst')) {
+                            return { correct: false, feedback: '❌ Toon de kolom landherkomst.' };
+                        }
+                        if (!columns.includes('totale_speeltijd')) {
+                            return { correct: false, feedback: '❌ Noem de som "totale_speeltijd" met AS.' };
+                        }
+                        if (columns.length !== 2) {
+                            return { correct: false, feedback: '❌ Selecteer alleen landherkomst en totale_speeltijd (2 kolommen).' };
+                        }
+                        return { correct: true, feedback: '✅ Correct! Totale speeltijd per land berekend!' };
+                    }
+                }
+            }
+        };
+    </script>
+    <script>
+        // Initialize Database Inspector
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                window.dbInspector = new DatabaseInspector('3dplus');
+            }, 1000);
+        });
+    </script>
+    <script src="../js/db-inspector.js"></script>
+    <script src="../js/home-button.js"></script>
+</body>
+</html>

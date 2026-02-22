@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Les 6: UPDATE & DELETE - SQL Quest</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/editor.css">
+    <link rel="stylesheet" href="../css/lesson.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="stars2"></div>
+    <div class="stars3"></div>
+    
+    <div class="container">
+        <nav class="breadcrumb">
+            <a href="../index.html">Home</a>
+            <span>/</span>
+            <a href="overview.html">Periode 1</a>
+            <span>/</span>
+            <span>Les 6</span>
+        </nav>
+
+        <header class="lesson-header">
+            <div class="lesson-title">
+                <span class="lesson-number-badge">06</span>
+                <div>
+                    <h1>Data Wijzigen en Verwijderen</h1>
+                    <p class="lesson-subtitle">UPDATE en DELETE - ⚠️ PAS OP!</p>
+                </div>
+            </div>
+            
+            <div class="lesson-progress-bar">
+                <div class="progress-info">
+                    <span>Voortgang</span>
+                    <span id="lessonProgress">0/8 oefeningen</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                </div>
+            </div>
+        </header>
+
+        <section class="theory-section">
+            <h2>💡 Wat ga je leren?</h2>
+            <p>Vandaag leer je hoe je bestaande data <strong>wijzigt</strong> (UPDATE) en <strong>verwijdert</strong> (DELETE).</p>
+            
+            <div style="background: rgba(255,0,110,0.1); border: 2px solid #ff006e; padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0;">
+                <h3 style="color: #ff006e; margin-top: 0;">⚠️ GEVAAR! Heel belangrijk!</h3>
+                <p style="margin-bottom: 0.5rem;"><strong>ALTIJD een WHERE gebruiken bij UPDATE en DELETE!</strong></p>
+                <p style="margin: 0; color: var(--text-secondary);">Zonder WHERE verander/verwijder je ALLE rijen in de tabel! 😱</p>
+            </div>
+            
+            <h3>UPDATE - Data wijzigen</h3>
+            <div class="code-example">
+                <div class="code-header">
+                    <span>Basis syntax</span>
+                </div>
+                <pre><code>UPDATE tabel 
+SET kolom1 = 'nieuwe waarde', kolom2 = 'andere waarde'
+WHERE voorwaarde;</code></pre>
+            </div>
+
+            <div class="code-example">
+                <div class="code-header">
+                    <span>Voorbeeld: Telefoonnummer aanpassen</span>
+                </div>
+                <pre><code>UPDATE klant 
+SET telefoon = '0612345678' 
+WHERE idklant = 5;</code></pre>
+            </div>
+
+            <h3>DELETE - Data verwijderen</h3>
+            <div class="code-example">
+                <div class="code-header">
+                    <span>Basis syntax</span>
+                </div>
+                <pre><code>DELETE FROM tabel 
+WHERE voorwaarde;</code></pre>
+            </div>
+
+            <div class="code-example">
+                <div class="code-header">
+                    <span>Voorbeeld: Klant verwijderen</span>
+                </div>
+                <pre><code>DELETE FROM klant 
+WHERE idklant = 5;</code></pre>
+            </div>
+
+            <div class="tip-box">
+                <strong>💡 Veilig werken:</strong>
+                <ul>
+                    <li>Test EERST met SELECT om te zien welke rijen je raakt</li>
+                    <li>Gebruik ALTIJD WHERE met een uniek ID</li>
+                    <li>In productie: maak eerst een backup!</li>
+                    <li>Twijfel je? Vraag eerst om hulp!</li>
+                    <li style="color: #ff9800;"><strong>⚠️ Database reset:</strong> Refresh de pagina om wijzigingen ongedaan te maken!</li>
+                    <li style="color: #2196f3;"><strong>ℹ️ FOREIGN KEY:</strong> Je kan data met relaties niet zomaar verwijderen. Meer hierover in Periode 2!</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="exercises-section">
+            <h2>🎯 Oefeningen</h2>
+
+            <!-- Exercise 1 -->
+            <div class="exercise" id="exercise-1">
+                <div class="exercise-header">
+                    <h3>Oefening 1 - Telefoon nummer wijzigen</h3>
+                    <span class="difficulty easy">Makkelijk</span>
+                </div>
+                <p class="exercise-question">Update het telefoonnummer van klant met ID <code>1</code> naar <code>0698765432</code>.</p>
+                
+                <div class="sql-editor">
+                    <div class="editor-header"><span class="editor-label">SQL Query</span></div>
+                    <textarea id="sql-input-1" placeholder="UPDATE klant SET ... WHERE ..."></textarea>
+                    <div class="editor-footer">
+                        <span class="editor-hint">⚠️ Vergeet WHERE niet!</span>
+                        <div class="editor-buttons">
+                            <button class="btn-clear">Wissen</button>
+                            <button class="btn-execute"><span>▶</span><span>Uitvoeren</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="results-container" id="results-1"></div>
+                
+                <details class="hint-box">
+                    <summary>💡 Hint</summary>
+                    <p>UPDATE klant SET telefoon = '...' WHERE idklant = 1</p>
+                </details>
+                
+                <details class="solution-box">
+                    <summary>✅ Oplossing</summary>
+                    <pre><code>UPDATE klant 
+SET telefoon = '0698765432' 
+WHERE idklant = 1;</code></pre>
+                    <button class="btn-copy">Kopiëren</button>
+                </details>
+            </div>
+
+            <!-- Exercise 2 -->
+            <div class="exercise" id="exercise-2">
+                <div class="exercise-header">
+                    <h3>Oefening 2 - Prijs aanpassen</h3>
+                    <span class="difficulty easy">Makkelijk</span>
+                </div>
+                <p class="exercise-question">Verlaag de prijs van reis <code>1</code> naar <code>799.00</code> euro.</p>
+                
+                <div class="sql-editor">
+                    <div class="editor-header"><span class="editor-label">SQL Query</span></div>
+                    <textarea id="sql-input-2"></textarea>
+                    <div class="editor-footer">
+                        <span class="editor-hint">⚠️ WHERE niet vergeten!</span>
+                        <div class="editor-buttons">
+                            <button class="btn-clear">Wissen</button>
+                            <button class="btn-execute"><span>▶</span><span>Uitvoeren</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="results-container" id="results-2"></div>
+                
+                <details class="solution-box">
+                    <summary>✅ Oplossing</summary>
+                    <pre><code>UPDATE reis 
+SET prijsperpersoon = 799.00 
+WHERE idreis = 1;</code></pre>
+                    <button class="btn-copy">Kopiëren</button>
+                </details>
+            </div>
+
+            <!-- Exercise 3 -->
+            <div class="exercise" id="exercise-3">
+                <div class="exercise-header">
+                    <h3>Oefening 3 - Meerdere kolommen wijzigen</h3>
+                    <span class="difficulty medium">Gemiddeld</span>
+                </div>
+                <p class="exercise-question">Update klant <code>2</code>: naam naar <code>Bakker-Jansen A.</code> en email naar <code>bakker.jansen@email.nl</code>.</p>
+                
+                <div class="sql-editor">
+                    <div class="editor-header"><span class="editor-label">SQL Query</span></div>
+                    <textarea id="sql-input-3"></textarea>
+                    <div class="editor-footer">
+                        <span class="editor-hint">💡 Gebruik komma tussen SET kolommen</span>
+                        <div class="editor-buttons">
+                            <button class="btn-clear">Wissen</button>
+                            <button class="btn-execute"><span>▶</span><span>Uitvoeren</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="results-container" id="results-3"></div>
+                
+                <details class="hint-box">
+                    <summary>💡 Hint</summary>
+                    <p>SET kolom1 = waarde1, kolom2 = waarde2 WHERE ...</p>
+                </details>
+                
+                <details class="solution-box">
+                    <summary>✅ Oplossing</summary>
+                    <pre><code>UPDATE klant 
+SET naam = 'Bakker-Jansen A.', email = 'bakker.jansen@email.nl' 
+WHERE idklant = 2;</code></pre>
+                    <button class="btn-copy">Kopiëren</button>
+                </details>
+            </div>
+
+            <!-- Exercise 4 -->
+            <div class="exercise" id="exercise-4">
+                <div class="exercise-header">
+                    <h3>Oefening 4 - Veiligheidscheck met SELECT</h3>
+                    <span class="difficulty medium">Gemiddeld</span>
+                </div>
+                <p class="exercise-question">Voer EERST een SELECT uit om te zien welke klanten in <code>Amsterdam</code> wonen, voordat je ze zou updaten.</p>
+                
+                <div class="sql-editor">
+                    <div class="editor-header"><span class="editor-label">SQL Query</span></div>
+                    <textarea id="sql-input-4"></textarea>
+                    <div class="editor-footer">
+                        <span class="editor-hint">💡 Dit is een SELECT, geen UPDATE!</span>
+                        <div class="editor-buttons">
+                            <button class="btn-clear">Wissen</button>
+                            <button class="btn-execute"><span>▶</span><span>Uitvoeren</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="results-container" id="results-4"></div>
+                
+                <details class="hint-box">
+                    <summary>💡 Hint</summary>
+                    <p>Dit is gewoon een normale SELECT WHERE query. Zo check je VOOR je UPDATE doet!</p>
+                </details>
+                
+                <details class="solution-box">
+                    <summary>✅ Oplossing</summary>
+                    <pre><code>SELECT * FROM klant 
+WHERE plaats = 'Amsterdam';</code></pre>
+                    <button class="btn-copy">Kopiëren</button>
+                </details>
+            </div>
+
+            <!-- Exercise 5 -->
+            <div class="exercise" id="exercise-5">
+                <div class="exercise-header">
+                    <h3>Oefening 5 - DELETE: Klant verwijderen</h3>
+                    <span class="difficulty medium">Gemiddeld</span>
+                </div>
+                <p class="exercise-question">Verwijder klant met ID <code>3</code>.</p>
+                
+                <div class="sql-editor">
+                    <div class="editor-header"><span class="editor-label">SQL Query</span></div>
+                    <textarea id="sql-input-5"></textarea>
+                    <div class="editor-footer">
+                        <span class="editor-hint">⚠️ GEVAAR: WHERE IS VERPLICHT!</span>
+                        <div class="editor-buttons">
+                            <button class="btn-clear">Wissen</button>
+                            <button class="btn-execute"><span>▶</span><span>Uitvoeren</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="results-container" id="results-5"></div>
+                
+                <details class="solution-box">
+                    <summary>✅ Oplossing</summary>
+                    <pre><code>DELETE FROM klant 
+WHERE idklant = 3;</code></pre>
+                    <button class="btn-copy">Kopiëren</button>
+                </details>
+            </div>
+
+            <!-- Exercise 6 -->
+            <div class="exercise" id="exercise-6">
+                <div class="exercise-header">
+                    <h3>Oefening 6 - DELETE: Reis verwijderen</h3>
+                    <span class="difficulty medium">Gemiddeld</span>
+                </div>
+                <p class="exercise-question">Verwijder reis met ID <code>2</code>.</p>
+                
+                <div class="sql-editor">
+                    <div class="editor-header"><span class="editor-label">SQL Query</span></div>
+                    <textarea id="sql-input-6"></textarea>
+                    <div class="editor-footer">
+                        <span class="editor-hint">⚠️ WHERE IS VERPLICHT!</span>
+                        <div class="editor-buttons">
+                            <button class="btn-clear">Wissen</button>
+                            <button class="btn-execute"><span>▶</span><span>Uitvoeren</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="results-container" id="results-6"></div>
+                
+                <details class="solution-box">
+                    <summary>✅ Oplossing</summary>
+                    <pre><code>DELETE FROM reis 
+WHERE idreis = 2;</code></pre>
+                    <button class="btn-copy">Kopiëren</button>
+                </details>
+            </div>
+
+            <!-- Exercise 7 -->
+            <div class="exercise" id="exercise-7">
+                <div class="exercise-header">
+                    <h3>Oefening 7 - DELETE met voorwaarde</h3>
+                    <span class="difficulty hard">Moeilijk</span>
+                </div>
+                <p class="exercise-question">Verwijder ALLE reizen die meer dan <code>3000 euro</code> kosten.</p>
+                
+                <div class="sql-editor">
+                    <div class="editor-header"><span class="editor-label">SQL Query</span></div>
+                    <textarea id="sql-input-7"></textarea>
+                    <div class="editor-footer">
+                        <span class="editor-hint">💡 Test eerst met SELECT!</span>
+                        <div class="editor-buttons">
+                            <button class="btn-clear">Wissen</button>
+                            <button class="btn-execute"><span>▶</span><span>Uitvoeren</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="results-container" id="results-7"></div>
+                
+                <details class="hint-box">
+                    <summary>💡 Hint</summary>
+                    <p>DELETE FROM reis WHERE prijsperpersoon > 3000</p>
+                </details>
+                
+                <details class="solution-box">
+                    <summary>✅ Oplossing</summary>
+                    <pre><code>DELETE FROM reis 
+WHERE prijsperpersoon > 3000;</code></pre>
+                    <button class="btn-copy">Kopiëren</button>
+                </details>
+            </div>
+
+            <!-- Exercise 8 -->
+            <div class="exercise" id="exercise-8">
+                <div class="exercise-header">
+                    <h3>Oefening 8 - UPDATE met berekening (Bonus)</h3>
+                    <span class="difficulty hard">Bonus</span>
+                </div>
+                <p class="exercise-question">Verhoog de prijs van reis <code>1</code> met <code>10%</code>. Gebruik een berekening!</p>
+                
+                <div class="sql-editor">
+                    <div class="editor-header"><span class="editor-label">SQL Query</span></div>
+                    <textarea id="sql-input-8"></textarea>
+                    <div class="editor-footer">
+                        <span class="editor-hint">💡 Je kunt rekenen: SET prijs = prijs * 1.10</span>
+                        <div class="editor-buttons">
+                            <button class="btn-clear">Wissen</button>
+                            <button class="btn-execute"><span>▶</span><span>Uitvoeren</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="results-container" id="results-8"></div>
+                
+                <details class="hint-box">
+                    <summary>💡 Hint</summary>
+                    <p>SET prijsperpersoon = prijsperpersoon * 1.10 (= +10%)</p>
+                </details>
+                
+                <details class="solution-box">
+                    <summary>✅ Oplossing</summary>
+                    <pre><code>UPDATE reis 
+SET prijsperpersoon = prijsperpersoon * 1.10 
+WHERE idreis = 1;</code></pre>
+                    <button class="btn-copy">Kopiëren</button>
+                </details>
+            </div>
+        </section>
+
+        <section class="debugging-section">
+            <h2>🐛 Veelgemaakte fouten</h2>
+            
+            <div class="error-example" style="border-color: #ff006e; background: rgba(255,0,110,0.1);">
+                <h4 style="color: #ff006e;">❌❌❌ WHERE VERGETEN - GEVAARLIJK!</h4>
+                <pre class="error-code">UPDATE klant SET plaats = 'Amsterdam';</pre>
+                <p class="error-explanation" style="color: #ff006e;"><strong>DIT VERANDERT ALLE KLANTEN!</strong> Altijd WHERE gebruiken!</p>
+                <pre class="correct-code">UPDATE klant SET plaats = 'Amsterdam' WHERE idklant = 5;</pre>
+            </div>
+
+            <div class="error-example">
+                <h4>❌ SET keyword vergeten</h4>
+                <pre class="error-code">UPDATE klant naam = 'Jansen' WHERE id = 1;</pre>
+                <p class="error-explanation">Vergeet SET niet!</p>
+                <pre class="correct-code">UPDATE klant SET naam = 'Jansen' WHERE id = 1;</pre>
+            </div>
+
+            <div class="error-example">
+                <h4>❌ Komma's verkeerd bij meerdere kolommen</h4>
+                <pre class="error-code">UPDATE klant SET naam = 'X' AND plaats = 'Y' WHERE id = 1;</pre>
+                <p class="error-explanation">Gebruik komma, niet AND!</p>
+                <pre class="correct-code">UPDATE klant SET naam = 'X', plaats = 'Y' WHERE id = 1;</pre>
+            </div>
+
+            <div class="error-example">
+                <h4>❌ DELETE zonder WHERE - gekoppelde data</h4>
+                <pre class="error-code">DELETE FROM bestemming WHERE id = 5;</pre>
+                <p class="error-explanation">Als er reizen gekoppeld zijn, krijg je een foreign key error!</p>
+                <pre class="correct-code">-- Eerst reizen verwijderen, dan bestemming
+DELETE FROM reis WHERE idbestemming = 5;
+DELETE FROM bestemming WHERE idbestemming = 5;</pre>
+            </div>
+        </section>
+
+        <div class="lesson-navigation">
+            <a href="les5.html" class="nav-btn nav-back">
+                <span>←</span><span>Les 5</span>
+            </a>
+            <a href="overview.html" class="nav-btn">
+                <span>Overzicht</span>
+            </a>
+            <a href="les7.html" class="nav-btn nav-next">
+                <span>Les 7</span><span>→</span>
+            </a>
+        </div>
+    </div>
+
+    <script src="../js/progress.js"></script>
+    <script src="../js/database.js"></script>
+    <script src="../js/editor.js"></script>
+    <script src="../js/lesson.js"></script>
+    <script>
+        const lessonConfig = {
+            periode: 1,
+            lesson: 6,
+            database: 'reizen',
+            totalExercises: 8,
+            exercises: {
+                1: { 
+                    checkType: 'custom',
+                    validator: (result, query) => {
+                        const upperQuery = query.toUpperCase();
+                        if (!upperQuery.includes('UPDATE')) {
+                            return { correct: false, feedback: '❌ Gebruik UPDATE om data te wijzigen.' };
+                        }
+                        if (!upperQuery.includes('WHERE')) {
+                            return { correct: false, feedback: '⚠️ GEVAARLIJK! Altijd WHERE gebruiken bij UPDATE!' };
+                        }
+                        // Check if update was successful by querying the data
+                        const check = dbManager.executeQuery("SELECT telefoon FROM klant WHERE idklant = 1");
+                        if (check.success && check.results.length > 0 && check.results[0].values.length > 0) {
+                            const telefoon = check.results[0].values[0][0];
+                            if (telefoon === '0698765432') {
+                                return { correct: true, feedback: '✅ Telefoonnummer succesvol gewijzigd!' };
+                            }
+                        }
+                        return { correct: false, feedback: '❌ Telefoonnummer niet correct gewijzigd. Check je UPDATE query.' };
+                    }
+                },
+                2: { 
+                    checkType: 'custom',
+                    validator: (result, query) => {
+                        const upperQuery = query.toUpperCase();
+                        if (!upperQuery.includes('UPDATE')) {
+                            return { correct: false, feedback: '❌ Gebruik UPDATE om data te wijzigen.' };
+                        }
+                        if (!upperQuery.includes('WHERE')) {
+                            return { correct: false, feedback: '⚠️ GEVAARLIJK! Altijd WHERE gebruiken!' };
+                        }
+                        const check = dbManager.executeQuery("SELECT prijsperpersoon FROM reis WHERE idreis = 1");
+                        if (check.success && check.results.length > 0 && check.results[0].values.length > 0) {
+                            const prijs = parseFloat(check.results[0].values[0][0]);
+                            if (prijs === 799.00) {
+                                return { correct: true, feedback: '✅ Prijs succesvol aangepast!' };
+                            }
+                        }
+                        return { correct: false, feedback: '❌ Prijs niet correct. Check je UPDATE query.' };
+                    }
+                },
+                3: { 
+                    checkType: 'custom',
+                    validator: (result, query) => {
+                        const upperQuery = query.toUpperCase();
+                        if (!upperQuery.includes('UPDATE')) {
+                            return { correct: false, feedback: '❌ Gebruik UPDATE om data te wijzigen.' };
+                        }
+                        if (!upperQuery.includes('WHERE')) {
+                            return { correct: false, feedback: '⚠️ GEVAARLIJK! Altijd WHERE gebruiken!' };
+                        }
+                        const check = dbManager.executeQuery("SELECT naam, email FROM klant WHERE idklant = 2");
+                        if (check.success && check.results.length > 0 && check.results[0].values.length > 0) {
+                            const naam = check.results[0].values[0][0];
+                            const email = check.results[0].values[0][1];
+                            if (naam === 'Bakker-Jansen A.' && email === 'bakker.jansen@email.nl') {
+                                return { correct: true, feedback: '✅ Beide kolommen succesvol gewijzigd!' };
+                            }
+                        }
+                        return { correct: false, feedback: '❌ Naam en/of email niet correct gewijzigd.' };
+                    }
+                },
+                4: {
+                    checkType: 'custom',
+                    validator: (result, query) => {
+                        const upperQuery = query.toUpperCase();
+                        if (!upperQuery.includes('SELECT')) {
+                            return { correct: false, feedback: '❌ Dit is een SELECT query, geen UPDATE!' };
+                        }
+                        if (!upperQuery.includes('WHERE')) {
+                            return { correct: false, feedback: '❌ Gebruik WHERE om te filteren op Amsterdam.' };
+                        }
+                        if (!result.results || result.results.length === 0) {
+                            return { correct: false, feedback: '❌ Query geeft geen resultaten.' };
+                        }
+                        return { correct: true, feedback: '✅ Correct! Eerst checken met SELECT is veilig werken!' };
+                    }
+                },
+                5: { 
+                    checkType: 'custom',
+                    validator: (result, query) => {
+                        const upperQuery = query.toUpperCase();
+                        if (!upperQuery.includes('DELETE')) {
+                            return { correct: false, feedback: '❌ Gebruik DELETE om data te verwijderen.' };
+                        }
+                        if (!upperQuery.includes('WHERE')) {
+                            return { correct: false, feedback: '⚠️ GEVAARLIJK! Altijd WHERE gebruiken bij DELETE!' };
+                        }
+                        const check = dbManager.executeQuery("SELECT * FROM klant WHERE idklant = 3");
+                        if (check.success && (!check.results.length || check.results[0].values.length === 0)) {
+                            return { correct: true, feedback: '✅ Klant succesvol verwijderd!' };
+                        }
+                        return { correct: false, feedback: '❌ Klant nog niet verwijderd. Check je DELETE query.' };
+                    }
+                },
+                6: { 
+                    checkType: 'custom',
+                    validator: (result, query) => {
+                        const upperQuery = query.toUpperCase();
+                        if (!upperQuery.includes('DELETE')) {
+                            return { correct: false, feedback: '❌ Gebruik DELETE om data te verwijderen.' };
+                        }
+                        if (!upperQuery.includes('WHERE')) {
+                            return { correct: false, feedback: '⚠️ GEVAARLIJK! Altijd WHERE gebruiken!' };
+                        }
+                        const check = dbManager.executeQuery("SELECT * FROM reis WHERE idreis = 2");
+                        if (check.success && (!check.results.length || check.results[0].values.length === 0)) {
+                            return { correct: true, feedback: '✅ Reis succesvol verwijderd!' };
+                        }
+                        return { correct: false, feedback: '❌ Reis nog niet verwijderd.' };
+                    }
+                },
+                7: { 
+                    checkType: 'custom',
+                    validator: (result, query) => {
+                        const upperQuery = query.toUpperCase();
+                        if (!upperQuery.includes('DELETE')) {
+                            return { correct: false, feedback: '❌ Gebruik DELETE om data te verwijderen.' };
+                        }
+                        if (!upperQuery.includes('WHERE')) {
+                            return { correct: false, feedback: '⚠️ GEVAARLIJK! Altijd WHERE gebruiken!' };
+                        }
+                        
+                        // This exercise will likely trigger FOREIGN KEY constraint
+                        // because expensive trips have bookings
+                        // That's a learning moment!
+                        
+                        // Check if expensive trips are deleted
+                        const check = dbManager.executeQuery("SELECT * FROM reis WHERE prijsperpersoon > 3000");
+                        if (check.success && (!check.results.length || check.results[0].values.length === 0)) {
+                            return { correct: true, feedback: '✅ Dure reizen succesvol verwijderd!' };
+                        }
+                        
+                        // Check if there was a FOREIGN KEY error by trying the delete
+                        // If we get here and trips still exist, might be FK constraint
+                        return { correct: false, feedback: '⚠️ Kon niet verwijderen. Tip: Sommige reizen hebben mogelijk boekingen (FOREIGN KEY relatie). In Periode 2 leer je hoe je dit oplost!' };
+                    }
+                },
+                8: { 
+                    checkType: 'custom',
+                    validator: (result, query) => {
+                        const upperQuery = query.toUpperCase();
+                        if (!upperQuery.includes('UPDATE')) {
+                            return { correct: false, feedback: '❌ Gebruik UPDATE om prijzen te wijzigen.' };
+                        }
+                        if (!upperQuery.includes('WHERE')) {
+                            return { correct: false, feedback: '⚠️ WHERE vergeten!' };
+                        }
+                        // Check if calculation was used
+                        if (!upperQuery.includes('*') && !upperQuery.includes('PRIJS')) {
+                            return { correct: false, feedback: '❌ Gebruik een berekening: prijs * 1.10 voor +10%' };
+                        }
+                        return { correct: true, feedback: '✅ Correct! Prijsverhoging met berekening!' };
+                    }
+                }
+            }
+        };
+    </script>
+    <script>
+        // Initialize Database Inspector
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                window.dbInspector = new DatabaseInspector('reizen');
+            }, 1000);
+        });
+    </script>
+    <script src="../js/db-inspector.js"></script>
+    <script src="../js/home-button.js"></script>
+</body>
+</html>

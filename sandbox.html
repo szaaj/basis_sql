@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL Sandbox - SQL Quest</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/editor.css">
+    <link rel="stylesheet" href="css/lesson.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="stars2"></div>
+    <div class="stars3"></div>
+    
+    <div class="container">
+        <nav class="breadcrumb">
+            <a href="index.html">Home</a>
+            <span>/</span>
+            <span>Sandbox</span>
+        </nav>
+
+        <header class="lesson-header">
+            <div class="lesson-title">
+                <span class="lesson-number-badge" style="background: linear-gradient(135deg, var(--accent-purple), var(--accent-pink));">🧪</span>
+                <div>
+                    <h1>SQL Sandbox</h1>
+                    <p class="lesson-subtitle">Vrij experimenteren met SQL queries</p>
+                </div>
+            </div>
+        </header>
+
+        <section class="theory-section">
+            <h2>🧪 Wat is de Sandbox?</h2>
+            <p>Dit is een vrije omgeving waar je <strong>zonder beperkingen</strong> kunt experimenteren met SQL queries. Er zijn geen oefeningen, geen validatie - gewoon proberen!</p>
+            
+            <div class="info-box">
+                <h3>📚 Beschikbare Databases</h3>
+                <p><strong>Reizen Database</strong> - Voor Periode 1 oefeningen</p>
+                <ul>
+                    <li>klant - Klantgegevens</li>
+                    <li>reis - Reizen</li>
+                    <li>bestemming - Bestemmingen</li>
+                    <li>boeking - Boekingen</li>
+                </ul>
+                
+                <p style="margin-top: 1rem;"><strong>3DPlus Database</strong> - Voor Periode 2 oefeningen</p>
+                <ul>
+                    <li>film - Films en series</li>
+                    <li>persoon - Acteurs en regisseurs</li>
+                    <li>bioscoopzaal - Zalen</li>
+                    <li>vertoning - Vertoningen</li>
+                    <li>...en meer!</li>
+                </ul>
+            </div>
+
+            <div class="tip-box">
+                <strong>💡 Tips:</strong>
+                <ul>
+                    <li>Gebruik de <strong>Database Inspector</strong> om tabellen en kolommen te bekijken</li>
+                    <li>Test complexe queries voordat je ze in een les gebruikt</li>
+                    <li>Probeer verschillende combinaties van WHERE, ORDER BY, etc.</li>
+                    <li>De database wordt bij elke refresh gereset</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Database Selection -->
+        <section style="background: var(--bg-card); border: 2px solid var(--border-color); border-radius: 1.5rem; padding: 2rem; margin-bottom: 2rem;">
+            <h2 style="margin-bottom: 1.5rem;">🗄️ Database Kiezen</h2>
+            
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
+                <button id="btn-reizen" class="database-btn active" onclick="switchDatabase('reizen')">
+                    <span style="font-size: 1.5rem;">✈️</span>
+                    <span>Reizen Database</span>
+                    <span style="font-size: 0.75rem; opacity: 0.7;">Periode 1</span>
+                </button>
+                
+                <button id="btn-3dplus" class="database-btn" onclick="switchDatabase('3dplus')">
+                    <span style="font-size: 1.5rem;">🎬</span>
+                    <span>3DPlus Database</span>
+                    <span style="font-size: 0.75rem; opacity: 0.7;">Periode 2</span>
+                </button>
+            </div>
+            
+            <div id="database-status" style="padding: 1rem; background: rgba(0,255,136,0.1); border: 1px solid var(--accent-green); border-radius: 0.5rem; display: none;">
+                <p style="margin: 0; color: var(--accent-green); font-weight: 600;">✅ <span id="status-text">Database geladen</span></p>
+            </div>
+        </section>
+
+        <!-- Database Inspector -->
+        <section style="background: var(--bg-card); border: 2px solid var(--border-color); border-radius: 1.5rem; padding: 2rem; margin-bottom: 2rem;">
+            <h2 style="margin-bottom: 1.5rem;">🔍 Database Inspector</h2>
+            
+            <div id="tables-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem;">
+                <p style="color: var(--text-secondary);">Database wordt geladen...</p>
+            </div>
+            
+            <div id="table-details" style="margin-top: 2rem; display: none;">
+                <h3 id="table-name" style="margin-bottom: 1rem;"></h3>
+                <div style="overflow-x: auto;">
+                    <table id="table-structure" style="width: 100%; border-collapse: collapse; font-size: 0.875rem;">
+                        <!-- Will be filled by JavaScript -->
+                    </table>
+                </div>
+                <div style="margin-top: 1rem;">
+                    <button class="btn-execute" onclick="showSampleData()" style="padding: 0.5rem 1rem;">
+                        <span>👁️</span>
+                        <span>Bekijk 5 voorbeeldrows</span>
+                    </button>
+                </div>
+                <div id="sample-data" style="margin-top: 1rem;"></div>
+            </div>
+        </section>
+
+        <!-- SQL Editor -->
+        <section style="margin-bottom: 2rem;">
+            <h2 style="margin-bottom: 1.5rem;">✍️ SQL Editor</h2>
+            
+            <div class="sql-editor">
+                <div class="editor-header">
+                    <span class="editor-label">Vrije SQL Query</span>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button onclick="insertExample('SELECT * FROM klant LIMIT 10;')" 
+                                style="padding: 0.25rem 0.75rem; background: rgba(255,255,255,0.1); border: 1px solid var(--border-color); border-radius: 0.25rem; color: var(--text-secondary); font-size: 0.75rem; cursor: pointer;">
+                            Voorbeeld: SELECT
+                        </button>
+                        <button onclick="clearEditor()" 
+                                style="padding: 0.25rem 0.75rem; background: rgba(255,255,255,0.1); border: 1px solid var(--border-color); border-radius: 0.25rem; color: var(--text-secondary); font-size: 0.75rem; cursor: pointer;">
+                            Wissen
+                        </button>
+                    </div>
+                </div>
+                <textarea id="sql-editor" placeholder="-- Typ hier je SQL query...
+-- Voorbeelden:
+SELECT * FROM klant;
+SELECT naam, plaats FROM klant WHERE plaats = 'Amsterdam';
+SELECT * FROM reis ORDER BY prijsperpersoon DESC LIMIT 5;
+
+-- Je kunt meerdere queries tegelijk uitvoeren (gescheiden door ;)
+" style="min-height: 200px;"></textarea>
+                <div class="editor-footer">
+                    <span class="editor-hint">💡 Ctrl+Enter om uit te voeren | Tab voor inspringen</span>
+                    <div class="editor-buttons">
+                        <button class="btn-clear" onclick="clearEditor()">Wissen</button>
+                        <button class="btn-execute" onclick="executeQuery()">
+                            <span>▶</span>
+                            <span>Uitvoeren</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="results-container" id="results"></div>
+        </section>
+
+        <!-- Quick Examples -->
+        <section class="theory-section">
+            <h2>📋 Handige Query Voorbeelden</h2>
+            
+            <div style="display: grid; gap: 1rem;">
+                <div class="code-example" style="cursor: pointer;" onclick="insertExample('SELECT * FROM klant LIMIT 10;')">
+                    <div class="code-header"><span>Eerste 10 klanten</span></div>
+                    <pre><code>SELECT * FROM klant LIMIT 10;</code></pre>
+                </div>
+                
+                <div class="code-example" style="cursor: pointer;" onclick="insertExample('SELECT COUNT(*) as totaal FROM klant;')">
+                    <div class="code-header"><span>Aantal klanten tellen</span></div>
+                    <pre><code>SELECT COUNT(*) as totaal FROM klant;</code></pre>
+                </div>
+                
+                <div class="code-example" style="cursor: pointer;" onclick="insertExample('SELECT plaats, COUNT(*) as aantal\nFROM klant\nGROUP BY plaats\nORDER BY aantal DESC;')">
+                    <div class="code-header"><span>Klanten per stad</span></div>
+                    <pre><code>SELECT plaats, COUNT(*) as aantal
+FROM klant
+GROUP BY plaats
+ORDER BY aantal DESC;</code></pre>
+                </div>
+                
+                <div class="code-example" style="cursor: pointer;" onclick="insertExample('SELECT * FROM reis\nWHERE prijsperpersoon BETWEEN 500 AND 1500\nORDER BY prijsperpersoon ASC;')">
+                    <div class="code-header"><span>Reizen tussen €500-€1500</span></div>
+                    <pre><code>SELECT * FROM reis
+WHERE prijsperpersoon BETWEEN 500 AND 1500
+ORDER BY prijsperpersoon ASC;</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <div class="lesson-navigation">
+            <a href="index.html" class="nav-btn">
+                <span>←</span>
+                <span>Terug naar Home</span>
+            </a>
+        </div>
+    </div>
+
+    <script src="js/progress.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/editor.js"></script>
+    <script>
+        let currentDatabase = 'reizen';
+        let sandboxEditor = null;
+        let currentTable = null;
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Wait for database manager
+            await new Promise(resolve => {
+                if (window.dbManager && window.dbManager.SQL) {
+                    resolve();
+                } else {
+                    document.addEventListener('dbManagerReady', resolve);
+                }
+            });
+            
+            // Load default database
+            await switchDatabase('reizen');
+            
+            // Create editor
+            sandboxEditor = new SQLEditor('sql-editor', 'results', null);
+        });
+        
+        async function switchDatabase(dbName) {
+            currentDatabase = dbName;
+            
+            // Update button states
+            document.querySelectorAll('.database-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`btn-${dbName}`).classList.add('active');
+            
+            // Show loading
+            const status = document.getElementById('database-status');
+            const statusText = document.getElementById('status-text');
+            status.style.display = 'block';
+            status.style.background = 'rgba(0,240,255,0.1)';
+            status.style.borderColor = 'var(--accent-cyan)';
+            statusText.style.color = 'var(--accent-cyan)';
+            statusText.textContent = 'Database laden...';
+            
+            try {
+                // Note: sandbox.html is in root, so use ./data/ not ../data/
+                await dbManager.loadDatabase(dbName);
+                
+                // Show success
+                status.style.background = 'rgba(0,255,136,0.1)';
+                status.style.borderColor = 'var(--accent-green)';
+                statusText.style.color = 'var(--accent-green)';
+                statusText.textContent = `✅ ${dbName} database geladen`;
+                
+                // Update inspector
+                updateInspector();
+                
+                // Hide status after 3 seconds
+                setTimeout(() => {
+                    status.style.display = 'none';
+                }, 3000);
+            } catch (error) {
+                status.style.background = 'rgba(255,0,110,0.1)';
+                status.style.borderColor = 'var(--accent-pink)';
+                statusText.style.color = 'var(--accent-pink)';
+                statusText.textContent = '❌ Fout bij laden: ' + error.message;
+            }
+        }
+        
+        function updateInspector() {
+            const tables = dbManager.getTableNames();
+            const tablesList = document.getElementById('tables-list');
+            
+            tablesList.innerHTML = '';
+            tables.forEach(table => {
+                const btn = document.createElement('button');
+                btn.className = 'database-btn';
+                btn.style.cssText = 'padding: 1rem; flex-direction: column; align-items: flex-start;';
+                btn.innerHTML = `
+                    <span style="font-size: 1.2rem; margin-bottom: 0.25rem;">📊</span>
+                    <span style="font-weight: 600;">${table}</span>
+                `;
+                btn.onclick = () => showTableStructure(table);
+                tablesList.appendChild(btn);
+            });
+        }
+        
+        function showTableStructure(tableName) {
+            currentTable = tableName;
+            const structure = dbManager.getTableStructure(tableName);
+            const details = document.getElementById('table-details');
+            const nameEl = document.getElementById('table-name');
+            const tableEl = document.getElementById('table-structure');
+            
+            nameEl.textContent = `Tabel: ${tableName}`;
+            details.style.display = 'block';
+            
+            let html = `
+                <thead style="background: rgba(0,240,255,0.1);">
+                    <tr>
+                        <th style="padding: 0.75rem; text-align: left; border-bottom: 2px solid var(--accent-cyan);">Kolom</th>
+                        <th style="padding: 0.75rem; text-align: left; border-bottom: 2px solid var(--accent-cyan);">Type</th>
+                        <th style="padding: 0.75rem; text-align: left; border-bottom: 2px solid var(--accent-cyan);">Null?</th>
+                        <th style="padding: 0.75rem; text-align: left; border-bottom: 2px solid var(--accent-cyan);">Primary Key</th>
+                    </tr>
+                </thead>
+                <tbody>
+            `;
+            
+            structure.forEach(col => {
+                html += `
+                    <tr style="border-bottom: 1px solid var(--border-color);">
+                        <td style="padding: 0.75rem; font-weight: 600;">${col.name}</td>
+                        <td style="padding: 0.75rem; font-family: 'Courier New', monospace; color: var(--accent-cyan);">${col.type}</td>
+                        <td style="padding: 0.75rem;">${col.notnull ? 'NOT NULL' : 'null'}</td>
+                        <td style="padding: 0.75rem;">${col.pk ? '🔑 Yes' : ''}</td>
+                    </tr>
+                `;
+            });
+            
+            html += '</tbody>';
+            tableEl.innerHTML = html;
+            
+            // Clear sample data
+            document.getElementById('sample-data').innerHTML = '';
+        }
+        
+        function showSampleData() {
+            if (!currentTable) return;
+            
+            const result = dbManager.getSampleData(currentTable, 5);
+            const container = document.getElementById('sample-data');
+            
+            if (!result || result.length === 0) {
+                container.innerHTML = '<p style="color: var(--text-secondary);">Geen data gevonden</p>';
+                return;
+            }
+            
+            const formatted = dbManager.formatResults(result);
+            
+            let html = '<div style="overflow-x: auto; margin-top: 1rem;"><table class="results-table">';
+            html += '<thead><tr>';
+            formatted.columns.forEach(col => {
+                html += `<th style="padding: 0.75rem; background: rgba(0,240,255,0.1); border-bottom: 2px solid var(--accent-cyan);">${col}</th>`;
+            });
+            html += '</tr></thead><tbody>';
+            
+            formatted.rows.forEach(row => {
+                html += '<tr style="border-bottom: 1px solid var(--border-color);">';
+                row.forEach(cell => {
+                    html += `<td style="padding: 0.75rem;">${cell === null ? '<span style="color: var(--text-secondary); font-style: italic;">NULL</span>' : cell}</td>`;
+                });
+                html += '</tr>';
+            });
+            
+            html += '</tbody></table></div>';
+            container.innerHTML = html;
+        }
+        
+        function insertExample(query) {
+            document.getElementById('sql-editor').value = query;
+            if (sandboxEditor) {
+                sandboxEditor.autoResize();
+            }
+        }
+        
+        function clearEditor() {
+            document.getElementById('sql-editor').value = '';
+            document.getElementById('results').innerHTML = '';
+        }
+        
+        function executeQuery() {
+            if (sandboxEditor) {
+                sandboxEditor.executeQuery();
+            }
+        }
+    </script>
+    
+    <style>
+        .database-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1.5rem;
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 1rem;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .database-btn:hover {
+            border-color: var(--accent-cyan);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,240,255,0.2);
+        }
+        
+        .database-btn.active {
+            border-color: var(--accent-green);
+            background: rgba(0,255,136,0.05);
+        }
+        
+        .code-example:hover {
+            border-color: var(--accent-cyan);
+        }
+    </style>
+    <script src="js/home-button.js"></script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL Debug Quest - SQL Quest</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/lesson.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="stars2"></div>
+    <div class="stars3"></div>
+    
+    <div class="container">
+        <nav class="breadcrumb">
+            <a href="index.html">Home</a>
+            <span>/</span>
+            <span>Debug Quest</span>
+        </nav>
+
+        <header class="lesson-header">
+            <div class="lesson-title">
+                <span class="lesson-number-badge" style="background: linear-gradient(135deg, var(--accent-pink), var(--accent-purple));">🐛</span>
+                <div>
+                    <h1>SQL Debug Quest</h1>
+                    <p class="lesson-subtitle">Vind en fix de fouten in SQL queries!</p>
+                </div>
+            </div>
+            
+            <div class="lesson-progress-bar">
+                <div class="progress-info">
+                    <span>Score</span>
+                    <span id="debugScore">0/25 correct</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="debugProgressFill" style="width: 0%; background: linear-gradient(90deg, var(--accent-pink), var(--accent-purple));"></div>
+                </div>
+            </div>
+        </header>
+
+        <section style="background: var(--bg-card); border: 2px solid var(--border-color); border-radius: 1.5rem; padding: 2rem; margin-bottom: 2rem;">
+            <h2 style="margin-bottom: 1.5rem;">🎯 Filters</h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+                <div>
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.875rem;">Les Filter</label>
+                    <select id="lesFilter" onchange="applyFilters()" style="width: 100%; padding: 0.75rem; background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); border-radius: 0.5rem; color: var(--text-primary);">
+                        <option value="all">Alle Lessen</option>
+                        <option value="1-2">Les 1-2 (Basis)</option>
+                        <option value="3-4">Les 3-4 (Filters)</option>
+                        <option value="5-6">Les 5-6 (Data Wijzigen)</option>
+                        <option value="7">Les 7 (Mixed)</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.875rem;">Type Fout</label>
+                    <select id="typeFilter" onchange="applyFilters()" style="width: 100%; padding: 0.75rem; background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); border-radius: 0.5rem; color: var(--text-primary);">
+                        <option value="all">Alle Types</option>
+                        <option value="syntax">Syntax Fouten</option>
+                        <option value="logic">Logica Fouten</option>
+                        <option value="danger">Gevaarlijke Queries</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div style="display: flex; gap: 1rem;">
+                <button onclick="shuffleQuestions()" style="padding: 0.75rem 1.5rem; background: var(--bg-card); border: 2px solid var(--accent-cyan); border-radius: 0.5rem; color: var(--accent-cyan); font-weight: 600; cursor: pointer;">
+                    🔀 Shuffle
+                </button>
+                <button onclick="resetProgress()" style="padding: 0.75rem 1.5rem; background: var(--bg-card); border: 2px solid var(--accent-pink); border-radius: 0.5rem; color: var(--accent-pink); font-weight: 600; cursor: pointer;">
+                    🔄 Reset Score
+                </button>
+            </div>
+        </section>
+
+        <section id="debugChallenges"></section>
+
+        <div class="lesson-navigation">
+            <a href="index.html" class="nav-btn">
+                <span>←</span>
+                <span>Terug naar Home</span>
+            </a>
+        </div>
+    </div>
+
+    <script src="js/progress.js"></script>
+    <script src="debug-questions.js"></script>
+    <script src="debug-quest.js"></script>
+    <script src="js/home-button.js"></script>
+</body>
+</html>

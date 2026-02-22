@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Les 5: JOINs - SQL Quest</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/editor.css">
+    <link rel="stylesheet" href="../css/lesson.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="stars2"></div>
+    <div class="stars3"></div>
+    
+    <div class="container">
+        <nav class="breadcrumb">
+            <a href="../index.html">Home</a>
+            <span>/</span>
+            <a href="overview.html">Periode 2</a>
+            <span>/</span>
+            <span>Les 5</span>
+        </nav>
+
+        <header class="lesson-header">
+            <div class="lesson-title">
+                <span class="lesson-number-badge">05</span>
+                <div>
+                    <h1>JOINs - Tabellen Combineren</h1>
+                    <p class="lesson-subtitle">Gebruik INNER, LEFT en RIGHT JOIN</p>
+                </div>
+            </div>
+            
+            <div class="lesson-progress-bar">
+                <div class="progress-info">
+                    <span>Voortgang</span>
+                    <span id="lessonProgress">0/5 oefeningen</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                </div>
+            </div>
+        </header>
+
+        <section class="theory-section">
+            <h2>💡 Wat ga je leren?</h2>
+            <p>Tot nu toe heb je met één tabel gewerkt. Maar wat als je data uit <strong>meerdere tabellen</strong> wilt combineren? Daarvoor gebruik je <strong>JOINs</strong>!</p>
+            
+            <h3>Database Structuur</h3>
+            <p>Onze bioscoop database heeft 4 tabellen:</p>
+            <ul>
+                <li><strong>film</strong> - films met filmid, filmnaam, genreid, regisseur, duur</li>
+                <li><strong>genre</strong> - genres met genreid, genrenaam</li>
+                <li><strong>klant</strong> - klanten met klantid, voornaam, achternaam</li>
+                <li><strong>reservering</strong> - reserveringen met reserveringid, klantid, filmid, datum</li>
+            </ul>
+
+            <h3>INNER JOIN - Alleen Matches</h3>
+            <p>INNER JOIN toont alleen rijen waar een match is in BEIDE tabellen:</p>
+            
+            <div style="text-align: center; margin: 1.5rem 0;">
+                <svg width="300" height="180" viewBox="0 0 300 180" style="max-width: 100%;">
+                    <defs>
+                        <style>
+                            .venn-left { fill: rgba(102, 126, 234, 0.3); stroke: #667eea; stroke-width: 3; }
+                            .venn-right { fill: rgba(78, 204, 163, 0.3); stroke: #4ecca3; stroke-width: 3; }
+                            .venn-overlap { fill: rgba(118, 75, 162, 0.6); }
+                            .venn-text { fill: white; font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600; }
+                            .venn-label { fill: rgba(255,255,255,0.9); font-family: 'Inter', sans-serif; font-size: 12px; }
+                        </style>
+                    </defs>
+                    <!-- Left circle -->
+                    <circle cx="110" cy="90" r="60" class="venn-left"/>
+                    <!-- Right circle -->
+                    <circle cx="190" cy="90" r="60" class="venn-right"/>
+                    <!-- Overlap highlight -->
+                    <path d="M 150 45 A 60 60 0 0 1 150 135 A 60 60 0 0 1 150 45" class="venn-overlap"/>
+                    <!-- Labels -->
+                    <text x="80" y="95" class="venn-text">Tabel A</text>
+                    <text x="200" y="95" class="venn-text">Tabel B</text>
+                    <text x="150" y="95" text-anchor="middle" class="venn-text" style="font-size: 16px;">✓</text>
+                    <text x="150" y="25" text-anchor="middle" class="venn-label" style="font-size: 16px; fill: #4ecca3;">INNER JOIN</text>
+                    <text x="150" y="165" text-anchor="middle" class="venn-label">Alleen matches</text>
+                </svg>
+            </div>
+            
+            <div class="code-example">
+                <div class="code-header">
+                    <span>Films met genre naam</span>
+                </div>
+                <pre><code>SELECT film.filmnaam, genre.genrenaam
+FROM film
+INNER JOIN genre ON film.genreid = genre.genreid;</code></pre>
+            </div>
+
+            <h3>LEFT JOIN - Alles van Links</h3>
+            <p>LEFT JOIN toont ALLE rijen van de linker tabel, ook zonder match:</p>
+            
+            <div style="text-align: center; margin: 1.5rem 0;">
+                <svg width="300" height="180" viewBox="0 0 300 180" style="max-width: 100%;">
+                    <defs>
+                        <style>
+                            .venn-left-full { fill: rgba(102, 126, 234, 0.6); stroke: #667eea; stroke-width: 3; }
+                            .venn-right-dim { fill: rgba(78, 204, 163, 0.1); stroke: #4ecca3; stroke-width: 2; stroke-dasharray: 5,5; }
+                        </style>
+                    </defs>
+                    <!-- Left circle (highlighted) -->
+                    <circle cx="110" cy="90" r="60" class="venn-left-full"/>
+                    <!-- Right circle (dimmed) -->
+                    <circle cx="190" cy="90" r="60" class="venn-right-dim"/>
+                    <!-- Labels -->
+                    <text x="80" y="95" class="venn-text">Tabel A</text>
+                    <text x="200" y="95" class="venn-text" style="fill: rgba(255,255,255,0.5);">Tabel B</text>
+                    <text x="150" y="95" text-anchor="middle" class="venn-text" style="font-size: 16px;">✓</text>
+                    <text x="150" y="25" text-anchor="middle" class="venn-label" style="font-size: 16px; fill: #667eea;">LEFT JOIN</text>
+                    <text x="150" y="165" text-anchor="middle" class="venn-label">Alles van links + matches</text>
+                </svg>
+            </div>
+            
+            <div class="code-example">
+                <div class="code-header">
+                    <span>Alle klanten + hun reserveringen (ook klanten zonder)</span>
+                </div>
+                <pre><code>SELECT klant.voornaam, COUNT(reservering.reserveringid) AS aantal
+FROM klant
+LEFT JOIN reservering ON klant.klantid = reservering.klantid
+GROUP BY klant.klantid, klant.voornaam;</code></pre>
+            </div>
+
+            <h3>RIGHT JOIN - Alles van Rechts</h3>
+            <p>RIGHT JOIN toont ALLE rijen van de rechter tabel:</p>
+            
+            <div style="text-align: center; margin: 1.5rem 0;">
+                <svg width="300" height="180" viewBox="0 0 300 180" style="max-width: 100%;">
+                    <defs>
+                        <style>
+                            .venn-right-full { fill: rgba(78, 204, 163, 0.6); stroke: #4ecca3; stroke-width: 3; }
+                            .venn-left-dim { fill: rgba(102, 126, 234, 0.1); stroke: #667eea; stroke-width: 2; stroke-dasharray: 5,5; }
+                        </style>
+                    </defs>
+                    <!-- Left circle (dimmed) -->
+                    <circle cx="110" cy="90" r="60" class="venn-left-dim"/>
+                    <!-- Right circle (highlighted) -->
+                    <circle cx="190" cy="90" r="60" class="venn-right-full"/>
+                    <!-- Labels -->
+                    <text x="80" y="95" class="venn-text" style="fill: rgba(255,255,255,0.5);">Tabel A</text>
+                    <text x="200" y="95" class="venn-text">Tabel B</text>
+                    <text x="150" y="95" text-anchor="middle" class="venn-text" style="font-size: 16px;">✓</text>
+                    <text x="150" y="25" text-anchor="middle" class="venn-label" style="font-size: 16px; fill: #4ecca3;">RIGHT JOIN</text>
+                    <text x="150" y="165" text-anchor="middle" class="venn-label">Alles van rechts + matches</text>
+                </svg>
+            </div>
+            
+            <div class="code-example">
+                <div class="code-header">
+                    <span>Werkt hetzelfde maar gespiegeld</span>
+                </div>
+                <pre><code>SELECT ...
+FROM tabel1
+RIGHT JOIN tabel2 ON ...</code></pre>
+            </div>
+
+            <div class="tip-box">
+                <strong>💡 JOIN Syntax:</strong>
+                <pre><code>SELECT kolommen
+FROM linker_tabel
+[INNER/LEFT/RIGHT] JOIN rechter_tabel 
+    ON linker.key = rechter.key;</code></pre>
+            </div>
+        </section>
+
+        <section class="exercises-section">
+            <h2>🎯 Oefeningen</h2>
+
+            <!-- Exercise 1 -->
+            <div class="exercise" id="exercise-1">
+                <div class="exercise-header">
+                    <h3>Oefening 1 - Films met genre naam</h3>
+                    <span class="difficulty medium">Gemiddeld</span>
+                </div>
+                <p class="exercise-question">Combineer de <code>film</code> en <code>genre</code> tabel. Toon <code>filmnaam</code> en <code>genrenaam</code>. Gebruik INNER JOIN.</p>
+                
+                <div class="sql-editor">
+                    <div class="editor-header"><span class="editor-label">SQL Query</span></div>
+                    <textarea id="sql-input-1" placeholder="SELECT film.filmnaam, genre.genrenaam FROM film INNER JOIN genre ON ..."></textarea>
+                    <div class="editor-footer">
+                        <span class="editor-hint">💡 JOIN ON film.genreid = genre.genreid</span>
+                        <div class="editor-buttons">
+                            <button class="btn-clear">Wissen</button>
+                            <button class="btn-execute"><span>▶</span><span>Uitvoeren</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="results-container" id="results-1"></div>
+                
+                <details class="hint-box">
+                    <summary>💡 Hint</summary>
+                    <p>INNER JOIN genre ON film.genreid = genre.genreid</p>
+                </details>
+                
+                <details class="solution-box">
+                    <summary>✅ Oplossing</summary>
+                    <pre><code>SELECT film.filmnaam, genre.genrenaam
+FROM film
+INNER JOIN genre ON film.genreid = genre.genreid;</code></pre>
+                    <button class="btn-copy">Kopiëren</button>
+                </details>
+            </div>
+
+            <!-- Exercise 2 -->
+            <div class="exercise" id="exercise-2">
+                <div class="exercise-header">
+                    <h3>Oefening 2 - Klanten met hun reserveringen</h3>
+                    <span class="difficulty medium">Gemiddeld</span>
+                </div>
+                <p class="exercise-question">Combineer <code>klant</code> en <code>reservering</code>. Toon <code>voornaam</code>, <code>achternaam</code> en <code>datum</code>. Gebruik INNER JOIN (alleen klanten MET reservering).</p>
+                
+                <div class="sql-editor">
+                    <div class="editor-header"><span class="editor-label">SQL Query</span></div>
+                    <textarea id="sql-input-2" placeholder="SELECT klant.voornaam, klant.achternaam, reservering.datum FROM ..."></textarea>
+                    <div class="editor-footer">
+                        <span class="editor-hint">💡 JOIN ON klantid</span>
+                        <div class="editor-buttons">
+                            <button class="btn-clear">Wissen</button>
+                            <button class="btn-execute"><span>▶</span><span>Uitvoeren</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="results-container" id="results-2"></div>
+                
+                <details class="hint-box">
+                    <summary>💡 Hint</summary>
+                    <p>INNER JOIN reservering ON klant.klantid = reservering.klantid</p>
+                </details>
+                
+                <details class="solution-box">
+                    <summary>✅ Oplossing</summary>
+                    <pre><code>SELECT klant.voornaam, klant.achternaam, reservering.datum
+FROM klant
+INNER JOIN reservering ON klant.klantid = reservering.klantid;</code></pre>
+                    <button class="btn-copy">Kopiëren</button>
+                </details>
+            </div>
+
+            <!-- Exercise 3 -->
+            <div class="exercise" id="exercise-3">
+                <div class="exercise-header">
+                    <h3>Oefening 3 - Aantal reserveringen per klant</h3>
+                    <span class="difficulty hard">Moeilijk</span>
+                </div>
+                <p class="exercise-question">Tel hoeveel reserveringen elke klant heeft. Gebruik LEFT JOIN (ook klanten zonder reservering). Toon <code>voornaam</code>, <code>achternaam</code> en <code>aantal_reserveringen</code>.</p>
+                
+                <div class="sql-editor">
+                    <div class="editor-header"><span class="editor-label">SQL Query</span></div>
+                    <textarea id="sql-input-3" placeholder="SELECT klant.voornaam, klant.achternaam, COUNT(...) FROM klant LEFT JOIN ..."></textarea>
+                    <div class="editor-footer">
+                        <span class="editor-hint">💡 LEFT JOIN + GROUP BY + COUNT</span>
+                        <div class="editor-buttons">
+                            <button class="btn-clear">Wissen</button>
+                            <button class="btn-execute"><span>▶</span><span>Uitvoeren</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="results-container" id="results-3"></div>
+                
+                <details class="hint-box">
+                    <summary>💡 Hint</summary>
+                    <p>LEFT JOIN, dan GROUP BY klant.klantid, klant.voornaam, klant.achternaam. COUNT(reservering.reserveringid) voor NULL-safe count.</p>
+                </details>
+                
+                <details class="solution-box">
+                    <summary>✅ Oplossing</summary>
+                    <pre><code>SELECT klant.voornaam, klant.achternaam, 
+       COUNT(reservering.reserveringid) AS aantal_reserveringen
+FROM klant
+LEFT JOIN reservering ON klant.klantid = reservering.klantid
+GROUP BY klant.klantid, klant.voornaam, klant.achternaam;</code></pre>
+                    <button class="btn-copy">Kopiëren</button>
+                </details>
+            </div>
+
+            <!-- Exercise 4 -->
+            <div class="exercise" id="exercise-4">
+                <div class="exercise-header">
+                    <h3>Oefening 4 - Top 5 populairste films</h3>
+                    <span class="difficulty hard">Moeilijk</span>
+                </div>
+                <p class="exercise-question">Vind de <strong>top 5</strong> films met de meeste reserveringen. JOIN film + reservering, groepeer, tel, sorteer. Toon <code>filmnaam</code> en <code>aantal_reserveringen</code>.</p>
+                
+                <div class="sql-editor">
+                    <div class="editor-header"><span class="editor-label">SQL Query</span></div>
+                    <textarea id="sql-input-4" placeholder="SELECT film.filmnaam, COUNT(*) ... FROM film INNER JOIN reservering ... GROUP BY ... ORDER BY ... LIMIT 5"></textarea>
+                    <div class="editor-footer">
+                        <span class="editor-hint">💡 JOIN + GROUP BY + ORDER BY + LIMIT</span>
+                        <div class="editor-buttons">
+                            <button class="btn-clear">Wissen</button>
+                            <button class="btn-execute"><span>▶</span><span>Uitvoeren</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="results-container" id="results-4"></div>
+                
+                <details class="hint-box">
+                    <summary>💡 Hint</summary>
+                    <p>INNER JOIN ON filmid, GROUP BY film.filmid, film.filmnaam, ORDER BY aantal DESC, LIMIT 5</p>
+                </details>
+                
+                <details class="solution-box">
+                    <summary>✅ Oplossing</summary>
+                    <pre><code>SELECT film.filmnaam, COUNT(*) AS aantal_reserveringen
+FROM film
+INNER JOIN reservering ON film.filmid = reservering.filmid
+GROUP BY film.filmid, film.filmnaam
+ORDER BY aantal_reserveringen DESC
+LIMIT 5;</code></pre>
+                    <button class="btn-copy">Kopiëren</button>
+                </details>
+            </div>
+
+            <!-- Exercise 5 -->
+            <div class="exercise" id="exercise-5">
+                <div class="exercise-header">
+                    <h3>Oefening 5 - Actieve klanten met minimaal 3 reserveringen</h3>
+                    <span class="difficulty expert">Expert</span>
+                </div>
+                <p class="exercise-question">Vind klanten met <strong>minimaal 3</strong> reserveringen. Gebruik INNER JOIN + HAVING. Toon <code>voornaam</code>, <code>achternaam</code> en <code>aantal_reserveringen</code>.</p>
+                
+                <div class="sql-editor">
+                    <div class="editor-header"><span class="editor-label">SQL Query</span></div>
+                    <textarea id="sql-input-5" placeholder="SELECT klant.voornaam, klant.achternaam, COUNT(*) ... FROM klant INNER JOIN reservering ... GROUP BY ... HAVING ..."></textarea>
+                    <div class="editor-footer">
+                        <span class="editor-hint">💡 JOIN + GROUP BY + HAVING >= 3</span>
+                        <div class="editor-buttons">
+                            <button class="btn-clear">Wissen</button>
+                            <button class="btn-execute"><span>▶</span><span>Uitvoeren</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="results-container" id="results-5"></div>
+                
+                <details class="hint-box">
+                    <summary>💡 Hint</summary>
+                    <p>INNER JOIN, GROUP BY klant.klantid + names, HAVING COUNT(*) >= 3. "Minimaal 3" = >= 3.</p>
+                </details>
+                
+                <details class="solution-box">
+                    <summary>✅ Oplossing</summary>
+                    <pre><code>SELECT klant.voornaam, klant.achternaam, 
+       COUNT(*) AS aantal_reserveringen
+FROM klant
+INNER JOIN reservering ON klant.klantid = reservering.klantid
+GROUP BY klant.klantid, klant.voornaam, klant.achternaam
+HAVING COUNT(*) >= 3;</code></pre>
+                    <button class="btn-copy">Kopiëren</button>
+                </details>
+            </div>
+        </section>
+
+        <section class="debugging-section">
+            <h2>🐛 Veelgemaakte fouten</h2>
+            
+            <div class="error-example">
+                <h4 style="color: #ff006e;">❌ Ambiguous column name</h4>
+                <pre class="error-code">SELECT filmid, filmnaam
+FROM film
+INNER JOIN reservering ON filmid = filmid  -- Welke filmid?</pre>
+                <p class="error-explanation">Gebruik tabel.kolom voor duidelijkheid!</p>
+                <pre class="correct-code">SELECT film.filmid, film.filmnaam
+FROM film
+INNER JOIN reservering ON film.filmid = reservering.filmid</pre>
+            </div>
+
+            <div class="error-example">
+                <h4 style="color: #ff006e;">❌ Verkeerde JOIN type</h4>
+                <pre class="error-code">-- INNER JOIN: alleen matches (mist klanten zonder reservering)
+SELECT COUNT(*)
+FROM klant
+INNER JOIN reservering ON klant.klantid = reservering.klantid</pre>
+                <p class="error-explanation">Gebruik LEFT JOIN voor "alle klanten, ook zonder reservering"!</p>
+                <pre class="correct-code">SELECT COUNT(DISTINCT klant.klantid)
+FROM klant
+LEFT JOIN reservering ON klant.klantid = reservering.klantid</pre>
+            </div>
+        </section>
+    </div>
+
+    <script src="../js/progress.js"></script>
+    <script src="../js/database.js"></script>
+    <script src="../js/editor.js"></script>
+    <script src="../js/lesson.js"></script>
+    <script>
+        const lessonConfig = {
+            periode: 2,
+            lesson: 5,
+            database: '3dplus',
+            totalExercises: 5,
+            exercises: {
+                1: { 
+                    checkType: 'custom',
+                    validator: (result, query) => {
+                        const upperQuery = query.toUpperCase();
+                        if (!upperQuery.includes('JOIN')) {
+                            return { correct: false, feedback: '❌ Gebruik een JOIN om tabellen te combineren.' };
+                        }
+                        if (!upperQuery.includes('INNER JOIN') && !upperQuery.includes('JOIN GENRE')) {
+                            return { correct: false, feedback: '❌ Gebruik INNER JOIN (of gewoon JOIN) met genre.' };
+                        }
+                        if (!result.results || result.results.length === 0) {
+                            return { correct: false, feedback: '❌ Query geeft geen resultaten.' };
+                        }
+                        const columns = result.results[0].columns;
+                        if (!columns.includes('filmnaam')) {
+                            return { correct: false, feedback: '❌ Toon de kolom filmnaam.' };
+                        }
+                        if (!columns.includes('genrenaam')) {
+                            return { correct: false, feedback: '❌ Toon de kolom genrenaam.' };
+                        }
+                        if (columns.length !== 2) {
+                            return { correct: false, feedback: '❌ Selecteer alleen filmnaam en genrenaam (2 kolommen).' };
+                        }
+                        return { correct: true, feedback: `✅ Perfect! ${result.results[0].values.length} films met genre!` };
+                    }
+                },
+                2: { 
+                    checkType: 'custom',
+                    validator: (result, query) => {
+                        const upperQuery = query.toUpperCase();
+                        if (!upperQuery.includes('JOIN')) {
+                            return { correct: false, feedback: '❌ Gebruik een JOIN om tabellen te combineren.' };
+                        }
+                        if (!upperQuery.includes('RESERVERING')) {
+                            return { correct: false, feedback: '❌ JOIN met de reservering tabel.' };
+                        }
+                        if (!result.results || result.results.length === 0) {
+                            return { correct: false, feedback: '❌ Query geeft geen resultaten.' };
+                        }
+                        const columns = result.results[0].columns;
+                        if (!columns.includes('voornaam')) {
+                            return { correct: false, feedback: '❌ Toon de kolom voornaam.' };
+                        }
+                        if (!columns.includes('achternaam')) {
+                            return { correct: false, feedback: '❌ Toon de kolom achternaam.' };
+                        }
+                        if (!columns.includes('datum')) {
+                            return { correct: false, feedback: '❌ Toon de kolom datum.' };
+                        }
+                        if (columns.length !== 3) {
+                            return { correct: false, feedback: '❌ Selecteer alleen voornaam, achternaam en datum (3 kolommen).' };
+                        }
+                        return { correct: true, feedback: `✅ Geweldig! ${result.results[0].values.length} reserveringen!` };
+                    }
+                },
+                3: { 
+                    checkType: 'custom',
+                    validator: (result, query) => {
+                        const upperQuery = query.toUpperCase();
+                        if (!upperQuery.includes('LEFT JOIN')) {
+                            return { correct: false, feedback: '❌ Gebruik LEFT JOIN om alle klanten te tonen (ook zonder reservering).' };
+                        }
+                        if (!upperQuery.includes('GROUP BY')) {
+                            return { correct: false, feedback: '❌ Gebruik GROUP BY om per klant te groeperen.' };
+                        }
+                        // STRICT: Reject COUNT() without *
+                        if (upperQuery.includes('COUNT()') || upperQuery.includes('COUNT ()')) {
+                            return { correct: false, feedback: '❌ Gebruik COUNT(reservering.reserveringid) of COUNT(*) niet COUNT()!' };
+                        }
+                        if (!upperQuery.includes('COUNT')) {
+                            return { correct: false, feedback: '❌ Gebruik COUNT om reserveringen te tellen.' };
+                        }
+                        if (!result.results || result.results.length === 0) {
+                            return { correct: false, feedback: '❌ Query geeft geen resultaten.' };
+                        }
+                        const columns = result.results[0].columns;
+                        if (!columns.includes('voornaam') || !columns.includes('achternaam')) {
+                            return { correct: false, feedback: '❌ Toon voornaam en achternaam.' };
+                        }
+                        if (!columns.includes('aantal_reserveringen')) {
+                            return { correct: false, feedback: '❌ Noem de telling "aantal_reserveringen" met AS.' };
+                        }
+                        if (columns.length !== 3) {
+                            return { correct: false, feedback: '❌ Selecteer alleen voornaam, achternaam en aantal_reserveringen (3 kolommen).' };
+                        }
+                        return { correct: true, feedback: '✅ Perfect! LEFT JOIN toont alle klanten!' };
+                    }
+                },
+                4: { 
+                    checkType: 'custom',
+                    validator: (result, query) => {
+                        const upperQuery = query.toUpperCase();
+                        if (!upperQuery.includes('JOIN')) {
+                            return { correct: false, feedback: '❌ Gebruik een JOIN om film en reservering te combineren.' };
+                        }
+                        if (!upperQuery.includes('GROUP BY')) {
+                            return { correct: false, feedback: '❌ Gebruik GROUP BY om per film te groeperen.' };
+                        }
+                        // STRICT: Reject COUNT() without *
+                        if (upperQuery.includes('COUNT()') || upperQuery.includes('COUNT ()')) {
+                            return { correct: false, feedback: '❌ Gebruik COUNT(*) niet COUNT()!' };
+                        }
+                        if (!upperQuery.includes('COUNT(*)') && !upperQuery.includes('COUNT (*)')) {
+                            return { correct: false, feedback: '❌ Gebruik COUNT(*) om te tellen.' };
+                        }
+                        if (!upperQuery.includes('ORDER BY')) {
+                            return { correct: false, feedback: '❌ Gebruik ORDER BY om te sorteren.' };
+                        }
+                        if (!upperQuery.includes('DESC')) {
+                            return { correct: false, feedback: '❌ Sorteer van veel naar weinig met DESC.' };
+                        }
+                        if (!upperQuery.includes('LIMIT')) {
+                            return { correct: false, feedback: '❌ Gebruik LIMIT 5 voor top 5.' };
+                        }
+                        // STRICT: LIMIT must be exactly 5
+                        if (!upperQuery.includes('LIMIT 5') && !upperQuery.includes('LIMIT5')) {
+                            return { correct: false, feedback: '❌ Gebruik exact LIMIT 5 voor "top 5"!' };
+                        }
+                        if (!result.results || result.results.length === 0) {
+                            return { correct: false, feedback: '❌ Query geeft geen resultaten.' };
+                        }
+                        const rows = result.results[0].values;
+                        if (rows.length !== 5) {
+                            return { correct: false, feedback: `❌ Je moet exact 5 resultaten krijgen, niet ${rows.length}.` };
+                        }
+                        const columns = result.results[0].columns;
+                        if (!columns.includes('filmnaam') || !columns.includes('aantal_reserveringen')) {
+                            return { correct: false, feedback: '❌ Toon filmnaam en aantal_reserveringen.' };
+                        }
+                        if (columns.length !== 2) {
+                            return { correct: false, feedback: '❌ Selecteer alleen filmnaam en aantal_reserveringen (2 kolommen).' };
+                        }
+                        return { correct: true, feedback: '✅ Excellent! Top 5 populairste films (LIMIT 5)!' };
+                    }
+                },
+                5: { 
+                    checkType: 'custom',
+                    validator: (result, query) => {
+                        const upperQuery = query.toUpperCase();
+                        if (!upperQuery.includes('JOIN')) {
+                            return { correct: false, feedback: '❌ Gebruik een JOIN om klant en reservering te combineren.' };
+                        }
+                        if (!upperQuery.includes('GROUP BY')) {
+                            return { correct: false, feedback: '❌ Gebruik GROUP BY om per klant te groeperen.' };
+                        }
+                        if (!upperQuery.includes('HAVING')) {
+                            return { correct: false, feedback: '❌ Gebruik HAVING om te filteren op COUNT(*) >= 3.' };
+                        }
+                        // STRICT: Reject COUNT() without *
+                        if (upperQuery.includes('COUNT()') || upperQuery.includes('COUNT ()')) {
+                            return { correct: false, feedback: '❌ Gebruik COUNT(*) niet COUNT()!' };
+                        }
+                        if (!upperQuery.includes('COUNT(*)') && !upperQuery.includes('COUNT (*)')) {
+                            return { correct: false, feedback: '❌ Gebruik COUNT(*) om te tellen.' };
+                        }
+                        // STRICT: "minimaal 3" = >= 3
+                        if (upperQuery.includes('> 3') && !upperQuery.includes('>= 3') && !upperQuery.includes('>=3')) {
+                            return { correct: false, feedback: '❌ "Minimaal 3" betekent >= 3 (niet > 3)!' };
+                        }
+                        if (upperQuery.includes('= 3') && !upperQuery.includes('>= 3') && !upperQuery.includes('>=3')) {
+                            return { correct: false, feedback: '❌ "Minimaal 3" betekent >= 3 (niet = 3)!' };
+                        }
+                        if (!result.results || result.results.length === 0) {
+                            return { correct: false, feedback: '❌ Query geeft geen resultaten of geen klant heeft >= 3 reserveringen.' };
+                        }
+                        const columns = result.results[0].columns;
+                        if (!columns.includes('voornaam') || !columns.includes('achternaam') || !columns.includes('aantal_reserveringen')) {
+                            return { correct: false, feedback: '❌ Toon voornaam, achternaam en aantal_reserveringen.' };
+                        }
+                        if (columns.length !== 3) {
+                            return { correct: false, feedback: '❌ Selecteer alleen voornaam, achternaam en aantal_reserveringen (3 kolommen).' };
+                        }
+                        return { correct: true, feedback: '✅ Fantastisch! JOIN + HAVING, "minimaal 3" (>= 3)!' };
+                    }
+                }
+            }
+        };
+    </script>
+    <script>
+        // Initialize Database Inspector
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                window.dbInspector = new DatabaseInspector('3dplus');
+            }, 1000);
+        });
+    </script>
+        <div class="lesson-navigation">
+            <a href="les4.html" class="nav-btn nav-back">
+                <span>←</span>
+                <span>Vorige les</span>
+            </a>
+            <a href="les6.html" class="nav-btn nav-next">
+                <span>Volgende les</span>
+                <span>→</span>
+            </a>
+        </div>
+    </div>
+
+    <script src="../js/db-inspector.js"></script>
+    <script src="../js/home-button.js"></script>
+</body>
+</html>

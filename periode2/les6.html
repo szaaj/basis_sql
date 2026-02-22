@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Les 6: HAVING - SQL Quest</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/editor.css">
+    <link rel="stylesheet" href="../css/lesson.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="stars2"></div>
+    <div class="stars3"></div>
+    
+    <div class="container">
+        <nav class="breadcrumb">
+            <a href="../index.html">Home</a>
+            <span>/</span>
+            <a href="overview.html">Periode 2</a>
+            <span>/</span>
+            <span>Les 6</span>
+        </nav>
+
+        <header class="lesson-header">
+            <div class="lesson-title">
+                <span class="s lesson-number-badge">06</span>
+                <div>
+                    <h1>HAVING - Filteren op Groepen</h1>
+                    <p class="lesson-subtitle">Filter geaggregeerde data met HAVING</p>
+                </div>
+            </div>
+            
+            <div class="lesson-progress-bar">
+                <div class="progress-info">
+                    <span>Voortgang</span>
+                    <span id="lessonProgress">0/5 oefeningen</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                </div>
+            </div>
+        </header>
+
+        <section class="theory-section">
+            <h2>💡 Wat ga je leren?</h2>
+            <p>In Les 4 heb je geleerd hoe je data groepeert met GROUP BY. Maar hoe filter je op <strong>gegroepeerde resultaten</strong>? Daarvoor gebruik je <strong>HAVING</strong>!</p>
+            
+            <h3>WHERE vs HAVING</h3>
+            <p>Beide filteren data, maar op verschillende momenten:</p>
+            
+            <div class="code-example">
+                <div class="code-header">
+                    <span>WHERE - Filter VOOR groeperen</span>
+                </div>
+                <pre><code>SELECT regisseur, COUNT(*) AS aantal
+FROM film
+WHERE landherkomst = 'USA'  -- Filter individuele rijen
+GROUP BY regisseur;</code></pre>
+            </div>
+
+            <div class="code-example">
+                <div class="code-header">
+                    <span>HAVING - Filter NA groeperen</span>
+                </div>
+                <pre><code>SELECT regisseur, COUNT(*) AS aantal
+FROM film
+GROUP BY regisseur
+HAVING COUNT(*) > 2;  -- Filter gegroepeerde resultaten</code></pre>
+            </div>
+
+            <div class="tip-box">
+                <strong>💡 Verschil:</strong>
+                <ul>
+                    <li><strong>WHERE</strong>: Filtert individuele rijen VOOR GROUP BY</li>
+                    <li><strong>HAVING</strong>: Filtert groepen NA GROUP BY</li>
+                    <li><strong>WHERE</strong>: Kan GEEN aggregatiefuncties gebruiken</li>
+                    <li><strong>HAVING</strong>: Gebruikt aggregatiefuncties (COUNT, SUM, AVG, etc.)</li>
+                </ul>
+            </div>
+
+            <h3>Query Volgorde</h3>
+            <div class="code-example">
+                <div class="code-header">
+                    <span>Complete volgorde met HAVING</span>
+                </div>
+                <pre><code>SELECT kolommen, AGG(kolom) AS alias
+FROM tabel
+WHERE filter_individuele_rijen
+GROUP BY kolommen
+HAVING filter_op_aggregaties
+ORDER BY sorteer
+LIMIT aantal;</code></pre>
+            </div>
+
+            <h3>Operators in HAVING</h3>
+            <div class="code-example">
+                <div class="code-header">
+                    <span>Veelgebruikte operators</span>
+                </div>
+                <pre><code>HAVING COUNT(*) > 5      -- Meer dan 5
+HAVING COUNT(*) >= 5     -- Minimaal 5
+HAVING AVG(duur) > 120   -- Gemiddelde hoger dan 120
+HAVING SUM(duur) < 500   -- Totaal lager dan 500</code></pre>
+            </div>
+        </section>
+
+        <section class="exercises-section">
+            <h2>🎯 Oefeningen</h2>
+
+            <!-- Exercise 1 -->
+            <div class="exercise" id="exercise-1">
+                <div class="exercise-header">
+                    <h3>Oefening 1 - Regisseurs met meer dan 2 films</h3>
+                    <span class="difficulty medium">Gemiddeld</span>
+                </div>
+                <p class="exercise-question">Vind alle regisseurs die <strong>meer dan 2</strong> films hebben gemaakt. Toon <code>regisseur</code> en <code>aantal_films</code>.</p>
+                
+                <div class="sql-editor">
+                    <div class="editor-header"><span class="editor-label">SQL Query</span></div>
+                    <textarea id="sql-input-1" placeholder="SELECT regisseur, COUNT(*) AS aantal_films FROM film GROUP BY ... HAVING ..."></textarea>
+                    <div class="editor-footer">
+                        <span class="editor-hint">💡 HAVING COUNT(*) > 2</span>
+                        <div class="editor-buttons">
+                            <button class="btn-clear">Wissen</button>
+                            <button class="btn-execute"><span>▶</span><span>Uitvoeren</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="results-container" id="results-1"></div>
+                
+                <details class="hint-box">
+                    <summary>💡 Hint</summary>
+                    <p>"Meer dan 2" betekent > 2 (niet >= 2). Gebruik HAVING voor filteren op COUNT.</p>
+                </details>
+                
+                <details class="solution-box">
+                    <summary>✅ Oplossing</summary>
+                    <pre><code>SELECT regisseur, COUNT(*) AS aantal_films
+FROM film
+GROUP BY regisseur
+HAVING COUNT(*) > 2;</code></pre>
+                    <button class="btn-copy">Kopiëren</button>
+                </details>
+            </div>
+
+            <!-- Exercise 2 -->
+            <div class="exercise" id="exercise-2">
+                <div class="exercise-header">
+                    <h3>Oefening 2 - Genres met lange films</h3>
+                    <span class="difficulty medium">Gemiddeld</span>
+                </div>
+                <p class="exercise-question">Vind genres waar de gemiddelde filmduur <strong>hoger is dan 120</strong> minuten. Toon <code>genreid</code> en <code>gemiddelde_duur</code>.</p>
+                
+                <div class="sql-editor">
+                    <div class="editor-header"><span class="editor-label">SQL Query</span></div>
+                    <textarea id="sql-input-2" placeholder="SELECT genreid, AVG(duur) AS gemiddelde_duur FROM film GROUP BY ... HAVING ..."></textarea>
+                    <div class="editor-footer">
+                        <span class="editor-hint">💡 HAVING AVG(duur) > 120</span>
+                        <div class="editor-buttons">
+                            <button class="btn-clear">Wissen</button>
+                            <button class="btn-execute"><span>▶</span><span>Uitvoeren</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="results-container" id="results-2"></div>
+                
+                <details class="hint-box">
+                    <summary>💡 Hint</summary>
+                    <p>"Hoger dan 120" betekent > 120 (niet >= 120). Gebruik AVG(duur) in HAVING.</p>
+                </details>
+                
+                <details class="solution-box">
+                    <summary>✅ Oplossing</summary>
+                    <pre><code>SELECT genreid, AVG(duur) AS gemiddelde_duur
+FROM film
+GROUP BY genreid
+HAVING AVG(duur) > 120;</code></pre>
+                    <button class="btn-copy">Kopiëren</button>
+                </details>
+            </div>
+
+            <!-- Exercise 3 -->
+            <div class="exercise" id="exercise-3">
+                <div class="exercise-header">
+                    <h3>Oefening 3 - Amerikaanse regisseurs met minimaal 3 films</h3>
+                    <span class="difficulty hard">Moeilijk</span>
+                </div>
+                <p class="exercise-question">Vind Amerikaanse regisseurs met <strong>minimaal 3</strong> films. Filter eerst op land (WHERE), dan op aantal (HAVING). Toon <code>regisseur</code> en <code>aantal_films</code>.</p>
+                
+                <div class="sql-editor">
+                    <div class="editor-header"><span class="editor-label">SQL Query</span></div>
+                    <textarea id="sql-input-3" placeholder="SELECT ... FROM film WHERE landherkomst = 'USA' GROUP BY ... HAVING ..."></textarea>
+                    <div class="editor-footer">
+                        <span class="editor-hint">💡 WHERE eerst, dan HAVING</span>
+                        <div class="editor-buttons">
+                            <button class="btn-clear">Wissen</button>
+                            <button class="btn-execute"><span>▶</span><span>Uitvoeren</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="results-container" id="results-3"></div>
+                
+                <details class="hint-box">
+                    <summary>💡 Hint</summary>
+                    <p>WHERE landherkomst = 'USA' VOOR GROUP BY. "Minimaal 3" betekent >= 3 in HAVING.</p>
+                </details>
+                
+                <details class="solution-box">
+                    <summary>✅ Oplossing</summary>
+                    <pre><code>SELECT regisseur, COUNT(*) AS aantal_films
+FROM film
+WHERE landherkomst = 'USA'
+GROUP BY regisseur
+HAVING COUNT(*) >= 3;</code></pre>
+                    <button class="btn-copy">Kopiëren</button>
+                </details>
+            </div>
+
+            <!-- Exercise 4 -->
+            <div class="exercise" id="exercise-4">
+                <div class="exercise-header">
+                    <h3>Oefening 4 - Top 3 populairste genres</h3>
+                    <span class="difficulty hard">Moeilijk</span>
+                </div>
+                <p class="exercise-question">Vind de <strong>top 3</strong> genres met de <strong>meeste films</strong>, maar alleen genres met <strong>minimaal 5</strong> films. Toon <code>genreid</code> en <code>aantal_films</code>. Sorteer van veel naar weinig.</p>
+                
+                <div class="sql-editor">
+                    <div class="editor-header"><span class="editor-label">SQL Query</span></div>
+                    <textarea id="sql-input-4" placeholder="SELECT genreid, COUNT(*) ... GROUP BY ... HAVING ... ORDER BY ... LIMIT 3"></textarea>
+                    <div class="editor-footer">
+                        <span class="editor-hint">💡 HAVING + ORDER BY + LIMIT</span>
+                        <div class="editor-buttons">
+                            <button class="btn-clear">Wissen</button>
+                            <button class="btn-execute"><span>▶</span><span>Uitvoeren</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="results-container" id="results-4"></div>
+                
+                <details class="hint-box">
+                    <summary>💡 Hint</summary>
+                    <p>"Minimaal 5" = >= 5, "top 3" = LIMIT 3, "meeste films" = ORDER BY aantal_films DESC</p>
+                </details>
+                
+                <details class="solution-box">
+                    <summary>✅ Oplossing</summary>
+                    <pre><code>SELECT genreid, COUNT(*) AS aantal_films
+FROM film
+GROUP BY genreid
+HAVING COUNT(*) >= 5
+ORDER BY aantal_films DESC
+LIMIT 3;</code></pre>
+                    <button class="btn-copy">Kopiëren</button>
+                </details>
+            </div>
+
+            <!-- Exercise 5 -->
+            <div class="exercise" id="exercise-5">
+                <div class="exercise-header">
+                    <h3>Oefening 5 - Landen met korte films</h3>
+                    <span class="difficulty hard">Moeilijk</span>
+                </div>
+                <p class="exercise-question">Vind landen met <strong>minimaal 2</strong> films die <strong>korter</strong> zijn dan 100 minuten. Filter eerst op duur (WHERE), tel per land, filter dan op aantal (HAVING). Toon <code>landherkomst</code> en <code>aantal_korte_films</code>.</p>
+                
+                <div class="sql-editor">
+                    <div class="editor-header"><span class="editor-label">SQL Query</span></div>
+                    <textarea id="sql-input-5" placeholder="SELECT landherkomst, COUNT(*) ... FROM film WHERE duur ... GROUP BY ... HAVING ..."></textarea>
+                    <div class="editor-footer">
+                        <span class="editor-hint">💡 WHERE + HAVING combineren</span>
+                        <div class="editor-buttons">
+                            <button class="btn-clear">Wissen</button>
+                            <button class="btn-execute"><span>▶</span><span>Uitvoeren</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="results-container" id="results-5"></div>
+                
+                <details class="hint-box">
+                    <summary>💡 Hint</summary>
+                    <p>"Korter dan 100" = < 100 in WHERE. "Minimaal 2" = >= 2 in HAVING.</p>
+                </details>
+                
+                <details class="solution-box">
+                    <summary>✅ Oplossing</summary>
+                    <pre><code>SELECT landherkomst, COUNT(*) AS aantal_korte_films
+FROM film
+WHERE duur < 100
+GROUP BY landherkomst
+HAVING COUNT(*) >= 2;</code></pre>
+                    <button class="btn-copy">Kopiëren</button>
+                </details>
+            </div>
+        </section>
+
+        <section class="debugging-section">
+            <h2>🐛 Veelgemaakte fouten</h2>
+            
+            <div class="error-example">
+                <h4 style="color: #ff006e;">❌ WHERE op aggregatie</h4>
+                <pre class="error-code">SELECT regisseur, COUNT(*)
+FROM film
+WHERE COUNT(*) > 2       -- FOUT!
+GROUP BY regisseur;</pre>
+                <p class="error-explanation">WHERE kan niet filteren op COUNT/SUM/AVG. Gebruik HAVING!</p>
+                <pre class="correct-code">SELECT regisseur, COUNT(*)
+FROM film
+GROUP BY regisseur
+HAVING COUNT(*) > 2;</pre>
+            </div>
+
+            <div class="error-example">
+                <h4 style="color: #ff006e;">❌ HAVING voor GROUP BY</h4>
+                <pre class="error-code">SELECT genreid, COUNT(*)
+FROM film
+HAVING COUNT(*) > 5      -- Te vroeg!
+GROUP BY genreid;</pre>
+                <p class="error-explanation">HAVING komt ALTIJD NA GROUP BY!</p>
+                <pre class="correct-code">SELECT genreid, COUNT(*)
+FROM film
+GROUP BY genreid
+HAVING COUNT(*) > 5;</pre>
+            </div>
+        </section>
+    </div>
+
+    <script src="../js/progress.js"></script>
+    <script src="../js/database.js"></script>
+    <script src="../js/editor.js"></script>
+    <script src="../js/lesson.js"></script>
+    <script>
+        const lessonConfig = {
+            periode: 2,
+            lesson: 6,
+            database: '3dplus',
+            totalExercises: 5,
+            exercises: {
+                1: { 
+                    checkType: 'custom',
+                    validator: (result, query) => {
+                        const upperQuery = query.toUpperCase();
+                        if (!upperQuery.includes('GROUP BY')) {
+                            return { correct: false, feedback: '❌ Gebruik GROUP BY om per regisseur te groeperen.' };
+                        }
+                        if (!upperQuery.includes('HAVING')) {
+                            return { correct: false, feedback: '❌ Gebruik HAVING om te filteren op COUNT(*) > 2.' };
+                        }
+                        // STRICT: Reject COUNT() without *
+                        if (upperQuery.includes('COUNT()') || upperQuery.includes('COUNT ()')) {
+                            return { correct: false, feedback: '❌ Gebruik COUNT(*) niet COUNT()!' };
+                        }
+                        if (!upperQuery.includes('COUNT(*)') && !upperQuery.includes('COUNT (*)')) {
+                            return { correct: false, feedback: '❌ Gebruik COUNT(*) om te tellen.' };
+                        }
+                        // STRICT: "meer dan 2" = > 2, not >= 2
+                        if (upperQuery.includes('>= 2') || upperQuery.includes('>=2')) {
+                            return { correct: false, feedback: '❌ "Meer dan 2" betekent > 2 (niet >= 2)!' };
+                        }
+                        if (!upperQuery.includes('> 2') && !upperQuery.includes('>2')) {
+                            return { correct: false, feedback: '❌ Gebruik COUNT(*) > 2 voor "meer dan 2 films".' };
+                        }
+                        if (!result.results || result.results.length === 0) {
+                            return { correct: false, feedback: '❌ Query geeft geen resultaten.' };
+                        }
+                        const columns = result.results[0].columns;
+                        if (!columns.includes('regisseur')) {
+                            return { correct: false, feedback: '❌ Toon de kolom regisseur.' };
+                        }
+                        if (!columns.includes('aantal_films')) {
+                            return { correct: false, feedback: '❌ Noem de telling "aantal_films" met AS.' };
+                        }
+                        if (columns.length !== 2) {
+                            return { correct: false, feedback: '❌ Selecteer alleen regisseur en aantal_films (2 kolommen).' };
+                        }
+                        // Verify all results have > 2
+                        const allValid = result.results[0].values.every(row => {
+                            const aantalIndex = columns.indexOf('aantal_films');
+                            return row[aantalIndex] > 2;
+                        });
+                        if (!allValid) {
+                            return { correct: false, feedback: '❌ Niet alle resultaten hebben meer dan 2 films. Check je HAVING.' };
+                        }
+                        return { correct: true, feedback: `✅ Correct! "Meer dan 2" (> 2) - ${result.results[0].values.length} regisseurs!` };
+                    }
+                },
+                2: { 
+                    checkType: 'custom',
+                    validator: (result, query) => {
+                        const upperQuery = query.toUpperCase();
+                        if (!upperQuery.includes('AVG')) {
+                            return { correct: false, feedback: '❌ Gebruik AVG() voor het gemiddelde.' };
+                        }
+                        if (!upperQuery.includes('GROUP BY')) {
+                            return { correct: false, feedback: '❌ Gebruik GROUP BY genreid.' };
+                        }
+                        if (!upperQuery.includes('HAVING')) {
+                            return { correct: false, feedback: '❌ Gebruik HAVING om te filteren op AVG(duur) > 120.' };
+                        }
+                        // STRICT: "hoger dan 120" = > 120, not >= 120
+                        if (upperQuery.includes('>= 120') || upperQuery.includes('>=120')) {
+                            return { correct: false, feedback: '❌ "Hoger dan 120" betekent > 120 (niet >= 120)!' };
+                        }
+                        if (!upperQuery.includes('> 120') && !upperQuery.includes('>120')) {
+                            return { correct: false, feedback: '❌ Gebruik AVG(duur) > 120 voor "hoger dan 120 minuten".' };
+                        }
+                        if (!result.results || result.results.length === 0) {
+                            return { correct: false, feedback: '❌ Query geeft geen resultaten of geen genres met gemiddelde > 120.' };
+                        }
+                        const columns = result.results[0].columns;
+                        if (!columns.includes('genreid')) {
+                            return { correct: false, feedback: '❌ Toon de kolom genreid.' };
+                        }
+                        if (!columns.includes('gemiddelde_duur')) {
+                            return { correct: false, feedback: '❌ Noem het gemiddelde "gemiddelde_duur" met AS.' };
+                        }
+                        if (columns.length !== 2) {
+                            return { correct: false, feedback: '❌ Selecteer alleen genreid en gemiddelde_duur (2 kolommen).' };
+                        }
+                        return { correct: true, feedback: `✅ Correct! "Hoger dan 120" (> 120) - ${result.results[0].values.length} genres!` };
+                    }
+                },
+                3: { 
+                    checkType: 'custom',
+                    validator: (result, query) => {
+                        const upperQuery = query.toUpperCase();
+                        if (!upperQuery.includes('WHERE')) {
+                            return { correct: false, feedback: '❌ Gebruik WHERE om te filteren op landherkomst.' };
+                        }
+                        if (!upperQuery.includes("'USA'")) {
+                            return { correct: false, feedback: '❌ Filter op landherkomst = \'USA\'.' };
+                        }
+                        if (!upperQuery.includes('GROUP BY')) {
+                            return { correct: false, feedback: '❌ Gebruik GROUP BY om per regisseur te groeperen.' };
+                        }
+                        if (!upperQuery.includes('HAVING')) {
+                            return { correct: false, feedback: '❌ Gebruik HAVING om te filteren op COUNT(*) >= 3.' };
+                        }
+                        // STRICT: Reject COUNT() without *
+                        if (upperQuery.includes('COUNT()') || upperQuery.includes('COUNT ()')) {
+                            return { correct: false, feedback: '❌ Gebruik COUNT(*) niet COUNT()!' };
+                        }
+                        if (!upperQuery.includes('COUNT(*)') && !upperQuery.includes('COUNT (*)')) {
+                            return { correct: false, feedback: '❌ Gebruik COUNT(*) om te tellen.' };
+                        }
+                        // STRICT: "minimaal 3" = >= 3, not > 3 or = 3
+                        if (upperQuery.includes('> 3') && !upperQuery.includes('>= 3') && !upperQuery.includes('>=3')) {
+                            return { correct: false, feedback: '❌ "Minimaal 3" betekent >= 3 (niet > 3)!' };
+                        }
+                        if (upperQuery.includes('= 3') && !upperQuery.includes('>= 3') && !upperQuery.includes('>=3')) {
+                            return { correct: false, feedback: '❌ "Minimaal 3" betekent >= 3 (niet = 3)!' };
+                        }
+                        if (!result.results || result.results.length === 0) {
+                            return { correct: false, feedback: '❌ Query geeft geen resultaten.' };
+                        }
+                        const columns = result.results[0].columns;
+                        if (!columns.includes('regisseur')) {
+                            return { correct: false, feedback: '❌ Toon de kolom regisseur.' };
+                        }
+                        if (!columns.includes('aantal_films')) {
+                            return { correct: false, feedback: '❌ Noem de telling "aantal_films" met AS.' };
+                        }
+                        if (columns.length !== 2) {
+                            return { correct: false, feedback: '❌ Selecteer alleen regisseur en aantal_films (2 kolommen).' };
+                        }
+                        return { correct: true, feedback: `✅ Correct! WHERE + HAVING, "minimaal 3" (>= 3)!` };
+                    }
+                },
+                4: { 
+                    checkType: 'custom',
+                    validator: (result, query) => {
+                        const upperQuery = query.toUpperCase();
+                        if (!upperQuery.includes('GROUP BY')) {
+                            return { correct: false, feedback: '❌ Gebruik GROUP BY genreid.' };
+                        }
+                        if (!upperQuery.includes('HAVING')) {
+                            return { correct: false, feedback: '❌ Gebruik HAVING COUNT(*) >= 5.' };
+                        }
+                        // STRICT: Reject COUNT() without *
+                        if (upperQuery.includes('COUNT()') || upperQuery.includes('COUNT ()')) {
+                            return { correct: false, feedback: '❌ Gebruik COUNT(*) niet COUNT()!' };
+                        }
+                        if (!upperQuery.includes('COUNT(*)') && !upperQuery.includes('COUNT (*)')) {
+                            return { correct: false, feedback: '❌ Gebruik COUNT(*) om te tellen.' };
+                        }
+                        // STRICT: "minimaal 5" = >= 5
+                        if (upperQuery.includes('> 5') && !upperQuery.includes('>= 5') && !upperQuery.includes('>=5')) {
+                            return { correct: false, feedback: '❌ "Minimaal 5" betekent >= 5 (niet > 5)!' };
+                        }
+                        if (upperQuery.includes('= 5') && !upperQuery.includes('>= 5') && !upperQuery.includes('>=5')) {
+                            return { correct: false, feedback: '❌ "Minimaal 5" betekent >= 5 (niet = 5)!' };
+                        }
+                        if (!upperQuery.includes('ORDER BY')) {
+                            return { correct: false, feedback: '❌ Gebruik ORDER BY om te sorteren op aantal_films.' };
+                        }
+                        if (!upperQuery.includes('DESC')) {
+                            return { correct: false, feedback: '❌ Sorteer van veel naar weinig met DESC.' };
+                        }
+                        if (!upperQuery.includes('LIMIT')) {
+                            return { correct: false, feedback: '❌ Gebruik LIMIT 3 voor top 3.' };
+                        }
+                        // STRICT: LIMIT must be exactly 3
+                        if (!upperQuery.includes('LIMIT 3') && !upperQuery.includes('LIMIT3')) {
+                            return { correct: false, feedback: '❌ Gebruik exact LIMIT 3 voor "top 3"!' };
+                        }
+                        if (!result.results || result.results.length === 0) {
+                            return { correct: false, feedback: '❌ Query geeft geen resultaten.' };
+                        }
+                        const rows = result.results[0].values;
+                        if (rows.length !== 3) {
+                            return { correct: false, feedback: `❌ Je moet exact 3 resultaten krijgen, niet ${rows.length}.` };
+                        }
+                        const columns = result.results[0].columns;
+                        if (columns.length !== 2) {
+                            return { correct: false, feedback: '❌ Selecteer alleen genreid en aantal_films (2 kolommen).' };
+                        }
+                        return { correct: true, feedback: '✅ Correct! Top 3 (LIMIT 3) + "minimaal 5" (>= 5)!' };
+                    }
+                },
+                5: { 
+                    checkType: 'custom',
+                    validator: (result, query) => {
+                        const upperQuery = query.toUpperCase();
+                        if (!upperQuery.includes('WHERE')) {
+                            return { correct: false, feedback: '❌ Gebruik WHERE om te filteren op duur < 100.' };
+                        }
+                        // STRICT: "korter dan 100" = < 100, not <= 100
+                        if (upperQuery.includes('<= 100') || upperQuery.includes('<=100')) {
+                            return { correct: false, feedback: '❌ "Korter dan 100" betekent < 100 (niet <= 100)!' };
+                        }
+                        if (!upperQuery.includes('< 100') && !upperQuery.includes('<100')) {
+                            return { correct: false, feedback: '❌ Gebruik duur < 100 voor "korter dan 100 minuten".' };
+                        }
+                        if (!upperQuery.includes('GROUP BY')) {
+                            return { correct: false, feedback: '❌ Gebruik GROUP BY landherkomst.' };
+                        }
+                        if (!upperQuery.includes('HAVING')) {
+                            return { correct: false, feedback: '❌ Gebruik HAVING om te filteren op COUNT(*) >= 2.' };
+                        }
+                        // STRICT: Reject COUNT() without *
+                        if (upperQuery.includes('COUNT()') || upperQuery.includes('COUNT ()')) {
+                            return { correct: false, feedback: '❌ Gebruik COUNT(*) niet COUNT()!' };
+                        }
+                        if (!upperQuery.includes('COUNT(*)') && !upperQuery.includes('COUNT (*)')) {
+                            return { correct: false, feedback: '❌ Gebruik COUNT(*) om te tellen.' };
+                        }
+                        // STRICT: "minimaal 2" = >= 2
+                        if (upperQuery.includes('> 2') && !upperQuery.includes('>= 2') && !upperQuery.includes('>=2')) {
+                            return { correct: false, feedback: '❌ "Minimaal 2" betekent >= 2 (niet > 2)!' };
+                        }
+                        if (upperQuery.includes('= 2') && !upperQuery.includes('>= 2') && !upperQuery.includes('>=2')) {
+                            return { correct: false, feedback: '❌ "Minimaal 2" betekent >= 2 (niet = 2)!' };
+                        }
+                        if (!result.results || result.results.length === 0) {
+                            return { correct: false, feedback: '❌ Query geeft geen resultaten of geen land voldoet.' };
+                        }
+                        const columns = result.results[0].columns;
+                        if (!columns.includes('landherkomst')) {
+                            return { correct: false, feedback: '❌ Toon de kolom landherkomst.' };
+                        }
+                        if (!columns.includes('aantal_korte_films')) {
+                            return { correct: false, feedback: '❌ Noem de telling "aantal_korte_films" met AS.' };
+                        }
+                        if (columns.length !== 2) {
+                            return { correct: false, feedback: '❌ Selecteer alleen landherkomst en aantal_korte_films (2 kolommen).' };
+                        }
+                        return { correct: true, feedback: '✅ Correct! "Korter dan 100" (< 100) + "minimaal 2" (>= 2)!' };
+                    }
+                }
+            }
+        };
+    </script>
+    <script>
+        // Initialize Database Inspector
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                window.dbInspector = new DatabaseInspector('3dplus');
+            }, 1000);
+        });
+    </script>
+        <div class="lesson-navigation">
+            <a href="les5.html" class="nav-btn nav-back">
+                <span>←</span>
+                <span>Vorige les</span>
+            </a>
+            <a href="les7.html" class="nav-btn nav-next">
+                <span>Volgende les</span>
+                <span>→</span>
+            </a>
+        </div>
+    </div>
+
+    <script src="../js/db-inspector.js"></script>
+    <script src="../js/home-button.js"></script>
+</body>
+</html>

@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🤖 AI SQL Coach - Periode 2</title>
+    <link rel="stylesheet" href="../css/lesson.css">
+    <style>
+        /* Home Button */
+        .home-button {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #764ba2, #667eea);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            text-decoration: none;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            color: white;
+        }
+        
+        .home-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+        }
+        
+        .home-button:active {
+            transform: translateY(-2px);
+        }
+        
+        body {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        }
+        
+        .hero-banner {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        
+        .hero-banner h1 {
+            font-size: 2.5rem;
+            margin: 0 0 0.5rem 0;
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .hero-banner p {
+            font-size: 1.2rem;
+            color: #666;
+            margin: 0;
+        }
+        
+        .section-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 1.5rem 0;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .section-card h2 {
+            color: #764ba2;
+            margin-top: 0;
+            font-size: 1.8rem;
+        }
+        
+        .do-dont-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .do-card {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            border: 3px solid #4caf50;
+            border-radius: 15px;
+            padding: 1.5rem;
+        }
+        
+        .dont-card {
+            background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+            border: 3px solid #f44336;
+            border-radius: 15px;
+            padding: 1.5rem;
+        }
+        
+        .do-card h3 {
+            color: #2e7d32;
+            font-size: 1.5rem;
+            margin: 0 0 1rem 0;
+        }
+        
+        .dont-card h3 {
+            color: #c62828;
+            font-size: 1.5rem;
+            margin: 0 0 1rem 0;
+        }
+        
+        .do-card li, .dont-card li {
+            margin: 0.75rem 0;
+            font-size: 1.05rem;
+        }
+        
+        .prompt-box {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border: 3px solid #764ba2;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            position: relative;
+        }
+        
+        .prompt-category {
+            background: #764ba2;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            display: inline-block;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .prompt-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #2d3748;
+            margin: 0;
+            padding-right: 100px;
+        }
+        
+        .copy-btn {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: #764ba2;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(118, 75, 162, 0.3);
+        }
+        
+        .copy-btn:hover {
+            background: #653a8e;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(118, 75, 162, 0.4);
+        }
+        
+        .copy-btn.copied {
+            background: #4caf50;
+        }
+        
+        .ai-links {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+        }
+        
+        .ai-link {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            color: white;
+            padding: 1.2rem 2rem;
+            border-radius: 15px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(118, 75, 162, 0.3);
+        }
+        
+        .ai-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(118, 75, 162, 0.4);
+        }
+        
+        .golden-rule {
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+            border: 3px solid #ff9800;
+            border-left: 8px solid #ff9800;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 15px;
+        }
+        
+        .golden-rule h3 {
+            color: #e65100;
+            margin: 0 0 1rem 0;
+            font-size: 1.5rem;
+        }
+        
+        .golden-rule p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin: 0.5rem 0;
+        }
+        
+        @media (max-width: 768px) {
+            .do-dont-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .prompt-text {
+                padding-right: 0;
+                margin-bottom: 4rem;
+            }
+            
+            .copy-btn {
+                position: relative;
+                top: auto;
+                right: auto;
+                margin-top: 1rem;
+                display: block;
+                width: 100%;
+            }
+            
+            .hero-banner h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="hero-banner">
+            <h1>🤖 AI SQL Coach</h1>
+            <p>Leer gevorderde SQL met AI - JOINs, Subqueries & meer!</p>
+        </div>
+
+        <div class="section-card">
+            <h2>💡 AI Coach voor Gevorderden</h2>
+            <p style="font-size: 1.1rem; line-height: 1.8; color: #4a5568;">
+                Periode 2 wordt lastiger! Gebruik <strong>Copilot</strong> om moeilijke concepten te snappen:
+            </p>
+            <ul style="font-size: 1.05rem; line-height: 2; color: #4a5568;">
+                <li>✅ JOINs begrijpen (meerdere tabellen combineren)</li>
+                <li>✅ Subqueries debuggen</li>
+                <li>✅ GROUP BY en HAVING snappen</li>
+                <li>✅ Complexe queries opbouwen</li>
+            </ul>
+        </div>
+
+        <div class="golden-rule">
+            <h3>🎯 De Gouden Regel</h3>
+            <p><strong>Probeer ALTIJD eerst zelf (minimaal 10 minuten voor moeilijke opdrachten)!</strong></p>
+            <p>Gevorderde queries leer je door te worstelen. AI helpt je als je vast zit! 🧠</p>
+        </div>
+
+        <div class="section-card">
+            <h2>✅ WEL Doen vs ❌ NIET Doen</h2>
+            
+            <div class="do-dont-grid">
+                <div class="do-card">
+                    <h3>✅ WEL</h3>
+                    <ul>
+                        <li>Vraag <strong>waarom</strong> JOINs werken</li>
+                        <li>Laat <strong>stap-voor-stap</strong> uitleggen</li>
+                        <li>Vraag om <strong>voorbeelden</strong></li>
+                        <li>Debug <strong>complexe errors</strong></li>
+                        <li>Vraag naar <strong>alternatieven</strong></li>
+                    </ul>
+                </div>
+                
+                <div class="dont-card">
+                    <h3>❌ NIET</h3>
+                    <ul>
+                        <li>Complete queries vragen</li>
+                        <li>Copy-paste zonder begrijpen</li>
+                        <li>AI laten "oplossen"</li>
+                        <li>Niet zelf proberen</li>
+                        <li>Shortcuts nemen</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <h2>📱 Welke AI Tool Gebruik Je?</h2>
+            <p style="font-size: 1.1rem; color: #4a5568; margin-bottom: 1.5rem;">
+                Voor gevorderde SQL werken deze tools het beste:
+            </p>
+            
+            <div class="ai-links">
+                <a href="https://copilot.microsoft.com" target="_blank" class="ai-link">
+                    🤖 Copilot (Aanbevolen)
+                </a>
+                <a href="https://chatgpt.com" target="_blank" class="ai-link">
+                    💬 ChatGPT
+                </a>
+                <a href="https://claude.ai" target="_blank" class="ai-link">
+                    🧠 Claude
+                </a>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <h2>📝 Gevorderde Prompts - Kopieer & Leer!</h2>
+            <p style="font-size: 1.05rem; color: #4a5568; margin-bottom: 2rem;">
+                Deze prompts helpen bij moeilijke Periode 2 concepten 👇
+            </p>
+
+            <div class="prompt-box">
+                <span class="prompt-category">🔗 JOINs</span>
+                <p class="prompt-text">Leg het verschil uit tussen INNER JOIN en LEFT JOIN met een simpel voorbeeld van 2 tabellen. Wanneer gebruik ik welke?</p>
+                <button class="copy-btn" onclick="copyPrompt(this)">Kopiëren</button>
+            </div>
+
+            <div class="prompt-box">
+                <span class="prompt-category">🔗 JOINs</span>
+                <p class="prompt-text">Waarom krijg ik duplicate rijen na mijn JOIN? Leg uit WAT er gebeurt en hoe ik het kan voorkomen!</p>
+                <button class="copy-btn" onclick="copyPrompt(this)">Kopiëren</button>
+            </div>
+
+            <div class="prompt-box">
+                <span class="prompt-category">📊 GROUP BY</span>
+                <p class="prompt-text">Ik snap niet waarom ik niet alle kolommen kan selecteren als ik GROUP BY gebruik. Leg de regel uit met een voorbeeld!</p>
+                <button class="copy-btn" onclick="copyPrompt(this)">Kopiëren</button>
+            </div>
+
+            <div class="prompt-box">
+                <span class="prompt-category">📊 GROUP BY</span>
+                <p class="prompt-text">Wat is het verschil tussen COUNT(*) en COUNT(kolom)? Geef voorbeelden wanneer ze verschillen!</p>
+                <button class="copy-btn" onclick="copyPrompt(this)">Kopiëren</button>
+            </div>
+
+            <div class="prompt-box">
+                <span class="prompt-category">🎯 HAVING</span>
+                <p class="prompt-text">Wat is precies het verschil tussen WHERE en HAVING? Wanneer gebruik ik welke? Geef concrete voorbeelden!</p>
+                <button class="copy-btn" onclick="copyPrompt(this)">Kopiëren</button>
+            </div>
+
+            <div class="prompt-box">
+                <span class="prompt-category">🎯 HAVING</span>
+                <p class="prompt-text">Waarom werkt WHERE niet op COUNT()? Leg uit hoe SQL queries verwerkt en waar HAVING komt!</p>
+                <button class="copy-btn" onclick="copyPrompt(this)">Kopiëren</button>
+            </div>
+
+            <div class="prompt-box">
+                <span class="prompt-category">🔍 SUBQUERIES</span>
+                <p class="prompt-text">Hoe werkt een subquery? Leg uit met een voorbeeld wanneer ik een subquery zou gebruiken in plaats van een JOIN!</p>
+                <button class="copy-btn" onclick="copyPrompt(this)">Kopiëren</button>
+            </div>
+
+            <div class="prompt-box">
+                <span class="prompt-category">🔍 SUBQUERIES</span>
+                <p class="prompt-text">Leg het verschil uit tussen = en IN bij subqueries. Wanneer gebruik ik welke operator?</p>
+                <button class="copy-btn" onclick="copyPrompt(this)">Kopiëren</button>
+            </div>
+
+            <div class="prompt-box">
+                <span class="prompt-category">🚀 COMPLEX</span>
+                <p class="prompt-text">Ik heb een query met JOIN, WHERE, GROUP BY en HAVING. Wat is de EXACTE volgorde waarin SQL deze verwerkt? Leg uit waarom!</p>
+                <button class="copy-btn" onclick="copyPrompt(this)">Kopiëren</button>
+            </div>
+
+            <div class="prompt-box">
+                <span class="prompt-category">🐛 DEBUGGING</span>
+                <p class="prompt-text">Mijn complexe query geeft een error. Kun je een strategie geven om stap-voor-stap te debuggen? Geen oplossing, alleen aanpak!</p>
+                <button class="copy-btn" onclick="copyPrompt(this)">Kopiëren</button>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <h2>🎮 Hoe Werkt Het?</h2>
+            <div style="font-size: 1.1rem; line-height: 2; color: #4a5568;">
+                <p><strong>Stap 1:</strong> Probeer zelf eerst (echt!) 💪</p>
+                <p><strong>Stap 2:</strong> Klik "Kopiëren" bij een prompt 👆</p>
+                <p><strong>Stap 3:</strong> Plak in Copilot/ChatGPT 🤖</p>
+                <p><strong>Stap 4:</strong> Pas aan naar jouw probleem ✏️</p>
+                <p><strong>Stap 5:</strong> Begrijp de uitleg & probeer! 🎯</p>
+            </div>
+        </div>
+
+        <div class="section-card" style="background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); border: 3px solid #4caf50;">
+            <h2 style="color: #2e7d32;">✅ Eerlijk Leren = Beter Leren</h2>
+            <p style="font-size: 1.1rem; color: #1b5e20; line-height: 1.8;">
+                Periode 2 is moeilijker, maar dat is <strong>de bedoeling</strong>! 
+                Worstelen met moeilijke queries maakt je een betere programmeur. 💪
+            </p>
+            <p style="font-size: 1.1rem; color: #2e7d32; margin-top: 1rem;">
+                <strong>AI gebruiken om te LEREN:</strong> ✅ Slim!<br>
+                <strong>AI gebruiken om OVER TE SLAAN:</strong> ❌ Gemiste kans!
+            </p>
+        </div>
+    </div>
+
+    <script>
+        function copyPrompt(button) {
+            const promptBox = button.parentElement;
+            const promptText = promptBox.querySelector('.prompt-text').textContent;
+            
+            navigator.clipboard.writeText(promptText).then(() => {
+                button.textContent = '✅ Gekopieerd!';
+                button.classList.add('copied');
+                
+                setTimeout(() => {
+                    button.textContent = 'Kopiëren';
+                    button.classList.remove('copied');
+                }, 2000);
+            });
+        }
+    </script>
+    <script src="../js/home-button.js"></script>
+</body>
+</html>
